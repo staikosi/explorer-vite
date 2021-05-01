@@ -1,24 +1,9 @@
-# vite-node-viewer
+## Development guide
 
-## Project setup
-```
-pnpm install
-```
+```sh
+# install dependencies
+npm install
 
-### Compiles and hot-reloads for development
+# start local dev server
+npm run serve
 ```
-pnpm run serve
-```
-
-### Compiles and minifies for production
-```
-pnpm run build
-```
-
-### Lints and fixes files
-```
-pnpm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

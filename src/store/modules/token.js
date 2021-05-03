@@ -9,6 +9,11 @@ export default {
       total: 0
     };
   },
+  getters: {
+    pageNum(state) {
+      return Math.ceil(state.total / state.pageSize);
+    }
+  },
   actions: {
     getTokenInfoList({ state }, pageNum = 0) {
       return Vue.$api

@@ -12,7 +12,13 @@
       >
         <span>{{ page }}</span>
       </li>
-      <li class="uk-disabled" style="line-height: 14px;"><span>...</span></li>
+      <li
+        v-if="pageNum > last + 1"
+        class="uk-disabled"
+        style="line-height: 14px;"
+      >
+        <span>...</span>
+      </li>
       <li v-if="pageNum > last + 1" @click="select(pageNum - 1)">
         <span>{{ pageNum - 1 }}</span>
       </li>
@@ -36,8 +42,7 @@ export default {
     };
   },
   props: {
-    pageNum: Number,
-    onChange: Function
+    pageNum: Number
   },
   computed: {
     pages() {
@@ -45,6 +50,7 @@ export default {
       let i = 5;
       while (list.length < 10) {
         const page = this.current - i;
+        console.log(`page`, page, this.pageNum);
         if (page > this.pageNum) {
           return list;
         }
@@ -89,4 +95,8 @@ export default {
 };
 </script>
 
-<style lang="less"></style>
+<style lang="less">
+.uk-pagination > li {
+  cursor: pointer;
+}
+</style>

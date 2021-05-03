@@ -4,7 +4,7 @@ export default {
   namespaced: true,
   state() {
     return {
-      pageSize: 100,
+      pageSize: 60,
       snapshots: []
     };
   },
@@ -14,6 +14,11 @@ export default {
     }
   },
   mutations: {
+    update(state, obj) {
+      for (let key in obj) {
+        state[key] = obj[key];
+      }
+    },
     // add to head
     addSnapshot(state, snapshot) {
       state.snapshots = insertList(

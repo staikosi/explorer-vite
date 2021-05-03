@@ -15,6 +15,6 @@ export default {
 
 <style>
 .v-layout {
-  height: 100%;
+  min-height: 100%;
 }
 </style>

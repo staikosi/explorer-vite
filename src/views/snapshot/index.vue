@@ -8,22 +8,22 @@
         </div>
         <hr class="uk-divider-vertical m-divider" />
         <div class="uk-card uk-padding-small">
-          <p class="m-p uk-text-muted">Height</p>
+          <p class="m-p uk-text-muted">TODO</p>
           <p class="m-p uk-text-bolder uk-text-emphasis">TODO</p>
         </div>
         <hr class="uk-divider-vertical m-divider" />
         <div class="uk-card uk-padding-small">
-          <p class="m-p uk-text-muted">Height</p>
+          <p class="m-p uk-text-muted">TODO</p>
           <p class="m-p uk-text-bolder uk-text-emphasis">TODO</p>
         </div>
         <hr class="uk-divider-vertical m-divider" />
         <div class="uk-card uk-padding-small">
-          <p class="m-p uk-text-muted">Height</p>
-          <p class="m-p uk-text-bolder uk-text-emphasis">1828398494</p>
+          <p class="m-p uk-text-muted">TODO</p>
+          <p class="m-p uk-text-bolder uk-text-emphasis">TODO</p>
         </div>
       </div>
     </div>
-    <div class="uk-padding-small">
+    <div class="uk-padding">
       <p class="uk-text-lead">Snapshot Blocks</p>
       <table class="uk-table uk-table-divider m-table">
         <thead>
@@ -43,69 +43,77 @@
             </td>
             <td>{{ new Date(item.timestamp).toLocaleString() }}</td>
             <td>{{ item.producer }}</td>
-            <td>{{ Object.keys(item.snapshotData).length }}</td>
+            <td>{{ Object.keys(item.snapshotData || {}).length }}</td>
           </tr>
         </tbody>
       </table>
 
-      <ul class="uk-pagination uk-flex-right" uk-margin>
-        <li>
-          <a href="#"><span uk-pagination-previous></span></a>
-        </li>
-        <li><a href="#">1</a></li>
-        <li class="uk-disabled"><span>...</span></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li><a href="#">6</a></li>
-        <li class="uk-active"><span>7</span></li>
-        <li><a href="#">8</a></li>
-        <li><a href="#">9</a></li>
-        <li><a href="#">10</a></li>
-        <li class="uk-disabled"><span>...</span></li>
-        <li><a href="#">20</a></li>
-        <li>
-          <a href="#"><span uk-pagination-next></span></a>
-        </li>
-      </ul>
+      <pagination :page-num="pageNumber" @select="getBlocks" />
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, createNamespacedHelpers } from 'vuex';
-import { UPDATE } from '@/store/mutations';
+import { mapState, mapActions, createNamespacedHelpers } from 'vuex';
 import Hash from '@/components/Hash';
+import Pagination from '@/components/Pagination';
+import { log } from '@/utils/log';
 
 const {
   mapState: _mapState,
-  mapMutations: _mapMutations
+  mapMutations: _mapMutations,
+  mapGetters: _mapGetters
 } = createNamespacedHelpers('snapshot');
 
 export default {
   beforeRouteEnter(to, from, next) {
     next((vm) => {
-      vm.$api.request('ledger_getSnapshotChainHeight').then((height) => {
-        vm.$store.commit(UPDATE, { height });
-        vm.$api
-          .request('ledger_getSnapshotBlockByHeight', height)
-          .then((block) => {
-            vm.addSnapshot(block);
-          });
+      vm.getHeight().then(() => {
+        return vm.getBlocks(1);
       });
     });
   },
+  data() {
+    return {
+      loading: false
+    };
+  },
   computed: {
     ...mapState(['height']),
-    ..._mapState({
-      snapshots: (state) => state.snapshots,
-      pageSize: (state) => state.pageSize
-    })
+    ..._mapState(['snapshots', 'pageSize']),
+    ..._mapGetters(['pageNumber'])
   },
   methods: {
-    ..._mapMutations(['addSnapshot'])
+    ..._mapMutations(['addSnapshot', 'update']),
+    ...mapActions(['getHeight']),
+    getBlocks(page) {
+      if (this.loading) {
+        return;
+      }
+      this.loading = true;
+
+      const offset = page * this.pageSize;
+      let start = Math.max(this.height - offset, 1);
+      const end = start + this.pageSize;
+      const promises = [];
+      while (start < end) {
+        log(`block`, start);
+        const promise = this.$api
+          .request('ledger_getSnapshotBlockByHeight', start)
+          .then((block) => {
+            this.addSnapshot(Object.seal(block));
+          });
+        promises.unshift(promise);
+        start++;
+      }
+      return Promise.all(promises).finally(() => {
+        this.loading = false;
+      });
+    }
   },
   components: {
-    Hash
+    Hash,
+    Pagination
   }
 };
 </script>

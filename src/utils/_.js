@@ -10,7 +10,7 @@ export function insertList(arr, newItem, prop, maxLen = Number.MAX_VALUE) {
     }
     // already in list
     if (item[prop] === newItem[prop]) {
-      return arr;
+      return arr.slice(0, maxLen);
     }
   }
 

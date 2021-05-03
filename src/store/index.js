@@ -21,6 +21,13 @@ export default new Vuex.Store({
   },
   getters: {},
   actions: {
+    getHeight({ rootState }) {
+      return Vue.$api
+        .request('ledger_getSnapshotChainHeight')
+        .then((height) => {
+          rootState.height = height;
+        });
+    },
     getSbpList({ rootState }, addrs) {
       return Vue.$api.request('contract_getSBPList', addrs).then((sbps) => {
         sbps.forEach((sbp) => {

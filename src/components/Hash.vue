@@ -1,20 +1,22 @@
 <template>
-  <router-link v-if="link" :to="link">{{ short }}</router-link>
-  <span v-else>{{ short }}</span>
+  <router-link v-if="link" :to="link">{{ text }}</router-link>
+  <span v-else>{{ text }}</span>
 </template>
 
 <script>
 export default {
   props: {
     hash: String,
-    link: String
+    link: String,
+    short: Boolean
   },
   computed: {
-    short() {
-      return this.hash.slice(0, 6) + '...' + this.hash.slice(-6);
+    text() {
+      if (this.short) {
+        return this.hash.slice(0, 6) + '...' + this.hash.slice(-6);
+      }
+      return this.hash;
     }
   }
 };
 </script>
-
-<style lang="scss"></style>

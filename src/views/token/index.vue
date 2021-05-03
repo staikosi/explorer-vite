@@ -16,7 +16,7 @@
           </tr>
         </thead>
         <tbody class="uk-background-default">
-          <tr v-for="item in tokens" :key="item.height">
+          <tr v-for="item in tokens" :key="item.tokenId">
             <td>{{ item.tokenSymbol }}</td>
             <td>{{ item.tokenName }}</td>
             <td>

@@ -6,6 +6,7 @@ import * as mutations from './mutations';
 import snapshot from './modules/snapshot';
 import token from './modules/token';
 import sbp from './modules/sbp';
+import account from './modules/account';
 import { set, get, remove } from '@/utils/storage';
 
 Vue.use(Vuex);
@@ -47,6 +48,7 @@ export default new Vuex.Store({
   modules: {
     snapshot,
     token,
-    sbp
+    sbp,
+    account
   }
 });

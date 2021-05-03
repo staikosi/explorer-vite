@@ -5,6 +5,7 @@ import { api } from './plugin';
 import * as mutations from './mutations';
 import snapshot from './modules/snapshot';
 import token from './modules/token';
+import sbp from './modules/sbp';
 import { set, get, remove } from '@/utils/storage';
 
 Vue.use(Vuex);
@@ -16,8 +17,7 @@ export default new Vuex.Store({
     node: get('NODE') || NODE,
     // current snapshot chain height
     height: '',
-    goViteVersion: '',
-    sbps: {}
+    goViteVersion: ''
   },
   getters: {},
   actions: {
@@ -27,14 +27,6 @@ export default new Vuex.Store({
         .then((height) => {
           rootState.height = height;
         });
-    },
-    getSbpList({ rootState }, addrs) {
-      return Vue.$api.request('contract_getSBPList', addrs).then((sbps) => {
-        sbps.forEach((sbp) => {
-          Vue.set(rootState.sbps, sbp.blockProducingAddress, sbp);
-        });
-        return sbps;
-      });
     }
   },
   mutations: {
@@ -54,6 +46,7 @@ export default new Vuex.Store({
   },
   modules: {
     snapshot,
-    token
+    token,
+    sbp
   }
 });

@@ -42,7 +42,7 @@
 import { createNamespacedHelpers } from 'vuex';
 import Hash from '@/components/Hash';
 import Pagination from '@/components/Pagination';
-import { aToS } from '@/utils/_';
+import { atos } from '@/utils/_';
 
 const { mapState, mapActions, mapGetters } = createNamespacedHelpers('token');
 
@@ -62,8 +62,8 @@ export default {
       tokens: (state) =>
         state.tokens.map((token) => ({
           ...token,
-          totalSupply: aToS(token.totalSupply, token.decimals),
-          maxSupply: aToS(token.maxSupply, token.decimals)
+          totalSupply: atos(token.totalSupply, token.decimals),
+          maxSupply: atos(token.maxSupply, token.decimals)
         })),
       total: (state) => state.total
     }),

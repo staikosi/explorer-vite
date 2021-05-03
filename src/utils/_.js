@@ -21,7 +21,7 @@ export function insertList(arr, newItem, prop, maxLen = Number.MAX_VALUE) {
   return arr.slice(0, maxLen);
 }
 
-export function aToS(amount, decimals) {
+export function atos(amount, decimals) {
   if (amount == 0 || decimals === 0) {
     return `${amount}`;
   }

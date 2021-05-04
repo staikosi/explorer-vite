@@ -43,8 +43,7 @@
     "rules": {}
   },
   "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
+    "chrome 58",
+    "safari 10"
   ]
 }

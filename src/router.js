@@ -3,7 +3,6 @@ import VueRouter from 'vue-router';
 import Snapshot from './views/snapshot';
 import SnapshotPage from './views/snapshot';
 
-import Account from './views/account';
 import AccountDetail from './views/account/detail';
 
 import Token from './views/token';
@@ -32,7 +31,7 @@ const routes = [
   },
   {
     path: '/accounts',
-    component: Account
+    component: AccountDetail
   },
   {
     path: '/tx/:hash',

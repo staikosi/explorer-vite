@@ -14,7 +14,11 @@
         <tbody class="uk-background-default">
           <tr v-for="(item, index) in sbps" :key="item.sbpName">
             <td>{{ index + 1 }}</td>
-            <td>{{ item.sbpName }}</td>
+            <td>
+              <router-link :to="'/sbps/' + item.sbpName">{{
+                item.sbpName
+              }}</router-link>
+            </td>
             <td>{{ item.votes }}</td>
             <td class="m-address-tag m-text-truncate">
               {{ item.blockProducingAddress }}

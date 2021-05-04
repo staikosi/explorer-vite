@@ -129,19 +129,19 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from "vuex";
-import Hash from "@/components/Hash";
-import Addr from "@/components/Addr";
-import Token from "@/components/Token";
-import Pagination from "@/components/Pagination";
+import { createNamespacedHelpers } from 'vuex';
+import Hash from '@/components/Hash';
+import Addr from '@/components/Addr';
+import Token from '@/components/Token';
+import Pagination from '@/components/Pagination';
 // import { atos } from "@/utils/_";
 
 const {
   mapState,
   mapActions,
   mapGetters,
-  mapMutations,
-} = createNamespacedHelpers("account");
+  mapMutations
+} = createNamespacedHelpers('account');
 
 export default {
   beforeRouteEnter(to, from, next) {
@@ -153,43 +153,43 @@ export default {
   },
   data() {
     return {
-      tab: "balance",
+      tab: 'balance'
     };
   },
   computed: {
-    ...mapState(["account", "txs", "txPageSize"]),
-    ...mapGetters(["txPageNum", "utxPageNum"]),
+    ...mapState(['account', 'txs', 'txPageSize']),
+    ...mapGetters(['txPageNum', 'utxPageNum']),
     tokens() {
       if (!this.account) return [];
       return Object.values(this.account.balanceInfoMap).sort(
         (a, b) => parseFloat(a.balance) - parseFloat(b.balance)
       );
-    },
+    }
   },
   watch: {
     tab(value) {
       switch (value) {
-        case "balance": {
+        case 'balance': {
           return;
         }
-        case "tx": {
+        case 'tx': {
           this.getTxs(1);
           return;
         }
-        case "utx": {
+        case 'utx': {
           this.getUtxs2(1);
           return;
         }
       }
-    },
+    }
   },
   methods: {
-    ...mapActions(["getAccountInfo", "getUtxs", "getUtxCount"]),
-    ...mapMutations(["addTx", "updateTxs"]),
+    ...mapActions(['getAccountInfo', 'getUtxs', 'getUtxCount']),
+    ...mapMutations(['addTx', 'updateTxs']),
     getTxs(page) {
       this.$api
         .request(
-          "ledger_getAccountBlocksByAddress",
+          'ledger_getAccountBlocksByAddress',
           this.account.address,
           page,
           this.txPageSize
@@ -208,13 +208,13 @@ export default {
     },
     getUtxs2(page) {
       return this.getUtxs(page - 1);
-    },
+    }
   },
   components: {
     Hash,
     Addr,
     Token,
-    Pagination,
-  },
+    Pagination
+  }
 };
 </script>

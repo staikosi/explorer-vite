@@ -54,16 +54,16 @@
 </template>
 
 <script>
-import { mapState, mapActions, createNamespacedHelpers } from "vuex";
-import Hash from "@/components/Hash";
-import Pagination from "@/components/Pagination";
-import { log } from "@/utils/log";
+import { mapState, mapActions, createNamespacedHelpers } from 'vuex';
+import Hash from '@/components/Hash';
+import Pagination from '@/components/Pagination';
+import { log } from '@/utils/log';
 
 const {
   mapState: _mapState,
   mapMutations: _mapMutations,
-  mapGetters: _mapGetters,
-} = createNamespacedHelpers("snapshot");
+  mapGetters: _mapGetters
+} = createNamespacedHelpers('snapshot');
 
 export default {
   beforeRouteEnter(to, from, next) {
@@ -76,19 +76,19 @@ export default {
   },
   data() {
     return {
-      loading: false,
+      loading: false
     };
   },
   computed: {
-    ...mapState(["height"]),
-    ..._mapState(["snapshots", "pageSize"]),
-    ..._mapGetters(["pageNumber"]),
+    ...mapState(['height']),
+    ..._mapState(['snapshots', 'pageSize']),
+    ..._mapGetters(['pageNumber'])
   },
   methods: {
-    ..._mapMutations(["updateSnapshots", "update"]),
-    ...mapActions(["getHeight"]),
+    ..._mapMutations(['updateSnapshots', 'update']),
+    ...mapActions(['getHeight']),
     getBlocks(page) {
-      log("page", page);
+      log('page', page);
       if (this.loading) {
         return;
       }
@@ -101,7 +101,7 @@ export default {
 
       promises.unshift(
         this.$api
-          .request("ledger_getSnapshotBlocks", end, this.pageSize)
+          .request('ledger_getSnapshotBlocks', end, this.pageSize)
           .then((blocks) => {
             this.updateSnapshots(blocks);
           })
@@ -109,17 +109,17 @@ export default {
       return Promise.all(promises).finally(() => {
         this.loading = false;
       });
-    },
+    }
   },
   components: {
     Hash,
-    Pagination,
-  },
+    Pagination
+  }
 };
 </script>
 
 <style lang="less">
-@import "~@/styles/vars.less";
+@import '~@/styles/vars.less';
 
 .m-view {
   height: 100%;

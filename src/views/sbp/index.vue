@@ -27,9 +27,9 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from "vuex";
+import { createNamespacedHelpers } from 'vuex';
 
-const { mapState, mapActions } = createNamespacedHelpers("sbp");
+const { mapState, mapActions } = createNamespacedHelpers('sbp');
 
 export default {
   beforeRouteEnter(to, from, next) {
@@ -38,17 +38,17 @@ export default {
     });
   },
   computed: {
-    ...mapState(["sbps"]),
+    ...mapState(['sbps'])
   },
   methods: {
-    ...mapActions(["getSbps"]),
+    ...mapActions(['getSbps'])
   },
-  components: {},
+  components: {}
 };
 </script>
 
 <style lang="less">
-@import "~@/styles/vars.less";
+@import '~@/styles/vars.less';
 
 .m-view {
   height: 100%;

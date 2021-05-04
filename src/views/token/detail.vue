@@ -48,12 +48,12 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from "vuex";
+import { createNamespacedHelpers } from 'vuex';
 // import Token from "@/components/Token";
-import Addr from "@/components/Addr";
+import Addr from '@/components/Addr';
 // import { atos } from "@/utils/_";
 
-const { mapState, mapActions } = createNamespacedHelpers("token");
+const { mapState, mapActions } = createNamespacedHelpers('token');
 
 export default {
   beforeRouteEnter(to, from, next) {
@@ -64,16 +64,16 @@ export default {
   },
   data() {
     return {
-      loading: false,
+      loading: false
     };
   },
   computed: {
     ...mapState({
-      token: (state) => state.token,
-    }),
+      token: (state) => state.token
+    })
   },
   methods: {
-    ...mapActions(["getTokenDetails"]),
+    ...mapActions(['getTokenDetails']),
     getToken(tti) {
       if (this.loading) {
         return;
@@ -82,17 +82,17 @@ export default {
       this.getTokenDetails(tti).finally(() => {
         this.loading = false;
       });
-    },
+    }
   },
   components: {
-    Addr,
+    Addr
     // Token,
-  },
+  }
 };
 </script>
 
 <style lang="less">
-@import "~@/styles/vars.less";
+@import '~@/styles/vars.less';
 
 .m-view {
   height: 100%;

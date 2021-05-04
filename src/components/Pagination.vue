@@ -15,7 +15,7 @@
       <li
         v-if="pageNum > last + 1"
         class="uk-disabled"
-        style="line-height: 14px;"
+        style="line-height: 14px"
       >
         <span>...</span>
       </li>

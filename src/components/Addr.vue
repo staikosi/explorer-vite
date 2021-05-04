@@ -9,12 +9,12 @@
 export default {
   props: {
     address: String,
-    link: String,
+    link: String
   },
   computed: {
     text() {
       return this.address;
-    },
-  },
+    }
+  }
 };
 </script>

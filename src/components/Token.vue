@@ -9,12 +9,12 @@
 export default {
   props: {
     token: String,
-    link: String,
+    link: String
   },
   computed: {
     text() {
       return this.token;
-    },
-  },
+    }
+  }
 };
 </script>

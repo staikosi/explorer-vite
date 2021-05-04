@@ -6,7 +6,7 @@ export default {
   state() {
     return {
       account: null,
-      txPageSize: 100,
+      txPageSize: 10,
       txs: [],
       utxCount: 0
     };
@@ -34,6 +34,7 @@ export default {
                 tokenInfo.decimals
               );
               tokenInfo.tokenId = tti;
+              tokenInfo.tokenSymbolView = tokenInfo.tokenSymbol + "-" + (Array(3).join("0") + tokenInfo.index).slice(-3);
             }
           );
           state.account = Object.seal(res);
@@ -64,6 +65,12 @@ export default {
   mutations: {
     addTx(state, tx) {
       state.txs = insertList(state.txs, tx, this.txPageSize);
+    },
+    updateTxs(state, txs) {
+      state.txs = txs.map((tx) => {
+        tx.amount = atos(tx.amount, tx.tokenInfo.decimals);
+        return Object.seal(tx);
+      });
     }
   }
 };

@@ -1,6 +1,7 @@
 import VueRouter from 'vue-router';
 
 import Snapshot from './views/snapshot';
+import SnapshotPage from './views/snapshot';
 
 import Account from './views/account';
 import AccountDetail from './views/account/detail';
@@ -40,6 +41,10 @@ const routes = [
   {
     path: '/',
     component: Snapshot
+  },
+  {
+    path: '/snapshot/page/:page',
+    component: SnapshotPage
   }
 ];
 

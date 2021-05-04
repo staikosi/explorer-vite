@@ -4,7 +4,7 @@ export default {
   namespaced: true,
   state() {
     return {
-      pageSize: 60,
+      pageSize: 10,
       snapshots: []
     };
   },
@@ -19,14 +19,17 @@ export default {
         state[key] = obj[key];
       }
     },
-    // add to head
-    addSnapshot(state, snapshot) {
-      state.snapshots = insertList(
-        state.snapshots,
-        snapshot,
-        'height',
-        state.pageSize
-      );
+    // update snapshots 
+    updateSnapshots(state, snapshots) {
+      state.snapshots = [];
+      for (var i in snapshots) {
+        state.snapshots = insertList(
+          state.snapshots,
+          Object.seal(snapshots[i]),
+          'height',
+          state.pageSize
+        );
+      }
     }
   }
 };

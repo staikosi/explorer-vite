@@ -41,8 +41,8 @@
             <td>
               <hash :link="'/snapshots/' + item.hash" :hash="item.hash" />
             </td>
-            <td>{{ new Date(item.timestamp).toLocaleString() }}</td>
-            <td>{{ item.producer }}</td>
+            <td>{{ new Date(item.timestamp * 1000).toLocaleString() }}</td>
+            <td class="m-address-tag m-text-truncate">{{ item.producer }}</td>
             <td>{{ Object.keys(item.snapshotData || {}).length }}</td>
           </tr>
         </tbody>
@@ -54,39 +54,41 @@
 </template>
 
 <script>
-import { mapState, mapActions, createNamespacedHelpers } from 'vuex';
-import Hash from '@/components/Hash';
-import Pagination from '@/components/Pagination';
-import { log } from '@/utils/log';
+import { mapState, mapActions, createNamespacedHelpers } from "vuex";
+import Hash from "@/components/Hash";
+import Pagination from "@/components/Pagination";
+import { log } from "@/utils/log";
 
 const {
   mapState: _mapState,
   mapMutations: _mapMutations,
-  mapGetters: _mapGetters
-} = createNamespacedHelpers('snapshot');
+  mapGetters: _mapGetters,
+} = createNamespacedHelpers("snapshot");
 
 export default {
   beforeRouteEnter(to, from, next) {
+    const page = to.params.page ? to.params.page : 1;
     next((vm) => {
       vm.getHeight().then(() => {
-        return vm.getBlocks(1);
+        return vm.getBlocks(page);
       });
     });
   },
   data() {
     return {
-      loading: false
+      loading: false,
     };
   },
   computed: {
-    ...mapState(['height']),
-    ..._mapState(['snapshots', 'pageSize']),
-    ..._mapGetters(['pageNumber'])
+    ...mapState(["height"]),
+    ..._mapState(["snapshots", "pageSize"]),
+    ..._mapGetters(["pageNumber"]),
   },
   methods: {
-    ..._mapMutations(['addSnapshot', 'update']),
-    ...mapActions(['getHeight']),
+    ..._mapMutations(["updateSnapshots", "update"]),
+    ...mapActions(["getHeight"]),
     getBlocks(page) {
+      log("page", page);
       if (this.loading) {
         return;
       }
@@ -96,30 +98,28 @@ export default {
       let start = Math.max(this.height - offset, 1);
       const end = start + this.pageSize;
       const promises = [];
-      while (start < end) {
-        log(`block`, start);
-        const promise = this.$api
-          .request('ledger_getSnapshotBlockByHeight', start)
-          .then((block) => {
-            this.addSnapshot(Object.seal(block));
-          });
-        promises.unshift(promise);
-        start++;
-      }
+
+      promises.unshift(
+        this.$api
+          .request("ledger_getSnapshotBlocks", end, this.pageSize)
+          .then((blocks) => {
+            this.updateSnapshots(blocks);
+          })
+      );
       return Promise.all(promises).finally(() => {
         this.loading = false;
       });
-    }
+    },
   },
   components: {
     Hash,
-    Pagination
-  }
+    Pagination,
+  },
 };
 </script>
 
 <style lang="less">
-@import '~@/styles/vars.less';
+@import "~@/styles/vars.less";
 
 .m-view {
   height: 100%;

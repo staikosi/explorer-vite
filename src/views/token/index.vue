@@ -17,17 +17,17 @@
         </thead>
         <tbody class="uk-background-default">
           <tr v-for="item in tokens" :key="item.tokenId">
-            <td>{{ item.tokenSymbol }}</td>
+            <td>{{ item.tokenSymbolView }}</td>
             <td>{{ item.tokenName }}</td>
             <td>
-              <hash :link="'/tokens/' + item.tokenId" :hash="item.tokenId" />
+              <token :link="'/tokens/' + item.tokenId" :token="item.tokenId" />
             </td>
             <td>{{ item.decimals }}</td>
             <td>{{ item.totalSupply }}</td>
-            <td>{{ item.maxSupply }}</td>
-            <td>{{ item.isReIssuable ? 'YES' : 'NO' }}</td>
+            <td class="m-amount-tag m-text-truncate">{{ item.maxSupply }}</td>
+            <td>{{ item.isReIssuable ? "YES" : "NO" }}</td>
             <td>
-              <hash :link="'/accounts/' + item.owner" :hash="item.owner" />
+              <addr :link="'/accounts/' + item.owner" :address="item.owner" />
             </td>
           </tr>
         </tbody>
@@ -39,12 +39,13 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex';
-import Hash from '@/components/Hash';
-import Pagination from '@/components/Pagination';
-import { atos } from '@/utils/_';
+import { createNamespacedHelpers } from "vuex";
+import Token from "@/components/Token";
+import Addr from "@/components/Addr";
+import Pagination from "@/components/Pagination";
+import { atos } from "@/utils/_";
 
-const { mapState, mapActions, mapGetters } = createNamespacedHelpers('token');
+const { mapState, mapActions, mapGetters } = createNamespacedHelpers("token");
 
 export default {
   beforeRouteEnter(to, from, next) {
@@ -54,7 +55,7 @@ export default {
   },
   data() {
     return {
-      loading: false
+      loading: false,
     };
   },
   computed: {
@@ -63,14 +64,14 @@ export default {
         state.tokens.map((token) => ({
           ...token,
           totalSupply: atos(token.totalSupply, token.decimals),
-          maxSupply: atos(token.maxSupply, token.decimals)
+          maxSupply: atos(token.maxSupply, token.decimals),
         })),
-      total: (state) => state.total
+      total: (state) => state.total,
     }),
-    ...mapGetters(['pageNum'])
+    ...mapGetters(["pageNum"]),
   },
   methods: {
-    ...mapActions(['getTokenInfoList']),
+    ...mapActions(["getTokenInfoList"]),
     getTokens(page) {
       if (this.loading) {
         return;
@@ -79,17 +80,18 @@ export default {
       this.getTokenInfoList(page - 1).finally(() => {
         this.loading = false;
       });
-    }
+    },
   },
   components: {
-    Hash,
-    Pagination
-  }
+    Addr,
+    Token,
+    Pagination,
+  },
 };
 </script>
 
 <style lang="less">
-@import '~@/styles/vars.less';
+@import "~@/styles/vars.less";
 
 .m-view {
   height: 100%;

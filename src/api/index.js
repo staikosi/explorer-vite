@@ -4,7 +4,7 @@ import { log } from '@/utils/log';
 
 export default class Api extends ViteAPI {
   constructor(node) {
-    const service = new http(`http://${node}`);
+    const service = new http(`${node}`);
     super(service, () => {
       log(`connected to ${node}`);
     });

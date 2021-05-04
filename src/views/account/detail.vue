@@ -31,13 +31,12 @@
           </thead>
           <tbody class="uk-background-default">
             <tr v-for="item in tokens" :key="item.tokenInfo.tokenId">
-              <td>{{ item.tokenInfo.tokenSymbol }}</td>
+              <td>{{ item.tokenInfo.tokenSymbolView }}</td>
               <td>{{ item.tokenInfo.tokenName }}</td>
               <td>
-                <hash
+                <token
                   :link="'/tokens/' + item.tokenInfo.tokenId"
-                  :hash="item.tokenInfo.tokenId"
-                  :short="false"
+                  :token="item.tokenInfo.tokenId"
                 />
               </td>
               <td>{{ item.balance }}</td>
@@ -68,19 +67,19 @@
               <td>{{ item.blockType }}</td>
               <td>{{ item.tokenInfo.tokenSymbol }}</td>
               <td>
-                <hash
+                <addr
                   :link="'/account/' + item.fromAddress"
-                  :hash="item.fromAddress"
+                  :address="item.fromAddress"
                 />
               </td>
               <td>
-                <hash
+                <addr
                   :link="'/account/' + item.toAddress"
-                  :hash="item.toAddress"
+                  :address="item.toAddress"
                 />
               </td>
               <td>{{ item.amount }}</td>
-              <td>{{ item.confirmations }}</td>
+              <td>{{ new Date(item.timestamp * 1000).toLocaleString() }}</td>
             </tr>
           </tbody>
         </table>
@@ -130,17 +129,19 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex';
-import Hash from '@/components/Hash';
-import Pagination from '@/components/Pagination';
-import { atos } from '@/utils/_';
+import { createNamespacedHelpers } from "vuex";
+import Hash from "@/components/Hash";
+import Addr from "@/components/Addr";
+import Token from "@/components/Token";
+import Pagination from "@/components/Pagination";
+// import { atos } from "@/utils/_";
 
 const {
   mapState,
   mapActions,
   mapGetters,
-  mapMutations
-} = createNamespacedHelpers('account');
+  mapMutations,
+} = createNamespacedHelpers("account");
 
 export default {
   beforeRouteEnter(to, from, next) {
@@ -152,63 +153,68 @@ export default {
   },
   data() {
     return {
-      tab: 'balance'
+      tab: "balance",
     };
   },
   computed: {
-    ...mapState(['account', 'txs', 'txPageSize']),
-    ...mapGetters(['txPageNum', 'utxPageNum']),
+    ...mapState(["account", "txs", "txPageSize"]),
+    ...mapGetters(["txPageNum", "utxPageNum"]),
     tokens() {
       if (!this.account) return [];
       return Object.values(this.account.balanceInfoMap).sort(
         (a, b) => parseFloat(a.balance) - parseFloat(b.balance)
       );
-    }
+    },
   },
   watch: {
     tab(value) {
       switch (value) {
-        case 'balance': {
+        case "balance": {
           return;
         }
-        case 'tx': {
+        case "tx": {
           this.getTxs(1);
           return;
         }
-        case 'utx': {
+        case "utx": {
           this.getUtxs2(1);
           return;
         }
       }
-    }
+    },
   },
   methods: {
-    ...mapActions(['getAccountInfo', 'getUtxs', 'getUtxCount']),
-    ...mapMutations(['addTx']),
+    ...mapActions(["getAccountInfo", "getUtxs", "getUtxCount"]),
+    ...mapMutations(["addTx", "updateTxs"]),
     getTxs(page) {
-      let start = Math.max(this.account.blockCount - page * this.txPageSize, 1);
-      const end = start + this.txPageSize;
-      while (start < end) {
-        this.$api
-          .request(
-            'ledger_getAccountBlockByHeight',
-            this.account.address,
-            start
-          )
-          .then((tx) => {
-            tx.amount = atos(tx.amount, tx.tokenInfo.decimals);
-            this.addTx(Object.seal(tx));
-          });
-        start++;
-      }
+      this.$api
+        .request(
+          "ledger_getAccountBlocksByAddress",
+          this.account.address,
+          page,
+          this.txPageSize
+        )
+        .then((txs) => {
+          // tx.amount = atos(tx.amount, tx.tokenInfo.decimals);
+          this.updateTxs(Object.seal(txs));
+        });
+
+      // let start = Math.max(this.account.blockCount - page * this.txPageSize, 1);
+      // const end = start + this.txPageSize;
+      // while (start < end) {
+
+      //   start++;
+      // }
     },
     getUtxs2(page) {
       return this.getUtxs(page - 1);
-    }
+    },
   },
   components: {
     Hash,
-    Pagination
-  }
+    Addr,
+    Token,
+    Pagination,
+  },
 };
 </script>

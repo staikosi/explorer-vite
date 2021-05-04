@@ -52,17 +52,17 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex';
-import { SET_NODE, RESET_NODE } from '@/store/mutations';
+import { mapMutations, mapState } from "vuex";
+import { SET_NODE, RESET_NODE } from "@/store/mutations";
 
 export default {
   data() {
     return {
-      cnode: ''
+      cnode: "",
     };
   },
   computed: {
-    ...mapState(['node'])
+    ...mapState(["node"]),
   },
   created() {
     if (!this.cnode) {
@@ -79,11 +79,11 @@ export default {
     },
     reset() {
       this[RESET_NODE]();
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="less">
-@import '~@/styles/vars.less';
+@import "~@/styles/vars.less";
 </style>

@@ -16,7 +16,9 @@
             <td>{{ index + 1 }}</td>
             <td>{{ item.sbpName }}</td>
             <td>{{ item.votes }}</td>
-            <td>{{ item.blockProducingAddress }}</td>
+            <td class="m-address-tag m-text-truncate">
+              {{ item.blockProducingAddress }}
+            </td>
           </tr>
         </tbody>
       </table>
@@ -25,9 +27,9 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex';
+import { createNamespacedHelpers } from "vuex";
 
-const { mapState, mapActions } = createNamespacedHelpers('sbp');
+const { mapState, mapActions } = createNamespacedHelpers("sbp");
 
 export default {
   beforeRouteEnter(to, from, next) {
@@ -36,17 +38,17 @@ export default {
     });
   },
   computed: {
-    ...mapState(['sbps'])
+    ...mapState(["sbps"]),
   },
   methods: {
-    ...mapActions(['getSbps'])
+    ...mapActions(["getSbps"]),
   },
-  components: {}
+  components: {},
 };
 </script>
 
 <style lang="less">
-@import '~@/styles/vars.less';
+@import "~@/styles/vars.less";
 
 .m-view {
   height: 100%;

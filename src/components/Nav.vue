@@ -1,9 +1,16 @@
 <template>
   <div class="uk-background-secondary uk-width-medium">
     <div style="height: 100px">logo</div>
+
     <div class="uk-padding uk-padding-remove-vertical">
       <label for="node_input" class="uk-form-label uk-light">Vite Node</label>
-      <input id="node_input" class="uk-input" v-model="cnode" />
+      <input
+        id="node_input"
+        class="uk-input"
+        :class="{ 'uk-form-danger': error }"
+        v-model="cnode"
+        @focus="focus"
+      />
       <div class="uk-flex uk-flex-between uk-margin-small-top">
         <button
           type="button"
@@ -17,10 +24,8 @@
         </button>
       </div>
     </div>
+
     <nav class="uk-padding uk-light" uk-navbar>
-      <!-- <div>
-      <img alt="logo" />
-    </div> -->
       <ul class="uk-nav">
         <li>
           <router-link to="/">
@@ -58,7 +63,8 @@ import { SET_NODE, RESET_NODE } from '@/store/mutations';
 export default {
   data() {
     return {
-      cnode: ''
+      cnode: '',
+      error: false
     };
   },
   computed: {
@@ -70,15 +76,20 @@ export default {
     }
   },
   methods: {
-    ...mapMutations([SET_NODE]),
+    ...mapMutations([SET_NODE, RESET_NODE]),
+    focus() {
+      this.error = false;
+    },
     save() {
       if (!this.cnode) {
+        this.error = true;
         return;
       }
       this[SET_NODE](this.cnode);
     },
     reset() {
       this[RESET_NODE]();
+      this.cnode = this.node;
     }
   }
 };

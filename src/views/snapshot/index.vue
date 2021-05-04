@@ -1,23 +1,23 @@
 <template>
   <div class="uk-background-muted m-view">
-    <div class="uk-padding-small uk-background-default">
+    <div class="uk-padding uk-background-default">
       <div class="uk-flex">
-        <div class="uk-card uk-padding-small">
+        <div class="uk-card uk-flex-1">
           <p class="m-p uk-text-muted">Height</p>
           <p class="m-p uk-text-bolder uk-text-emphasis">{{ height }}</p>
         </div>
         <hr class="uk-divider-vertical m-divider" />
-        <div class="uk-card uk-padding-small">
+        <div class="uk-card uk-flex-1">
           <p class="m-p uk-text-muted">TODO</p>
           <p class="m-p uk-text-bolder uk-text-emphasis">TODO</p>
         </div>
         <hr class="uk-divider-vertical m-divider" />
-        <div class="uk-card uk-padding-small">
+        <div class="uk-card uk-flex-1">
           <p class="m-p uk-text-muted">TODO</p>
           <p class="m-p uk-text-bolder uk-text-emphasis">TODO</p>
         </div>
         <hr class="uk-divider-vertical m-divider" />
-        <div class="uk-card uk-padding-small">
+        <div class="uk-card uk-flex-1">
           <p class="m-p uk-text-muted">TODO</p>
           <p class="m-p uk-text-bolder uk-text-emphasis">TODO</p>
         </div>
@@ -31,6 +31,7 @@
             <th>Height</th>
             <th>Hash</th>
             <th>Time</th>
+            <th>PRODUCER</th>
             <th>SBP</th>
             <th>Tx</th>
           </tr>
@@ -43,6 +44,12 @@
             </td>
             <td>{{ new Date(item.timestamp * 1000).toLocaleString() }}</td>
             <td class="m-address-tag m-text-truncate">{{ item.producer }}</td>
+            <td>
+              <!-- TODO confirm the sbp detail router -->
+              <router-link :to="'/sbps/' + item.producer">{{
+                getSbp(item.producer)
+              }}</router-link>
+            </td>
             <td>{{ Object.keys(item.snapshotData || {}).length }}</td>
           </tr>
         </tbody>
@@ -65,13 +72,19 @@ const {
   mapGetters: _mapGetters
 } = createNamespacedHelpers('snapshot');
 
+const {
+  mapState: sbpMapState,
+  mapActions: sbpMapActions
+} = createNamespacedHelpers('sbp');
+
 export default {
   beforeRouteEnter(to, from, next) {
     const page = to.params.page ? to.params.page : 1;
-    next((vm) => {
+    next(vm => {
       vm.getHeight().then(() => {
         return vm.getBlocks(page);
       });
+      vm.getSbps();
     });
   },
   data() {
@@ -82,11 +95,13 @@ export default {
   computed: {
     ...mapState(['height']),
     ..._mapState(['snapshots', 'pageSize']),
-    ..._mapGetters(['pageNumber'])
+    ..._mapGetters(['pageNumber']),
+    ...sbpMapState(['sbps'])
   },
   methods: {
     ..._mapMutations(['updateSnapshots', 'update']),
     ...mapActions(['getHeight']),
+    ...sbpMapActions(['getSbps']),
     getBlocks(page) {
       log('page', page);
       if (this.loading) {
@@ -102,13 +117,20 @@ export default {
       promises.unshift(
         this.$api
           .request('ledger_getSnapshotBlocks', end, this.pageSize)
-          .then((blocks) => {
+          .then(blocks => {
             this.updateSnapshots(blocks);
           })
       );
       return Promise.all(promises).finally(() => {
         this.loading = false;
       });
+    },
+    getSbp(producer) {
+      const sbp = this.sbps.find(sbp => sbp.blockProducingAddress === producer);
+      if (sbp) {
+        return sbp.sbpName;
+      }
+      return '';
     }
   },
   components: {
@@ -124,13 +146,15 @@ export default {
 .m-view {
   height: 100%;
 }
+
 .m-p {
   margin: 0;
+  text-align: center;
 }
+
 .m-divider {
   height: auto;
-  margin-top: 0;
-  margin-bottom: 0;
+  margin: 0 20px;
 }
 
 .m-table {

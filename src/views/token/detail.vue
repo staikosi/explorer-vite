@@ -1,9 +1,7 @@
 <template>
   <div class="uk-background-muted m-view">
     <div class="uk-padding">
-      <p class="uk-text-lead">
-        {{ token.tokenId }}
-      </p>
+      <p class="uk-text-lead">Token Detail</p>
 
       <table class="uk-table uk-table-divider m-table">
         <tbody class="uk-background-default">
@@ -58,7 +56,7 @@ const { mapState, mapActions } = createNamespacedHelpers('token');
 export default {
   beforeRouteEnter(to, from, next) {
     const tti = to.params.tid;
-    next((vm) => {
+    next(vm => {
       vm.getToken(tti);
     });
   },
@@ -69,7 +67,7 @@ export default {
   },
   computed: {
     ...mapState({
-      token: (state) => state.token
+      token: state => state.token
     })
   },
   methods: {

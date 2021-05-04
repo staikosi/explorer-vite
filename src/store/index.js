@@ -23,19 +23,23 @@ export default new Vuex.Store({
   getters: {},
   actions: {
     getHeight({ rootState }) {
-      return Vue.$api
-        .request('ledger_getSnapshotChainHeight')
-        .then((height) => {
-          rootState.height = height;
-        });
+      return Vue.$api.request('ledger_getSnapshotChainHeight').then(height => {
+        rootState.height = height;
+      });
     }
   },
   mutations: {
     [mutations.SET_NODE](state, node) {
+      if (state.node === node) {
+        return;
+      }
       state.node = node;
       set('NODE', node);
     },
     [mutations.RESET_NODE](state) {
+      if (state.node === NODE) {
+        return;
+      }
       state.node = NODE;
       remove('NODE');
     },

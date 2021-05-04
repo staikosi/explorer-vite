@@ -5,7 +5,7 @@ export function set(key, value) {
 }
 
 export function get(key) {
-  localStorage.getItem(PREFIX + key);
+  return localStorage.getItem(PREFIX + key);
 }
 
 export function remove(key) {

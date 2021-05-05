@@ -4,6 +4,10 @@
       <li :class="current === 1 ? 'uk-disabled' : ''" @click="prev">
         <span uk-pagination-previous style="line-height: 20px"></span>
       </li>
+      <li v-if="pages[0] > 1" @click="select(1)"><span>1</span></li>
+      <li v-if="pages[0] > 1" class="uk-disabled" style="line-height: 14px">
+        <span>...</span>
+      </li>
       <li
         v-for="page in pages"
         :key="page"

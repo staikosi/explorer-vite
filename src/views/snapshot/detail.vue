@@ -65,6 +65,7 @@
 <script>
 import { getSbpName } from '@/utils/_';
 import { createNamespacedHelpers } from 'vuex';
+import VLink from '@/components/Link';
 
 const {
   mapState: sbpMapState,
@@ -105,6 +106,9 @@ export default {
         vm.block = Object.seal(block);
       });
     }
+  },
+  components: {
+    VLink
   }
 };
 </script>

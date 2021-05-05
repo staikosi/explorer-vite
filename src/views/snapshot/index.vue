@@ -25,6 +25,9 @@
     </div>
     <div class="uk-padding">
       <p class="uk-text-lead">Snapshot Blocks</p>
+
+      <search placeholder="Snapshot Block Height or Hash" @search="search" />
+
       <table class="uk-table uk-table-divider">
         <thead>
           <tr>
@@ -66,6 +69,7 @@
 import { mapState, mapActions, createNamespacedHelpers } from 'vuex';
 import VLink from '@/components/Link';
 import Pagination from '@/components/Pagination';
+import Search from '@/components/Search';
 import { log } from '@/utils/log';
 import { getSbpName } from '@/utils/_';
 import { VITE } from '@/utils/consts';
@@ -81,10 +85,7 @@ const {
   mapActions: sbpMapActions
 } = createNamespacedHelpers('sbp');
 
-const {
-  mapState: tokenMapState,
-  mapActions: tokenMapActions
-} = createNamespacedHelpers('token');
+const { mapActions: tokenMapActions } = createNamespacedHelpers('token');
 
 export default {
   beforeRouteEnter(to, from, next) {
@@ -108,8 +109,7 @@ export default {
     ...mapState(['height', 'goViteVersion', 'priceToBTC', 'circulating']),
     ...snapshotMapState(['snapshots', 'pageSize']),
     ...snapshotMapGetters(['pageNumber']),
-    ...sbpMapState(['sbps']),
-    ...tokenMapState('token')
+    ...sbpMapState(['sbps'])
   },
   methods: {
     ...snapshotMapMutations(['updateSnapshots', 'update']),
@@ -139,11 +139,18 @@ export default {
         this.loading = false;
       });
     },
-    getSbpName
+    getSbpName,
+    search(value) {
+      value = value.trim();
+      if (value) {
+        this.$router.push(`/snapshots/${value}`);
+      }
+    }
   },
   components: {
     VLink,
-    Pagination
+    Pagination,
+    Search
   }
 };
 </script>

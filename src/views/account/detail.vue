@@ -194,8 +194,11 @@ export default {
       return this.getUtxs(page - 1);
     },
     getAccountDetail(address) {
-      this.getAccountInfo(address);
-      this.getUtxCount(address);
+      address = address.trim();
+      if (address) {
+        this.getAccountInfo(address);
+        this.getUtxCount(address);
+      }
     }
   },
   components: {

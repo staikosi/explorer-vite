@@ -50,7 +50,7 @@ export default {
       let i = 5;
       while (list.length < 10) {
         const page = this.current - i;
-        console.log(`page`, page, this.pageNum);
+        // console.log(`page`, page, this.pageNum);
         if (page > this.pageNum) {
           return list;
         }
@@ -84,7 +84,7 @@ export default {
       this.$emit('select', this.current);
     },
     select(page) {
-      log('page', page);
+      // log('page', page);
       this.current = page;
       this.$emit('select', this.current);
     }

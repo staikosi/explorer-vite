@@ -3,13 +3,22 @@
     <div class="uk-padding uk-background-default">
       <div class="uk-flex">
         <div class="uk-card uk-flex-1">
-          <p class="m-p uk-text-muted">Height</p>
+          <p class="m-p uk-text-muted">Block Height</p>
           <p class="m-p uk-text-bolder uk-text-emphasis">{{ height }}</p>
         </div>
         <hr class="uk-divider-vertical m-divider" />
         <div class="uk-card uk-flex-1">
-          <p class="m-p uk-text-muted">GoVite Version</p>
-          <p class="m-p uk-text-bolder uk-text-emphasis">{{ goViteVersion }}</p>
+          <p class="m-p uk-text-muted">Latest Version</p>
+          <p class="m-p uk-text-bolder uk-text-emphasis">
+            <a
+              :href="
+                'https://github.com/vitelabs/go-vite/releases/tag/' +
+                goViteVersion
+              "
+              target="_blank"
+              >{{ goViteVersion }}</a
+            >
+          </p>
         </div>
         <hr class="uk-divider-vertical m-divider" />
         <div class="uk-card uk-flex-1">
@@ -18,7 +27,7 @@
         </div>
         <hr class="uk-divider-vertical m-divider" />
         <div class="uk-card uk-flex-1">
-          <p class="m-p uk-text-muted">VITEBTC</p>
+          <p class="m-p uk-text-muted">VITE / BTC</p>
           <p class="m-p uk-text-bolder uk-text-emphasis">{{ priceToBTC }}</p>
         </div>
       </div>
@@ -90,7 +99,7 @@ const { mapActions: tokenMapActions } = createNamespacedHelpers('token');
 export default {
   beforeRouteEnter(to, from, next) {
     const page = to.params.page ? to.params.page : 1;
-    next(vm => {
+    next((vm) => {
       vm.getGoViteVersion();
       vm.getHeight().then(() => {
         return vm.getBlocks(page);
@@ -131,7 +140,7 @@ export default {
       promises.unshift(
         this.$api
           .request('ledger_getSnapshotBlocks', end, this.pageSize)
-          .then(blocks => {
+          .then((blocks) => {
             this.updateSnapshots(blocks);
           })
       );

@@ -15,7 +15,7 @@ export const api = (store) => {
   _(store.state.node);
 
   store.subscribe(({ type, payload }) => {
-    if (type === 'setNode') {
+    if (type === 'SET_NODE') {
       _(payload);
     }
   });

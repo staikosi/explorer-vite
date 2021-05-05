@@ -85,6 +85,7 @@ export default {
         this.error = true;
         return;
       }
+      console.log(this.cnode);
       this[SET_NODE](this.cnode);
     },
     reset() {

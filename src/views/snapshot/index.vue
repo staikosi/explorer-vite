@@ -45,8 +45,7 @@
             <td>{{ new Date(item.timestamp * 1000).toLocaleString() }}</td>
             <td class="m-address-tag m-text-truncate">{{ item.producer }}</td>
             <td>
-              <!-- TODO confirm the sbp detail router -->
-              <router-link :to="'/sbps/' + item.producer">{{
+              <router-link :to="'/sbps/' + getSbp(item.producer)">{{
                 getSbp(item.producer)
               }}</router-link>
             </td>

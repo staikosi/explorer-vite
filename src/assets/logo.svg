@@ -2,27 +2,19 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="1080"
 	height="1080" viewBox="0 0 1080 1080" xml:space="preserve">
-	<rect x="0" y="0" width="100%" height="100%" fill="transparent"></rect>
-	<g transform="matrix(1 0 0 1 540 540)" id="52624cbe-8eb3-40d7-8839-4d46f341238e">
-		<rect
-			style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-opacity: 0; fill-rule: nonzero; opacity: 1;"
-			vector-effect="non-scaling-stroke" x="-540" y="-540" rx="0" ry="0" width="1080" height="1080" />
-	</g>
-	<g transform="matrix(1 0 0 1 540 540)" id="be2f46d4-64e6-4a8d-ad1e-aab147eb5008">
-	</g>
-	<g transform="matrix(4.88 0 0 4.88 301.02 508.64)" id="88652317-a4f3-4633-a432-e3f0d7213753">
+	<g transform="matrix(4.88 0 0 4.88 301.02 508.64)">
 		<polygon
 			style="stroke: rgb(255,255,255); stroke-width: 5; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(101,101,101); fill-opacity: 0; fill-rule: nonzero; opacity: 1;"
 			vector-effect="non-scaling-stroke"
 			points="-18.54,32.11 -37.08,0 -18.54,-32.11 18.54,-32.11 37.08,0 18.54,32.11 " />
 	</g>
-	<g transform="matrix(1.3 0 0 1.43 301.92 523.41)" style="" id="7c53c896-60ec-4514-806b-95c6b7486d2a">
-		<text xml:space="preserve" font-family="Arial" font-size="180" font-style="normal" font-weight="400"
+	<g transform="matrix(1.3 0 0 1.43 301.92 523.41)">
+		<text xml:space="preserve" font-family="Arial" font-size="180" font-style="normal" font-weight="900"
 			style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1; white-space: pre;">
 			<tspan x="-60.8" y="60">V</tspan>
 		</text>
 	</g>
-	<g transform="matrix(1.17 0 0 1.17 740.95 516.01)" style="" id="7423108e-9f73-449f-9c4e-ca4941064fb2">
+	<g transform="matrix(1.17 0 0 1.17 740.95 516.01)">
 		<text xml:space="preserve" font-family="Arial" font-size="135" font-style="normal" font-weight="700"
 			style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1; white-space: pre;">
 			<tspan x="-174.25" y="42.41">V</tspan>
@@ -31,7 +23,7 @@
 			<tspan x="96.96" y="42.41">E</tspan>
 		</text>
 	</g>
-	<g transform="matrix(1 0 0 1 863.76 609.75)" style="" id="b41c9a6d-28eb-4b94-8d79-d29a4c151830">
+	<g transform="matrix(1 0 0 1 863.76 609.75)">
 		<text xml:space="preserve" font-family="Arial" font-size="40" font-style="normal" font-weight="400"
 			style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1; white-space: pre;">
 			<tspan x="-75.58" y="12.57">Explorer</tspan>

@@ -1,4 +1,6 @@
 import Vue from 'vue';
+import { VITE } from '@/utils/consts';
+import { atos } from '@/utils/_';
 
 export default {
   namespaced: true,
@@ -19,21 +21,26 @@ export default {
     getTokenInfoList({ state }, pageNum = 0) {
       return Vue.$api
         .request('contract_getTokenInfoList', pageNum, state.pageSize)
-        .then((res) => {
+        .then(res => {
           state.total = res.totalCount;
-          state.tokens = res.tokenInfoList.map((token) => {
-            token.tokenSymbolView = token.tokenSymbol + "-" + (Array(3).join("0") + token.index).slice(-3);
+          state.tokens = res.tokenInfoList.map(token => {
+            token.tokenSymbolView =
+              token.tokenSymbol +
+              '-' +
+              (Array(3).join('0') + token.index).slice(-3);
             return token;
           });
         });
     },
-    getTokenDetails({ state }, tti) {
-      return Vue.$api
-        .request('contract_getTokenInfoById', tti)
-        .then((res) => {
-          res.tokenSymbolView = res.tokenSymbol + "-" + (Array(3).join("0") + res.index).slice(-3);
-          state.token = res;
-        });
+    getTokenDetails({ state, rootState }, tti) {
+      return Vue.$api.request('contract_getTokenInfoById', tti).then(res => {
+        res.tokenSymbolView =
+          res.tokenSymbol + '-' + (Array(3).join('0') + res.index).slice(-3);
+        state.token = res;
+        if (tti === VITE) {
+          rootState.circulating = atos(res.totalSupply, res.decimals);
+        }
+      });
     }
   },
   mutations: {}

@@ -8,18 +8,18 @@
         </div>
         <hr class="uk-divider-vertical m-divider" />
         <div class="uk-card uk-flex-1">
-          <p class="m-p uk-text-muted">TODO</p>
-          <p class="m-p uk-text-bolder uk-text-emphasis">TODO</p>
+          <p class="m-p uk-text-muted">GoVite Version</p>
+          <p class="m-p uk-text-bolder uk-text-emphasis">{{ goViteVersion }}</p>
         </div>
         <hr class="uk-divider-vertical m-divider" />
         <div class="uk-card uk-flex-1">
-          <p class="m-p uk-text-muted">TODO</p>
-          <p class="m-p uk-text-bolder uk-text-emphasis">TODO</p>
+          <p class="m-p uk-text-muted">Total Supply</p>
+          <p class="m-p uk-text-bolder uk-text-emphasis">{{ circulating }}</p>
         </div>
         <hr class="uk-divider-vertical m-divider" />
         <div class="uk-card uk-flex-1">
-          <p class="m-p uk-text-muted">TODO</p>
-          <p class="m-p uk-text-bolder uk-text-emphasis">TODO</p>
+          <p class="m-p uk-text-muted">VITEBTC</p>
+          <p class="m-p uk-text-bolder uk-text-emphasis">{{ priceToBTC }}</p>
         </div>
       </div>
     </div>
@@ -68,6 +68,7 @@ import VLink from '@/components/Link';
 import Pagination from '@/components/Pagination';
 import { log } from '@/utils/log';
 import { getSbpName } from '@/utils/_';
+import { VITE } from '@/utils/consts';
 
 const {
   mapState: snapshotMapState,
@@ -80,14 +81,22 @@ const {
   mapActions: sbpMapActions
 } = createNamespacedHelpers('sbp');
 
+const {
+  mapState: tokenMapState,
+  mapActions: tokenMapActions
+} = createNamespacedHelpers('token');
+
 export default {
   beforeRouteEnter(to, from, next) {
     const page = to.params.page ? to.params.page : 1;
     next(vm => {
+      vm.getGoViteVersion();
       vm.getHeight().then(() => {
         return vm.getBlocks(page);
       });
       vm.getSbps();
+      vm.getTokenDetails(VITE);
+      vm.getPriceToBTC();
     });
   },
   data() {
@@ -96,15 +105,17 @@ export default {
     };
   },
   computed: {
-    ...mapState(['height']),
+    ...mapState(['height', 'goViteVersion', 'priceToBTC', 'circulating']),
     ...snapshotMapState(['snapshots', 'pageSize']),
     ...snapshotMapGetters(['pageNumber']),
-    ...sbpMapState(['sbps'])
+    ...sbpMapState(['sbps']),
+    ...tokenMapState('token')
   },
   methods: {
     ...snapshotMapMutations(['updateSnapshots', 'update']),
-    ...mapActions(['getHeight']),
+    ...mapActions(['getHeight', 'getGoViteVersion', 'getPriceToBTC']),
     ...sbpMapActions(['getSbps']),
+    ...tokenMapActions(['getTokenDetails']),
     getBlocks(page) {
       log('page', page);
       if (this.loading) {

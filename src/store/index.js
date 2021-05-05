@@ -18,7 +18,9 @@ export default new Vuex.Store({
     node: get('NODE') || NODE,
     // current snapshot chain height
     height: '',
-    goViteVersion: ''
+    goViteVersion: '',
+    priceToBTC: '',
+    circulating: ''
   },
   getters: {},
   actions: {
@@ -26,6 +28,22 @@ export default new Vuex.Store({
       return Vue.$api.request('ledger_getSnapshotChainHeight').then(height => {
         rootState.height = height;
       });
+    },
+    getGoViteVersion({ rootState }) {
+      return fetch(
+        'https://api.github.com/repos/vitelabs/go-vite/releases/latest'
+      )
+        .then(res => res.json())
+        .then(data => {
+          rootState.goViteVersion = data.tag_name;
+        });
+    },
+    getPriceToBTC({ rootState }) {
+      return fetch('https://api.binance.com/api/v3/ticker/price?symbol=VITEBTC')
+        .then(res => res.json())
+        .then(data => {
+          rootState.priceToBTC = data.price;
+        });
     }
   },
   mutations: {

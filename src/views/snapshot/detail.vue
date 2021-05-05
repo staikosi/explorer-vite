@@ -14,7 +14,7 @@
             <td>{{ block.hash }}</td>
           </tr>
           <tr>
-            <td>Producer</td>
+            <td>Mined By</td>
             <td>{{ block.producer }}</td>
           </tr>
           <tr>
@@ -41,20 +41,26 @@
       >
         <thead>
           <tr>
-            <th>Address</th>
-            <th>Height</th>
+            <th>Account Address</th>
             <th>Hash</th>
+            <th>Height</th>
+            <th>Type</th>
           </tr>
         </thead>
         <tbody class="uk-background-default">
-          <tr v-for="(item, addr) in block.snapshotData || {}" :key="addr">
+          <tr v-for="item in accountblocks" :key="item.hash">
             <td>
-              <v-link prefix="/accounts/" :value="addr" />
+              <v-link
+                prefix="/accounts/"
+                :value="item.accountAddress"
+                :full="true"
+              />
+            </td>
+            <td>
+              <v-link prefix="/txs/" :value="item.hash" full="true" />
             </td>
             <td>{{ item.height }}</td>
-            <td>
-              <v-link prefix="/txs/" :value="item.hash" />
-            </td>
+            <td>{{ blockTypeText(item.blockType) }}</td>
           </tr>
         </tbody>
       </table>
@@ -63,7 +69,7 @@
 </template>
 
 <script>
-import { getSbpName } from '@/utils/_';
+import { getSbpName, blockTypeText } from '@/utils/_';
 import { createNamespacedHelpers } from 'vuex';
 import VLink from '@/components/Link';
 
@@ -75,7 +81,7 @@ const {
 export default {
   beforeRouteEnter(to, from, next) {
     const heightorhash = to.params.heightorhash;
-    next(vm => {
+    next((vm) => {
       vm.getSbps();
       vm.getBlock(heightorhash);
     });
@@ -86,7 +92,8 @@ export default {
   },
   data() {
     return {
-      block: null
+      block: null,
+      accountblocks: null
     };
   },
   computed: {
@@ -95,6 +102,7 @@ export default {
   methods: {
     ...sbpMapActions(['getSbps']),
     getSbpName,
+    blockTypeText,
     getBlock(heightorhash) {
       const vm = this;
       const height = parseInt(heightorhash, 10);
@@ -102,9 +110,18 @@ export default {
         heightorhash.length !== 64
           ? vm.$api.request('ledger_getSnapshotBlockByHeight', height)
           : vm.$api.request('ledger_getSnapshotBlockByHash', heightorhash);
-      return promise.then(block => {
-        vm.block = Object.seal(block);
-      });
+      return promise
+        .then((block) => {
+          vm.block = Object.seal(block);
+          return block.height;
+        })
+        .then((blockheight) => {
+          vm.$api
+            .request('ledger_getChunks', '' + blockheight, '' + blockheight)
+            .then((chunks) => {
+              vm.accountblocks = Object.seal(chunks[0].AccountBlocks);
+            });
+        });
     }
   },
   components: {

@@ -43,7 +43,7 @@
             <th>Height</th>
             <th>Hash</th>
             <th>Time</th>
-            <th>PRODUCER</th>
+            <th>Mined By</th>
             <th>SBP</th>
             <th>Tx</th>
           </tr>

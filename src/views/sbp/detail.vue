@@ -16,25 +16,43 @@
             <td>
               {{
                 sbpstat.blockNum +
-                  '/' +
-                  sbpstat.exceptedBlockNum +
-                  '(' +
-                  (sbpstat.blockNum / sbpstat.exceptedBlockNum).toFixed(4) +
-                  ')'
+                '/' +
+                sbpstat.exceptedBlockNum +
+                '(' +
+                (sbpstat.blockNum / sbpstat.exceptedBlockNum).toFixed(4) +
+                ')'
               }}
             </td>
           </tr>
           <tr>
             <td>Coinbase</td>
-            <td>{{ sbpstat.blockProducingAddress }}</td>
+            <td>
+              <v-link
+                prefix="/accounts/"
+                :value="sbpstat.blockProducingAddress"
+                full="true"
+              />
+            </td>
           </tr>
           <tr>
             <td>Owner</td>
-            <td>{{ sbpstat.stakeAddress }}</td>
+            <td>
+              <v-link
+                prefix="/accounts/"
+                :value="sbpstat.stakeAddress"
+                full="true"
+              />
+            </td>
           </tr>
           <tr>
             <td>Withdrawal Account</td>
-            <td>{{ sbpstat.rewardWithdrawAddress }}</td>
+            <td>
+              <v-link
+                prefix="/accounts/"
+                :value="sbpstat.rewardWithdrawAddress"
+                full="true"
+              />
+            </td>
           </tr>
         </tbody>
       </table>
@@ -58,13 +76,13 @@
             <td>
               {{
                 new Date(item.startTime * 1000).toLocaleString() +
-                  ' - ' +
-                  new Date(item.endTime * 1000).toLocaleString()
+                ' - ' +
+                new Date(item.endTime * 1000).toLocaleString()
               }}
             </td>
-            <td>{{ item.blockProducingReward }}</td>
-            <td>{{ item.votingReward }}</td>
-            <td>{{ item.totalReward }}</td>
+            <td>{{ item.blockProducingReward }} VITE</td>
+            <td>{{ item.votingReward }} VITE</td>
+            <td>{{ item.totalReward }} VITE</td>
           </tr>
         </tbody>
       </table>
@@ -77,6 +95,7 @@
 <script>
 import { createNamespacedHelpers } from 'vuex';
 import Pagination from '@/components/Pagination';
+import VLink from '@/components/Link';
 
 const {
   mapState,
@@ -88,7 +107,7 @@ const {
 export default {
   beforeRouteEnter(to, from, next) {
     const sbpName = to.params.name;
-    next(vm => {
+    next((vm) => {
       vm.loadData(sbpName);
     });
   },
@@ -120,10 +139,10 @@ export default {
         promises.unshift(
           this.$api
             .request('contract_getSBPRewardByCycle', '' + start)
-            .then(res => {
+            .then((res) => {
               rewards.push(res);
             })
-            .catch(err => console.log(err))
+            .catch((err) => console.log(err))
         );
         start++;
       }
@@ -155,7 +174,8 @@ export default {
     }
   },
   components: {
-    Pagination
+    Pagination,
+    VLink
   }
 };
 </script>

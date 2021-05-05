@@ -30,7 +30,7 @@
         <li>
           <router-link to="/">
             <span uk-icon="database" class="uk-margin-small-right"></span>
-            Data
+            Blocks
           </router-link>
         </li>
         <li>
@@ -42,7 +42,7 @@
         <li>
           <router-link to="/sbps">
             <span uk-icon="social" class="uk-margin-small-right"></span>
-            Super Nodes
+            Delegated Nodes
           </router-link>
         </li>
         <li>

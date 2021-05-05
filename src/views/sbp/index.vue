@@ -1,14 +1,14 @@
 <template>
   <div class="uk-background-muted m-view">
     <div class="uk-padding">
-      <p class="uk-text-lead">Super Nodes</p>
+      <p class="uk-text-lead">Delegated Nodes</p>
       <table class="uk-table uk-table-divider">
         <thead>
           <tr>
             <th>#</th>
             <th>Name</th>
             <th>Votes</th>
-            <th>producer</th>
+            <th>Coinbase</th>
           </tr>
         </thead>
         <tbody class="uk-background-default">
@@ -19,7 +19,7 @@
             </td>
             <td>{{ item.votes }}</td>
             <td class="m-hash-tag m-text-truncate">
-              {{ item.blockProducingAddress }}
+              <v-link prefix="/accounts/" :value="item.blockProducingAddress" />
             </td>
           </tr>
         </tbody>
@@ -36,7 +36,7 @@ const { mapState, mapActions } = createNamespacedHelpers('sbp');
 
 export default {
   beforeRouteEnter(to, from, next) {
-    next(vm => {
+    next((vm) => {
       vm.getSbps();
     });
   },

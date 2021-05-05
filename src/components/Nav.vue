@@ -1,6 +1,6 @@
 <template>
   <div class="uk-background-secondary uk-width-medium">
-    <div style="height: 100px">logo</div>
+    <div class="m-logo"></div>
 
     <div class="uk-padding uk-padding-remove-vertical">
       <label for="node_input" class="uk-form-label uk-light">Vite Node</label>
@@ -97,4 +97,13 @@ export default {
 
 <style lang="less">
 @import '~@/styles/vars.less';
+
+.m-logo {
+  height: 100px;
+  padding: 50px 0;
+  background-image: url(../assets/logo.svg);
+  background-size: 90%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 </style>

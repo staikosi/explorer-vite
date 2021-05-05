@@ -1,3 +1,5 @@
+@import '~@/styles/vars.less';
+
 html,
 body {
   height: 100%;
@@ -5,31 +7,20 @@ body {
 }
 
 .m-hash-tag {
-  max-width: 171px;
+  max-width: 200px;
   display: inline-block;
-  vertical-align: bottom;
-}
-
-.m-address-tag {
-  max-width: 171px;
-  display: inline-block;
-  vertical-align: bottom;
-}
-
-.m-token-tag {
-  max-width: 171px;
-  display: inline-block;
-  vertical-align: bottom;
-}
-
-.m-amount-tag {
-  max-width: 171px;
-  display: inline-block;
-  vertical-align: bottom;
 }
 
 .m-text-truncate {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+table {
+  border: 1px solid @border;
+}
+
+.m-view {
+  height: 100%;
 }

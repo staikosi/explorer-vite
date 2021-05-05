@@ -1,14 +1,97 @@
 <template>
-  <div>tx detail {{ $route.params.hash }}</div>
+  <div class="uk-background-muted m-view">
+    <div class="uk-padding">
+      <p class="uk-text-lead">Account Block Detail</p>
+
+      <table class="uk-table uk-table-divider" v-if="block">
+        <tbody class="uk-background-default">
+          <tr>
+            <td>Height</td>
+            <td>{{ block.height }}</td>
+          </tr>
+          <tr>
+            <td>Hash</td>
+            <td>{{ block.hash }}</td>
+          </tr>
+          <tr>
+            <td>BlockType</td>
+            <td>{{ blockTypeText(block.blockType) }}</td>
+          </tr>
+          <tr>
+            <td>Time</td>
+            <td>{{ new Date(block.timestamp * 1000).toLocaleString() }}</td>
+          </tr>
+          <tr>
+            <td>Confirmations</td>
+            <td>{{ block.confirmations }}</td>
+          </tr>
+          <tr>
+            <td>FirstSnapshotHash</td>
+            <td>
+              <v-link prefix="/snapshots/" :value="block.firstSnapshotHash" />
+            </td>
+          </tr>
+          <tr>
+            <td>FromAddress</td>
+            <td>
+              <v-link prefix="/accounts/" :value="block.fromAddress" />
+            </td>
+          </tr>
+          <tr>
+            <td>ToAddress</td>
+            <td>
+              <v-link prefix="/accounts/" :value="block.toAddress" />
+            </td>
+          </tr>
+          <tr>
+            <td>Token</td>
+            <td>{{ block.tokenInfo.tokenSymbol }}</td>
+          </tr>
+          <tr>
+            <td>Amount</td>
+            <td>{{ atos(block.amount) }}</td>
+          </tr>
+          <tr>
+            <td>SendBlockHash</td>
+            <td>
+              <v-link prefix="/txs/" :value="block.sendBlockHash" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </template>
 
-<style lang="less"></style>
-
 <script>
+import { atos, blockTypeText } from '@/utils/_';
+import VLink from '@/components/Link';
+
 export default {
-  // beforeRouteEnter(to, from, next) {
-  // next((vm) => {
-  // });
-  // }
+  beforeRouteEnter(to, from, next) {
+    const hash = to.params.hash;
+    next(vm => vm.getBlock(hash));
+  },
+  beforeRouteUpdate(to, from, next) {
+    const hashto = to.params.hash;
+    this.getBlock(hashto).then(() => next());
+  },
+  data() {
+    return {
+      block: null
+    };
+  },
+  methods: {
+    atos,
+    blockTypeText,
+    getBlock(hash) {
+      this.$api.request('ledger_getAccountBlockByHash', hash).then(block => {
+        this.block = Object.seal(block);
+      });
+    }
+  },
+  components: {
+    VLink
+  }
 };
 </script>

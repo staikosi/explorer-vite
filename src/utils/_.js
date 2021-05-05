@@ -28,3 +28,32 @@ export function atos(amount, decimals) {
 
   return `${amount}`.slice(0, -decimals);
 }
+
+export function getSbpName(sbps, producer) {
+  const sbp = sbps.find(sbp => sbp.blockProducingAddress === producer);
+  if (sbp) {
+    return sbp.sbpName;
+  }
+  return '';
+}
+
+export function blockTypeText(blockType) {
+  switch (blockType) {
+    case 1:
+      return 'SendCreate';
+    case 2:
+      return 'SendCall';
+    case 3:
+      return 'SendReward';
+    case 4:
+      return 'Receive';
+    case 5:
+      return 'ReceiveError';
+    case 6:
+      return 'SendRefund';
+    case 7:
+      return 'GenesisReceive';
+    default:
+      return 'Unknown';
+  }
+}

@@ -13,15 +13,15 @@
             Token Balance
           </li>
           <li :class="{ 'uk-active': tab === 'tx' }" @click="tab = 'tx'">
-            Transactions
+            TXs
           </li>
           <li :class="{ 'uk-active': tab === 'utx' }" @click="tab = 'utx'">
-            Unreceived Txs
+            Unreceived TXs
           </li>
         </ul>
 
         <div v-if="tab === 'balance'">
-          <table class="uk-table uk-table-divider m-table">
+          <table class="uk-table uk-table-divider">
             <thead>
               <tr>
                 <th>Symbol</th>
@@ -35,10 +35,7 @@
                 <td>{{ item.tokenInfo.tokenSymbolView }}</td>
                 <td>{{ item.tokenInfo.tokenName }}</td>
                 <td>
-                  <token
-                    :link="'/tokens/' + item.tokenInfo.tokenId"
-                    :token="item.tokenInfo.tokenId"
-                  />
+                  <v-link prefix="/tokens/" :value="item.tokenInfo.tokenId" />
                 </td>
                 <td>{{ item.balance }}</td>
               </tr>
@@ -46,7 +43,7 @@
           </table>
         </div>
         <div v-if="tab === 'tx'">
-          <table class="uk-table uk-table-divider m-table">
+          <table class="uk-table uk-table-divider">
             <thead>
               <tr>
                 <th>Height</th>
@@ -63,21 +60,15 @@
               <tr v-for="item in txs" :key="item.height">
                 <td>{{ item.height }}</td>
                 <td>
-                  <hash :link="'/tx/' + item.hash" :hash="item.hash" />
+                  <v-link prefix="/txs/" :value="item.hash" />
                 </td>
-                <td>{{ item.blockType }}</td>
+                <td>{{ blockTypeText(item.blockType) }}</td>
                 <td>{{ item.tokenInfo.tokenSymbol }}</td>
                 <td>
-                  <addr
-                    :link="'/account/' + item.fromAddress"
-                    :address="item.fromAddress"
-                  />
+                  <v-link prefix="/accounts/" :value="item.fromAddress" />
                 </td>
                 <td>
-                  <addr
-                    :link="'/account/' + item.toAddress"
-                    :address="item.toAddress"
-                  />
+                  <v-link prefix="/accounts/" :value="item.toAddress" />
                 </td>
                 <td>{{ item.amount }}</td>
                 <td>{{ new Date(item.timestamp * 1000).toLocaleString() }}</td>
@@ -87,7 +78,7 @@
           <pagination :page-num="txPageNum" @select="getTxs" />
         </div>
         <div v-if="tab === 'utx'">
-          <table class="uk-table uk-table-divider m-table">
+          <table class="uk-table uk-table-divider">
             <thead>
               <tr>
                 <th>Height</th>
@@ -103,21 +94,15 @@
               <tr v-for="item in txs" :key="item.height">
                 <td>{{ item.height }}</td>
                 <td>
-                  <hash :link="'/tx/' + item.hash" :hash="item.hash" />
+                  <v-link prefix="/txs/" :value="item.hash" />
                 </td>
-                <td>{{ item.blockType }}</td>
+                <td>{{ blockTypeText(item.blockType) }}</td>
                 <td>{{ item.tokenInfo.tokenSymbol }}</td>
                 <td>
-                  <hash
-                    :link="'/account/' + item.fromAddress"
-                    :hash="item.fromAddress"
-                  />
+                  <v-link prefix="/accounts/" :value="item.fromAddress" />
                 </td>
                 <td>
-                  <hash
-                    :link="'/account/' + item.toAddress"
-                    :hash="item.toAddress"
-                  />
+                  <v-link prefix="/accounts/" :value="item.toAddress" />
                 </td>
                 <td>{{ item.amount }}</td>
               </tr>
@@ -132,11 +117,10 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
-import Hash from '@/components/Hash';
-import Addr from '@/components/Addr';
-import Token from '@/components/Token';
+import VLink from '@/components/Link';
 import Pagination from '@/components/Pagination';
 import Search from '@/components/Search';
+import { blockTypeText } from '@/utils/_';
 
 const {
   mapState,
@@ -153,6 +137,10 @@ export default {
         vm.getAccountDetail(address);
       }
     });
+  },
+  beforeRouteUpdate(to, from, next) {
+    const address = to.params.address;
+    this.getAccountDetail(address).then(() => next());
   },
   data() {
     return {
@@ -189,6 +177,7 @@ export default {
   methods: {
     ...mapActions(['getAccountInfo', 'getUtxs', 'getUtxCount']),
     ...mapMutations(['addTx', 'updateTxs']),
+    blockTypeText,
     getTxs(page) {
       this.$api
         .request(
@@ -210,9 +199,7 @@ export default {
     }
   },
   components: {
-    Hash,
-    Addr,
-    Token,
+    VLink,
     Pagination,
     Search
   }

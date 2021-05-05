@@ -2,6 +2,7 @@ import VueRouter from 'vue-router';
 
 import Snapshot from './views/snapshot';
 import SnapshotPage from './views/snapshot';
+import SnapshotDetail from './views/snapshot/detail';
 
 import AccountDetail from './views/account/detail';
 
@@ -39,12 +40,16 @@ const routes = [
     component: AccountDetail
   },
   {
-    path: '/tx/:hash',
+    path: '/txs/:hash',
     component: TxDetail
   },
   {
     path: '/',
     component: Snapshot
+  },
+  {
+    path: '/snapshots/:heightorhash',
+    component: SnapshotDetail
   },
   {
     path: '/snapshot/page/:page',

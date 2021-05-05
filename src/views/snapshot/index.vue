@@ -25,7 +25,7 @@
     </div>
     <div class="uk-padding">
       <p class="uk-text-lead">Snapshot Blocks</p>
-      <table class="uk-table uk-table-divider m-table">
+      <table class="uk-table uk-table-divider">
         <thead>
           <tr>
             <th>Height</th>
@@ -40,14 +40,17 @@
           <tr v-for="item in snapshots" :key="item.height">
             <td>{{ item.height }}</td>
             <td>
-              <hash :link="'/snapshots/' + item.hash" :hash="item.hash" />
+              <v-link prefix="/snapshots/" :value="item.hash" />
             </td>
             <td>{{ new Date(item.timestamp * 1000).toLocaleString() }}</td>
-            <td class="m-address-tag m-text-truncate">{{ item.producer }}</td>
             <td>
-              <router-link :to="'/sbps/' + getSbp(item.producer)">{{
-                getSbp(item.producer)
-              }}</router-link>
+              <v-link prefix="/accounts/" :value="item.producer" />
+            </td>
+            <td>
+              <v-link
+                prefix="/sbps/"
+                :value="getSbpName(sbps, item.producer)"
+              />
             </td>
             <td>{{ Object.keys(item.snapshotData || {}).length }}</td>
           </tr>
@@ -61,14 +64,15 @@
 
 <script>
 import { mapState, mapActions, createNamespacedHelpers } from 'vuex';
-import Hash from '@/components/Hash';
+import VLink from '@/components/Link';
 import Pagination from '@/components/Pagination';
 import { log } from '@/utils/log';
+import { getSbpName } from '@/utils/_';
 
 const {
-  mapState: _mapState,
-  mapMutations: _mapMutations,
-  mapGetters: _mapGetters
+  mapState: snapshotMapState,
+  mapMutations: snapshotMapMutations,
+  mapGetters: snapshotMapGetters
 } = createNamespacedHelpers('snapshot');
 
 const {
@@ -93,12 +97,12 @@ export default {
   },
   computed: {
     ...mapState(['height']),
-    ..._mapState(['snapshots', 'pageSize']),
-    ..._mapGetters(['pageNumber']),
+    ...snapshotMapState(['snapshots', 'pageSize']),
+    ...snapshotMapGetters(['pageNumber']),
     ...sbpMapState(['sbps'])
   },
   methods: {
-    ..._mapMutations(['updateSnapshots', 'update']),
+    ...snapshotMapMutations(['updateSnapshots', 'update']),
     ...mapActions(['getHeight']),
     ...sbpMapActions(['getSbps']),
     getBlocks(page) {
@@ -124,39 +128,22 @@ export default {
         this.loading = false;
       });
     },
-    getSbp(producer) {
-      const sbp = this.sbps.find(sbp => sbp.blockProducingAddress === producer);
-      if (sbp) {
-        return sbp.sbpName;
-      }
-      return '';
-    }
+    getSbpName
   },
   components: {
-    Hash,
+    VLink,
     Pagination
   }
 };
 </script>
 
 <style lang="less">
-@import '~@/styles/vars.less';
-
-.m-view {
-  height: 100%;
-}
-
 .m-p {
   margin: 0;
-  text-align: center;
 }
 
 .m-divider {
   height: auto;
-  margin: 0 20px;
-}
-
-.m-table {
-  border: 1px solid @border;
+  margin: 0 30px;
 }
 </style>

@@ -3,7 +3,7 @@
     <div class="uk-padding">
       <p class="uk-text-lead">Token Detail</p>
 
-      <table class="uk-table uk-table-divider m-table">
+      <table class="uk-table uk-table-divider">
         <tbody class="uk-background-default">
           <tr>
             <td>Token Symbol</td>
@@ -36,7 +36,7 @@
           <tr>
             <td>Issuer</td>
             <td>
-              <addr :link="'/accounts/' + token.owner" :address="token.owner" />
+              <v-link prefix="/accounts/" :value="token.owner" />
             </td>
           </tr>
         </tbody>
@@ -47,9 +47,7 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
-// import Token from "@/components/Token";
-import Addr from '@/components/Addr';
-// import { atos } from "@/utils/_";
+import VLink from '@/components/Link';
 
 const { mapState, mapActions } = createNamespacedHelpers('token');
 
@@ -59,6 +57,10 @@ export default {
     next(vm => {
       vm.getToken(tti);
     });
+  },
+  beforeRouteUpdate(to, from, next) {
+    const tti = to.params.tid;
+    this.getToken(tti).then(() => next());
   },
   data() {
     return {
@@ -83,28 +85,7 @@ export default {
     }
   },
   components: {
-    Addr
-    // Token,
+    VLink
   }
 };
 </script>
-
-<style lang="less">
-@import '~@/styles/vars.less';
-
-.m-view {
-  height: 100%;
-}
-.m-p {
-  margin: 0;
-}
-.m-divider {
-  height: auto;
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-.m-table {
-  border: 1px solid @border;
-}
-</style>

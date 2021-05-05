@@ -2,7 +2,7 @@
   <div class="uk-background-muted m-view">
     <div class="uk-padding">
       <p class="uk-text-lead">Tokens ({{ total }})</p>
-      <table class="uk-table uk-table-divider m-table">
+      <table class="uk-table uk-table-divider">
         <thead>
           <tr>
             <th>Symbol</th>
@@ -20,14 +20,14 @@
             <td>{{ item.tokenSymbolView }}</td>
             <td>{{ item.tokenName }}</td>
             <td>
-              <token :link="'/tokens/' + item.tokenId" :token="item.tokenId" />
+              <v-link prefix="/tokens/" :value="item.tokenId" />
             </td>
             <td>{{ item.decimals }}</td>
             <td>{{ item.totalSupply }}</td>
-            <td class="m-amount-tag m-text-truncate">{{ item.maxSupply }}</td>
+            <td class="m-hash-tag m-text-truncate">{{ item.maxSupply }}</td>
             <td>{{ item.isReIssuable ? 'YES' : 'NO' }}</td>
             <td>
-              <addr :link="'/accounts/' + item.owner" :address="item.owner" />
+              <v-link prefix="/accounts/" :value="item.owner" />
             </td>
           </tr>
         </tbody>
@@ -40,8 +40,7 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
-import Token from '@/components/Token';
-import Addr from '@/components/Addr';
+import VLink from '@/components/Link';
 import Pagination from '@/components/Pagination';
 import { atos } from '@/utils/_';
 
@@ -49,7 +48,7 @@ const { mapState, mapActions, mapGetters } = createNamespacedHelpers('token');
 
 export default {
   beforeRouteEnter(to, from, next) {
-    next((vm) => {
+    next(vm => {
       vm.getTokenInfoList();
     });
   },
@@ -60,13 +59,13 @@ export default {
   },
   computed: {
     ...mapState({
-      tokens: (state) =>
-        state.tokens.map((token) => ({
+      tokens: state =>
+        state.tokens.map(token => ({
           ...token,
           totalSupply: atos(token.totalSupply, token.decimals),
           maxSupply: atos(token.maxSupply, token.decimals)
         })),
-      total: (state) => state.total
+      total: state => state.total
     }),
     ...mapGetters(['pageNum'])
   },
@@ -83,29 +82,8 @@ export default {
     }
   },
   components: {
-    Addr,
-    Token,
+    VLink,
     Pagination
   }
 };
 </script>
-
-<style lang="less">
-@import '~@/styles/vars.less';
-
-.m-view {
-  height: 100%;
-}
-.m-p {
-  margin: 0;
-}
-.m-divider {
-  height: auto;
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-.m-table {
-  border: 1px solid @border;
-}
-</style>

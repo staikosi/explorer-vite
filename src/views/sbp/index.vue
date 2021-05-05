@@ -2,7 +2,7 @@
   <div class="uk-background-muted m-view">
     <div class="uk-padding">
       <p class="uk-text-lead">Super Nodes</p>
-      <table class="uk-table uk-table-divider m-table">
+      <table class="uk-table uk-table-divider">
         <thead>
           <tr>
             <th>#</th>
@@ -15,12 +15,10 @@
           <tr v-for="(item, index) in sbps" :key="item.sbpName">
             <td>{{ index + 1 }}</td>
             <td>
-              <router-link :to="'/sbps/' + item.sbpName">{{
-                item.sbpName
-              }}</router-link>
+              <v-link prefix="/sbps/" :value="item.sbpName" />
             </td>
             <td>{{ item.votes }}</td>
-            <td class="m-address-tag m-text-truncate">
+            <td class="m-hash-tag m-text-truncate">
               {{ item.blockProducingAddress }}
             </td>
           </tr>
@@ -32,12 +30,13 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
+import VLink from '@/components/Link';
 
 const { mapState, mapActions } = createNamespacedHelpers('sbp');
 
 export default {
   beforeRouteEnter(to, from, next) {
-    next((vm) => {
+    next(vm => {
       vm.getSbps();
     });
   },
@@ -47,26 +46,8 @@ export default {
   methods: {
     ...mapActions(['getSbps'])
   },
-  components: {}
+  components: {
+    VLink
+  }
 };
 </script>
-
-<style lang="less">
-@import '~@/styles/vars.less';
-
-.m-view {
-  height: 100%;
-}
-.m-p {
-  margin: 0;
-}
-.m-divider {
-  height: auto;
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-.m-table {
-  border: 1px solid @border;
-}
-</style>

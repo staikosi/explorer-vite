@@ -5,7 +5,7 @@
         {{ sbpstat.name }}
       </p>
 
-      <table class="uk-table uk-table-divider m-table">
+      <table class="uk-table uk-table-divider">
         <tbody class="uk-background-default">
           <tr>
             <td>Total Votes</td>
@@ -16,11 +16,11 @@
             <td>
               {{
                 sbpstat.blockNum +
-                '/' +
-                sbpstat.exceptedBlockNum +
-                '(' +
-                (sbpstat.blockNum / sbpstat.exceptedBlockNum).toFixed(4) +
-                ')'
+                  '/' +
+                  sbpstat.exceptedBlockNum +
+                  '(' +
+                  (sbpstat.blockNum / sbpstat.exceptedBlockNum).toFixed(4) +
+                  ')'
               }}
             </td>
           </tr>
@@ -42,7 +42,7 @@
 
     <div class="uk-padding">
       <p class="uk-text-lead">Rewards</p>
-      <table class="uk-table uk-table-divider m-table">
+      <table class="uk-table uk-table-divider">
         <thead>
           <tr>
             <th>Cycle</th>
@@ -58,8 +58,8 @@
             <td>
               {{
                 new Date(item.startTime * 1000).toLocaleString() +
-                ' - ' +
-                new Date(item.endTime * 1000).toLocaleString()
+                  ' - ' +
+                  new Date(item.endTime * 1000).toLocaleString()
               }}
             </td>
             <td>{{ item.blockProducingReward }}</td>
@@ -88,22 +88,13 @@ const {
 export default {
   beforeRouteEnter(to, from, next) {
     const sbpName = to.params.name;
-    const page = 1;
-    next((vm) => {
-      vm.getDayIndex().then(() => {
-        Promise.all([
-          vm.getSbpStats(),
-          vm.getHourSbpStats(),
-          vm.getSbp(sbpName)
-        ])
-          .then(() => {
-            vm.setSbpName(sbpName);
-          })
-          .then(() => {
-            vm.getRewards(page);
-          });
-      });
+    next(vm => {
+      vm.loadData(sbpName);
     });
+  },
+  beforeRouteUpdate(to, from, next) {
+    const sbpName = to.params.name;
+    this.loadData(sbpName).then(() => next());
   },
   computed: {
     ...mapState(['sbpstat', 'sbpName', 'dayIndex', 'pageSize', 'sbpRewards']),
@@ -129,10 +120,10 @@ export default {
         promises.unshift(
           this.$api
             .request('contract_getSBPRewardByCycle', '' + start)
-            .then((res) => {
+            .then(res => {
               rewards.push(res);
             })
-            .catch((err) => console.log(err))
+            .catch(err => console.log(err))
         );
         start++;
       }
@@ -144,6 +135,23 @@ export default {
         .finally(() => {
           this.loading = false;
         });
+    },
+    loadData(sbpName) {
+      const vm = this;
+      const page = 1;
+      return vm.getDayIndex().then(() => {
+        Promise.all([
+          vm.getSbpStats(),
+          vm.getHourSbpStats(),
+          vm.getSbp(sbpName)
+        ])
+          .then(() => {
+            vm.setSbpName(sbpName);
+          })
+          .then(() => {
+            vm.getRewards(page);
+          });
+      });
     }
   },
   components: {
@@ -151,23 +159,3 @@ export default {
   }
 };
 </script>
-
-<style lang="less">
-@import '~@/styles/vars.less';
-
-.m-view {
-  height: 100%;
-}
-.m-p {
-  margin: 0;
-}
-.m-divider {
-  height: auto;
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-.m-table {
-  border: 1px solid @border;
-}
-</style>

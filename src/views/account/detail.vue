@@ -1,7 +1,7 @@
 <template>
   <div class="uk-padding">
     <p class="uk-text-lead">Account</p>
-    <search placeholder="Input vite address" @search="getAccountDetail" />
+    <search placeholder="Vite address" @search="getAccountDetail" />
 
     <div v-if="account" class="uk-margin-top">
       <div>

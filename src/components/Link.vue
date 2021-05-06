@@ -2,7 +2,7 @@
   <router-link
     :to="prefix + value"
     :class="cls"
-    :alt="value"
+    :title="value"
     :uk-tooltip="value"
   >
     {{ text }}

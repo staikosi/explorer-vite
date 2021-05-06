@@ -151,10 +151,12 @@ export default {
     ...mapState(['account', 'txs', 'txPageSize']),
     ...mapGetters(['txPageNum', 'utxPageNum']),
     tokens() {
-      if (!this.account) return [];
-      return Object.values(this.account.balanceInfoMap).sort(
-        (a, b) => parseFloat(a.balance) - parseFloat(b.balance)
-      );
+      if (this.account && this.account.balanceInfoMap) {
+        return Object.values(this.account.balanceInfoMap).sort(
+          (a, b) => parseFloat(a.balance) - parseFloat(b.balance)
+        );
+      }
+      return [];
     }
   },
   watch: {
@@ -186,9 +188,15 @@ export default {
           page,
           this.txPageSize
         )
-        .then(txs => {
-          this.updateTxs(Object.seal(txs));
-        });
+        .then(
+          txs => {
+            this.updateTxs(Object.seal(txs || []));
+          },
+          err => {
+            console.error(`failed to get txs`, err);
+            this.updateTxs([]);
+          }
+        );
     },
     getUtxs2(page) {
       return this.getUtxs(page - 1);

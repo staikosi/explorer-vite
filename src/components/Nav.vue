@@ -1,5 +1,5 @@
 <template>
-  <div class="uk-background-secondary uk-width-medium">
+  <div class="uk-background-secondary uk-width-medium m-nav">
     <div class="m-logo"></div>
 
     <nav class="uk-padding uk-light" uk-navbar>
@@ -53,6 +53,17 @@
         </button>
       </div>
     </div>
+
+    <div class="uk-padding uk-light m-social">
+      <a
+        class="icon-social"
+        href="https://github.com/staikosi/explorer-vite"
+        title="GitHub"
+        ><span uk-icon="github"></span
+      ></a>
+      <!-- TODO twitter url -->
+      <a class="icon-social" title="Twitter"><span uk-icon="twitter"></span></a>
+    </div>
   </div>
 </template>
 
@@ -99,6 +110,11 @@ export default {
 <style lang="less">
 @import '~@/styles/vars.less';
 
+.m-nav {
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
 .m-logo {
   height: 50px;
   padding: 50px 0 0px 0;
@@ -107,5 +123,26 @@ export default {
   background-size: 90%;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+.m-social {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.icon-social {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+
+  & + & {
+    margin-left: 20px;
+  }
+
+  .uk-icon {
+    transform: scale(1.5);
+  }
 }
 </style>

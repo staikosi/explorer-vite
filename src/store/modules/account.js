@@ -26,24 +26,30 @@ export default {
     getAccountInfo({ state }, address) {
       return Vue.$api
         .request('ledger_getAccountInfoByAddress', address)
-        .then((res) => {
-          Object.entries(res.balanceInfoMap).forEach(
-            ([tti, { tokenInfo, balance }]) => {
-              res.balanceInfoMap[tti].balance = atos(
-                balance,
-                tokenInfo.decimals
-              );
-              tokenInfo.tokenId = tti;
-              tokenInfo.tokenSymbolView = tokenInfo.tokenSymbol + "-" + (Array(3).join("0") + tokenInfo.index).slice(-3);
-            }
-          );
+        .then(res => {
+          if (res.balanceInfoMap) {
+            Object.entries(res.balanceInfoMap).forEach(
+              ([tti, { tokenInfo, balance }]) => {
+                res.balanceInfoMap[tti].balance = atos(
+                  balance,
+                  tokenInfo.decimals
+                );
+                tokenInfo.tokenId = tti;
+                tokenInfo.tokenSymbolView =
+                  tokenInfo.tokenSymbol +
+                  '-' +
+                  (Array(3).join('0') + tokenInfo.index).slice(-3);
+              }
+            );
+          }
+
           state.account = Object.seal(res);
         });
     },
     getUtxCount({ state }, address) {
       return Vue.$api
         .request('ledger_getUnreceivedTransactionSummaryByAddress', address)
-        .then((res) => {
+        .then(res => {
           state.utxCount = res.blockCount;
         });
     },
@@ -54,8 +60,8 @@ export default {
           pageNum,
           state.txPageSize
         )
-        .then((res) => {
-          state.txs = res.map((tx) => {
+        .then(res => {
+          state.txs = res.map(tx => {
             tx.amount = atos(tx.amount, tx.tokenInfo.decimals);
             return Object.seal(tx);
           });
@@ -67,7 +73,7 @@ export default {
       state.txs = insertList(state.txs, tx, this.txPageSize);
     },
     updateTxs(state, txs) {
-      state.txs = txs.map((tx) => {
+      state.txs = txs.map(tx => {
         tx.amount = atos(tx.amount, tx.tokenInfo.decimals);
         return Object.seal(tx);
       });

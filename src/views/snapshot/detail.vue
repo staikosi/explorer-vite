@@ -66,6 +66,10 @@
           </tr>
         </tbody>
       </table>
+
+      <p class="uk-text-lead" v-if="block && !block.snapshotData">
+        No Account Blocks
+      </p>
     </div>
   </div>
 </template>
@@ -83,7 +87,7 @@ const {
 export default {
   beforeRouteEnter(to, from, next) {
     const heightorhash = to.params.heightorhash;
-    next((vm) => {
+    next(vm => {
       vm.getSbps();
       vm.getBlock(heightorhash);
     });
@@ -113,14 +117,14 @@ export default {
           ? vm.$api.request('ledger_getSnapshotBlockByHeight', height)
           : vm.$api.request('ledger_getSnapshotBlockByHash', heightorhash);
       return promise
-        .then((block) => {
+        .then(block => {
           vm.block = Object.seal(block);
           return block.height;
         })
-        .then((blockheight) => {
+        .then(blockheight => {
           vm.$api
             .request('ledger_getChunks', '' + blockheight, '' + blockheight)
-            .then((chunks) => {
+            .then(chunks => {
               vm.accountblocks = Object.seal(chunks[0].AccountBlocks);
             });
         });

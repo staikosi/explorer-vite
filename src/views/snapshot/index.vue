@@ -1,19 +1,24 @@
 <template>
   <div class="uk-background-muted m-view">
-    <div class="uk-padding uk-background-default">
-      <div class="uk-flex">
-        <div class="uk-card uk-flex-1">
+    <div class="uk-padding uk-background-default dashboard" uk-sticky>
+      <div class="uk-flex uk-flex-middle">
+        <div class="uk-card">
           <p class="m-p uk-text-muted">Block Height</p>
           <p class="m-p uk-text-bolder uk-text-emphasis">{{ height }}</p>
         </div>
         <hr class="uk-divider-vertical m-divider" />
-        <div class="uk-card uk-flex-1">
+        <search
+          placeholder="Vite Address / Block Hash / Snapshot Block Height / Token Id"
+          @search="uniSearch"
+          class="uk-flex-1"
+        />
+        <!-- <div class="uk-card uk-flex-1">
           <p class="m-p uk-text-muted">Latest Version</p>
           <p class="m-p uk-text-bolder uk-text-emphasis">
             <a
               :href="
                 'https://github.com/vitelabs/go-vite/releases/tag/' +
-                goViteVersion
+                  goViteVersion
               "
               target="_blank"
               >{{ goViteVersion }}</a
@@ -29,13 +34,13 @@
         <div class="uk-card uk-flex-1">
           <p class="m-p uk-text-muted">VITE / BTC</p>
           <p class="m-p uk-text-bolder uk-text-emphasis">{{ priceToBTC }}</p>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="uk-padding">
       <p class="uk-text-lead">Snapshot Blocks</p>
 
-      <search placeholder="Snapshot Block Height or Hash" @search="search" />
+      <!-- <search placeholder="Snapshot Block Height or Hash" @search="search" /> -->
 
       <table class="uk-table uk-table-divider">
         <thead>
@@ -81,7 +86,6 @@ import Pagination from '@/components/Pagination';
 import Search from '@/components/Search';
 import { log } from '@/utils/log';
 import { getSbpName } from '@/utils/_';
-import { VITE } from '@/utils/consts';
 
 const {
   mapState: snapshotMapState,
@@ -99,19 +103,17 @@ const { mapActions: tokenMapActions } = createNamespacedHelpers('token');
 export default {
   beforeRouteEnter(to, from, next) {
     const page = to.params.page ? to.params.page : 1;
-    next((vm) => {
-      vm.getGoViteVersion();
+    next(vm => {
       vm.getHeight().then(() => {
         return vm.getBlocks(page);
       });
       vm.getSbps();
-      vm.getTokenDetails(VITE);
-      vm.getPriceToBTC();
     });
   },
   data() {
     return {
-      loading: false
+      loading: false,
+      searching: false
     };
   },
   computed: {
@@ -140,7 +142,7 @@ export default {
       promises.unshift(
         this.$api
           .request('ledger_getSnapshotBlocks', end, this.pageSize)
-          .then((blocks) => {
+          .then(blocks => {
             this.updateSnapshots(blocks);
           })
       );
@@ -154,6 +156,32 @@ export default {
       if (value) {
         this.$router.push(`/snapshots/${value}`);
       }
+    },
+    uniSearch(value) {
+      value = value.trim();
+      if (!value || this.searching) {
+        return;
+      }
+
+      this.searching = true;
+      if (value.startsWith('tti_')) {
+        this.$router.push(`/tokens/${value}`);
+      } else if (value.startsWith('vite_')) {
+        this.$router.push(`/accounts/${value}`);
+      } else if (value.length === 64) {
+        this.$api
+          .request('ledger_getSnapshotBlockByHash', value)
+          .then(block => {
+            if (block) {
+              this.$router.push(`/snapshots/${value}`);
+            } else {
+              this.$router.push(`/tx/${value}`);
+            }
+            this.searching = false;
+          });
+      } else {
+        this.$router.push(`/snapshots/${value}`);
+      }
     }
   },
   components: {
@@ -165,12 +193,27 @@ export default {
 </script>
 
 <style lang="less">
+@import '~@/styles/vars.less';
+
 .m-p {
   margin: 0;
 }
 
 .m-divider {
-  height: auto;
+  height: 50px;
   margin: 0 30px;
+}
+
+.uk-sticky-below.dashboard {
+  border-bottom: 1px solid @border;
+}
+
+.dashboard {
+  padding-top: 30px;
+  padding-bottom: 30px;
+
+  &.uk-sticky-below {
+    border-bottom: 1px solid @border;
+  }
 }
 </style>

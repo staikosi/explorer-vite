@@ -2,29 +2,6 @@
   <div class="uk-background-secondary uk-width-medium">
     <div class="m-logo"></div>
 
-    <div class="uk-padding uk-padding-remove-vertical">
-      <label for="node_input" class="uk-form-label uk-light">Vite Node</label>
-      <input
-        id="node_input"
-        class="uk-input"
-        :class="{ 'uk-form-danger': error }"
-        v-model="cnode"
-        @focus="focus"
-      />
-      <div class="uk-flex uk-flex-between uk-margin-small-top">
-        <button
-          type="button"
-          class="uk-button uk-button-primary uk-button-small"
-          @click="save"
-        >
-          Save
-        </button>
-        <button type="button" class="uk-button uk-button-small" @click="reset">
-          Reset
-        </button>
-      </div>
-    </div>
-
     <nav class="uk-padding uk-light" uk-navbar>
       <ul class="uk-nav">
         <li>
@@ -53,6 +30,29 @@
         </li>
       </ul>
     </nav>
+
+    <div class="uk-padding uk-padding-remove-vertical">
+      <label for="node_input" class="uk-form-label uk-light">Vite RPC</label>
+      <input
+        id="node_input"
+        class="uk-input"
+        :class="{ 'uk-form-danger': error }"
+        v-model="cnode"
+        @focus="focus"
+      />
+      <div class="uk-flex uk-flex-between uk-margin-small-top">
+        <button
+          type="button"
+          class="uk-button uk-button-primary uk-button-small"
+          @click="save"
+        >
+          Save
+        </button>
+        <button type="button" class="uk-button uk-button-small" @click="reset">
+          Reset
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -100,8 +100,9 @@ export default {
 @import '~@/styles/vars.less';
 
 .m-logo {
-  height: 100px;
-  padding: 50px 0;
+  height: 50px;
+  padding: 50px 0 0px 0;
+  margin-top: 50px;
   background-image: url(../assets/logo.svg);
   background-size: 90%;
   background-repeat: no-repeat;

@@ -1,7 +1,7 @@
 <template>
   <div class="uk-background-muted m-view">
     <div class="uk-padding">
-      <p class="uk-text-lead">Snapshot Block Detail</p>
+      <p class="uk-text-lead">Overlook of Snapshot Block</p>
 
       <table class="uk-table uk-table-divider" v-if="block">
         <tbody class="uk-background-default">
@@ -33,7 +33,9 @@
         </tbody>
       </table>
 
-      <p class="uk-text-lead" v-if="block && block.snapshotData">TX</p>
+      <p class="uk-text-lead" v-if="block && block.snapshotData">
+        Account Blocks
+      </p>
 
       <table
         class="uk-table uk-table-divider"
@@ -41,8 +43,8 @@
       >
         <thead>
           <tr>
-            <th>Account Address</th>
             <th>Hash</th>
+            <th>Account Address</th>
             <th>Height</th>
             <th>Type</th>
           </tr>
@@ -50,14 +52,14 @@
         <tbody class="uk-background-default">
           <tr v-for="item in accountblocks" :key="item.hash">
             <td>
+              <v-link prefix="/txs/" :value="item.hash" full="true" />
+            </td>
+            <td>
               <v-link
                 prefix="/accounts/"
                 :value="item.accountAddress"
                 :full="true"
               />
-            </td>
-            <td>
-              <v-link prefix="/txs/" :value="item.hash" full="true" />
             </td>
             <td>{{ item.height }}</td>
             <td>{{ blockTypeText(item.blockType) }}</td>

@@ -52,7 +52,7 @@
         <tbody class="uk-background-default">
           <tr v-for="item in accountblocks" :key="item.hash">
             <td>
-              <v-link prefix="/txs/" :value="item.hash" full="true" />
+              <v-link prefix="/txs/" :value="item.hash" :full="true" />
             </td>
             <td>
               <v-link
@@ -112,6 +112,9 @@ export default {
     getBlock(heightorhash) {
       const vm = this;
       const height = parseInt(heightorhash, 10);
+      if (height == 1) {
+        return new Promise(() => 1);
+      }
       const promise =
         heightorhash.length !== 64
           ? vm.$api.request('ledger_getSnapshotBlockByHeight', height)

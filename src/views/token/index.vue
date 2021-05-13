@@ -2,9 +2,6 @@
   <div class="uk-background-muted m-view">
     <div class="uk-padding">
       <p class="uk-text-lead">Tokens ({{ total }})</p>
-
-      <search placeholder="Token Id" @search="getToken" />
-
       <table class="uk-table uk-table-divider">
         <thead>
           <tr>
@@ -45,7 +42,6 @@
 import { createNamespacedHelpers } from 'vuex';
 import VLink from '@/components/Link';
 import Pagination from '@/components/Pagination';
-import Search from '@/components/Search';
 import { atos } from '@/utils/_';
 
 const { mapState, mapActions, mapGetters } = createNamespacedHelpers('token');
@@ -93,8 +89,7 @@ export default {
   },
   components: {
     VLink,
-    Pagination,
-    Search
+    Pagination
   }
 };
 </script>

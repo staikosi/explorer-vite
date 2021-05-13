@@ -27,6 +27,7 @@ export default new Vuex.Store({
     getHeight({ rootState }) {
       return Vue.$api.request('ledger_getSnapshotChainHeight').then(height => {
         rootState.height = height;
+        return height;
       });
     },
     getGoViteVersion({ rootState }) {

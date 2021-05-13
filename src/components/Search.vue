@@ -5,6 +5,7 @@
       class="uk-input"
       :placeholder="placeholder"
       v-model="input"
+      v-on:keyup.enter="search"
     />
     <button
       type="button"

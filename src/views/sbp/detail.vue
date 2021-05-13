@@ -30,7 +30,7 @@
               <v-link
                 prefix="/accounts/"
                 :value="sbpstat.blockProducingAddress"
-                full="true"
+                :full="true"
               />
             </td>
           </tr>
@@ -40,7 +40,7 @@
               <v-link
                 prefix="/accounts/"
                 :value="sbpstat.stakeAddress"
-                full="true"
+                :full="true"
               />
             </td>
           </tr>
@@ -50,7 +50,7 @@
               <v-link
                 prefix="/accounts/"
                 :value="sbpstat.rewardWithdrawAddress"
-                full="true"
+                :full="true"
               />
             </td>
           </tr>
@@ -107,7 +107,7 @@ const {
 export default {
   beforeRouteEnter(to, from, next) {
     const sbpName = to.params.name;
-    next((vm) => {
+    next(vm => {
       vm.loadData(sbpName);
     });
   },
@@ -139,10 +139,10 @@ export default {
         promises.unshift(
           this.$api
             .request('contract_getSBPRewardByCycle', '' + start)
-            .then((res) => {
+            .then(res => {
               rewards.push(res);
             })
-            .catch((err) => console.log(err))
+            .catch(err => console.log(err))
         );
         start++;
       }

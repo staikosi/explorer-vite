@@ -1,42 +1,5 @@
 <template>
   <div class="uk-background-muted m-view">
-    <div class="uk-padding uk-background-default dashboard" uk-sticky>
-      <div class="uk-flex uk-flex-middle">
-        <div class="uk-card">
-          <p class="m-p uk-text-muted">Block Height</p>
-          <p class="m-p uk-text-bolder uk-text-emphasis">{{ height }}</p>
-        </div>
-        <hr class="uk-divider-vertical m-divider" />
-        <search
-          placeholder="Vite Address / Block Hash / Snapshot Block Height / Token Id"
-          @search="uniSearch"
-          class="uk-flex-1"
-        />
-        <!-- <div class="uk-card uk-flex-1">
-          <p class="m-p uk-text-muted">Latest Version</p>
-          <p class="m-p uk-text-bolder uk-text-emphasis">
-            <a
-              :href="
-                'https://github.com/vitelabs/go-vite/releases/tag/' +
-                  goViteVersion
-              "
-              target="_blank"
-              >{{ goViteVersion }}</a
-            >
-          </p>
-        </div>
-        <hr class="uk-divider-vertical m-divider" />
-        <div class="uk-card uk-flex-1">
-          <p class="m-p uk-text-muted">Total Supply</p>
-          <p class="m-p uk-text-bolder uk-text-emphasis">{{ circulating }}</p>
-        </div>
-        <hr class="uk-divider-vertical m-divider" />
-        <div class="uk-card uk-flex-1">
-          <p class="m-p uk-text-muted">VITE / BTC</p>
-          <p class="m-p uk-text-bolder uk-text-emphasis">{{ priceToBTC }}</p>
-        </div> -->
-      </div>
-    </div>
     <div class="uk-padding">
       <p class="uk-text-lead">Snapshot Blocks</p>
 
@@ -83,7 +46,6 @@
 import { mapState, mapActions, createNamespacedHelpers } from 'vuex';
 import VLink from '@/components/Link';
 import Pagination from '@/components/Pagination';
-import Search from '@/components/Search';
 import { log } from '@/utils/log';
 import { getSbpName } from '@/utils/_';
 
@@ -186,8 +148,7 @@ export default {
   },
   components: {
     VLink,
-    Pagination,
-    Search
+    Pagination
   }
 };
 </script>

@@ -2,6 +2,7 @@
   <div class="uk-flex v-layout">
     <slot name="left"></slot>
     <div class="uk-flex-1">
+      <slot name="header"></slot>
       <slot name="right"></slot>
     </div>
   </div>

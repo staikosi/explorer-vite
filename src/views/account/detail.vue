@@ -1,8 +1,5 @@
 <template>
   <div class="uk-padding">
-    <p class="uk-text-lead">Account</p>
-    <search placeholder="Vite address" @search="getAccountDetail" />
-
     <div v-if="account" class="uk-margin-top">
       <div>
         <ul class="uk-subnav uk-subnav-pill" uk-margin>
@@ -119,7 +116,6 @@
 import { createNamespacedHelpers } from 'vuex';
 import VLink from '@/components/Link';
 import Pagination from '@/components/Pagination';
-import Search from '@/components/Search';
 import { blockTypeText } from '@/utils/_';
 
 const {
@@ -211,8 +207,7 @@ export default {
   },
   components: {
     VLink,
-    Pagination,
-    Search
+    Pagination
   }
 };
 </script>

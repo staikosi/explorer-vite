@@ -1,5 +1,5 @@
 <template>
-  <div class="uk-background-muted m-view">
+  <div class="uk-background-muted">
     <div class="uk-padding">
       <p class="uk-text-lead">
         {{ sbpstat.name }}

@@ -43,8 +43,8 @@ import { mapState, mapActions } from 'vuex';
 import Search from '@/components/Search';
 
 export default {
-  created: function () {
-    this.getHeight().then((height) => {
+  created: function() {
+    this.getHeight().then(height => {
       console.log('current height: ' + height);
     });
   },
@@ -66,18 +66,16 @@ export default {
       } else if (value.startsWith('vite_') && value.length === 55) {
         vm.$router.push(`/accounts/${value}`);
       } else if (value.length === 64) {
-        vm.$api.request('ledger_getAccountBlockByHash', value).then((block) => {
+        vm.$api.request('ledger_getAccountBlockByHash', value).then(block => {
           if (block) {
             vm.$router.push(`/txs/${value}`);
           }
         });
-        vm.$api
-          .request('ledger_getSnapshotBlockByHash', value)
-          .then((block) => {
-            if (block) {
-              vm.$router.push(`/snapshots/${value}`);
-            }
-          });
+        vm.$api.request('ledger_getSnapshotBlockByHash', value).then(block => {
+          if (block) {
+            vm.$router.push(`/snapshots/${value}`);
+          }
+        });
       }
       console.log('search ' + value + ', length:' + value.length);
       console.log('' + vm.$router.currentRoute.path);
@@ -88,9 +86,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.v-layout {
-  min-height: 100%;
-}
-</style>

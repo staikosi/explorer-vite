@@ -1,5 +1,5 @@
 <template>
-  <div class="uk-background-muted m-view">
+  <div class="uk-background-muted">
     <div class="uk-padding">
       <p class="uk-text-lead">Delegated Nodes</p>
       <table class="uk-table uk-table-divider">
@@ -36,7 +36,7 @@ const { mapState, mapActions } = createNamespacedHelpers('sbp');
 
 export default {
   beforeRouteEnter(to, from, next) {
-    next((vm) => {
+    next(vm => {
       vm.getSbps();
     });
   },

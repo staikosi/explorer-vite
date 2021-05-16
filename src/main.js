@@ -10,6 +10,11 @@ import './index.less';
 
 Vue.config.productionTip = false;
 
+router.beforeEach((to, from, next) => {
+  store.dispatch('getHeight');
+  next();
+});
+
 Vue.use(VueRouter);
 
 new Vue({

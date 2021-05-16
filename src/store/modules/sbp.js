@@ -49,17 +49,6 @@ export default {
           }
         });
     },
-    getHourSbpStats({ state }) {
-      return Vue.$api.request('sbpstats_getHourSBPStats', 1, 0).then(res => {
-        state.hourSbpstats = {};
-        const m = res[res.length - 1].stat.stats;
-        for (var key in m) {
-          m[key].voteCnt = atos(m[key].voteCnt, 18);
-          state.hourSbpstats[key] = Object.seal(m[key]);
-        }
-      });
-    },
-
     getDayIndex({ state }) {
       return Vue.$api.request('sbpstats_time2Index', null, 2).then(res => {
         state.dayIndex = res;

@@ -121,13 +121,7 @@ export default {
   },
   methods: {
     ...mapMutations(['updateRewards']),
-    ...mapActions([
-      'getSbpStats',
-      'getHourSbpStats',
-      'getSbp',
-      'setSbpName',
-      'getDayIndex'
-    ]),
+    ...mapActions(['getSbpStats', 'getSbp', 'setSbpName', 'getDayIndex']),
     getRewards(page) {
       const offset = (page - 1) * this.pageSize;
       const end = Math.max(this.dayIndex - offset, 1);
@@ -159,11 +153,7 @@ export default {
       const vm = this;
       const page = 1;
       return vm.getDayIndex().then(() => {
-        Promise.all([
-          vm.getSbpStats(),
-          vm.getHourSbpStats(),
-          vm.getSbp(sbpName)
-        ])
+        Promise.all([vm.getSbpStats(), vm.getSbp(sbpName)])
           .then(() => {
             vm.setSbpName(sbpName);
           })

@@ -21,12 +21,26 @@ export function insertList(arr, newItem, prop, maxLen = Number.MAX_VALUE) {
   return arr.slice(0, maxLen);
 }
 
-export function atos(amount, decimals) {
+
+export function atos(amount, decimals, showDecimals = 8) {
   if (amount == 0 || decimals === 0) {
     return `${amount}`;
   }
+  if (amount.length > decimals) {
+    return withCommas(amount.slice(0, -decimals)) + "." + amount.slice(amount.length - decimals, amount.length).slice(0, showDecimals).replace(/0*$/, '');
+  } else {
+    const b = "0".repeat(decimals - amount.length) + amount.slice(0, showDecimals - (decimals - amount.length)).replace(/0*$/, '');
+    if (b.length != 0) {
+      return "0." + b;
+    } else {
+      const ab = "0".repeat(decimals - amount.length) + amount.slice(0, (decimals - amount.length)).replace(/0*$/, '');
+      return parseFloat(ab).toString();
+    }
+  }
+}
 
-  return `${amount}`.slice(0, -decimals);
+export function withCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 export function getSbpName(sbps, producer) {
@@ -55,5 +69,20 @@ export function blockTypeText(blockType) {
       return 'GenesisReceive';
     default:
       return 'Unknown';
+  }
+}
+export function isReceive(blockType) {
+  switch (blockType) {
+    case 4:
+      // return 'Receive';
+      return true;
+    case 5:
+      // return 'ReceiveError';
+      return true;
+    case 7:
+      // return 'GenesisReceive';
+      return true;
+    default:
+      return false;
   }
 }

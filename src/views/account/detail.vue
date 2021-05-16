@@ -13,7 +13,7 @@
             TXs
           </li>
           <li :class="{ 'uk-active': tab === 'utx' }" @click="tab = 'utx'">
-            Unreceived TXs
+            Pending To Receive
           </li>
         </ul>
 

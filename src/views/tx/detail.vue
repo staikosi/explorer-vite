@@ -17,6 +17,26 @@
             <td>BlockType</td>
             <td>{{ blockTypeText(block.blockType) }}</td>
           </tr>
+          <tr v-if="isReceive(block.blockType)">
+            <td>SendBlockHash</td>
+            <td>
+              <v-link
+                prefix="/txs/"
+                :value="block.sendBlockHash"
+                :full="true"
+              />
+            </td>
+          </tr>
+          <tr v-if="!isReceive(block.blockType)">
+            <td>ReceiveBlockHash</td>
+            <td>
+              <v-link
+                prefix="/txs/"
+                :value="block.receiveBlockHash"
+                :full="true"
+              />
+            </td>
+          </tr>
           <tr>
             <td>Time</td>
             <td>{{ new Date(block.timestamp * 1000).toLocaleString() }}</td>
@@ -28,34 +48,41 @@
           <tr>
             <td>FirstSnapshotHash</td>
             <td>
-              <v-link prefix="/snapshots/" :value="block.firstSnapshotHash" />
+              <v-link
+                prefix="/snapshots/"
+                :value="block.firstSnapshotHash"
+                :full="true"
+              />
             </td>
           </tr>
           <tr>
             <td>FromAddress</td>
             <td>
-              <v-link prefix="/accounts/" :value="block.fromAddress" />
+              <v-link
+                prefix="/accounts/"
+                :value="block.fromAddress"
+                :full="true"
+              />
             </td>
           </tr>
           <tr>
             <td>ToAddress</td>
             <td>
-              <v-link prefix="/accounts/" :value="block.toAddress" />
+              <v-link
+                prefix="/accounts/"
+                :value="block.toAddress"
+                :full="true"
+              />
             </td>
           </tr>
+
           <tr>
             <td>Token</td>
             <td>{{ block.tokenInfo.tokenSymbol }}</td>
           </tr>
           <tr>
             <td>Amount</td>
-            <td>{{ atos(block.amount) }}</td>
-          </tr>
-          <tr>
-            <td>SendBlockHash</td>
-            <td>
-              <v-link prefix="/txs/" :value="block.sendBlockHash" />
-            </td>
+            <td>{{ atos(block.amount, block.tokenInfo.decimals) }}</td>
           </tr>
         </tbody>
       </table>
@@ -64,7 +91,7 @@
 </template>
 
 <script>
-import { atos, blockTypeText } from '@/utils/_';
+import { atos, blockTypeText, isReceive } from '@/utils/_';
 import VLink from '@/components/Link';
 
 export default {
@@ -84,6 +111,7 @@ export default {
   methods: {
     atos,
     blockTypeText,
+    isReceive,
     getBlock(hash) {
       this.$api.request('ledger_getAccountBlockByHash', hash).then(block => {
         this.block = Object.seal(block);

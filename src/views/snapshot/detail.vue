@@ -1,7 +1,7 @@
 <template>
   <div class="uk-background-muted m-view">
     <div class="uk-padding">
-      <p class="uk-text-lead">Overlook of Snapshot Block</p>
+      <p class="uk-text-lead">Overview of Snapshot Block</p>
 
       <table class="uk-table uk-table-divider" v-if="block">
         <tbody class="uk-background-default">

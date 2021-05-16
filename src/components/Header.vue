@@ -3,7 +3,9 @@
     <div class="uk-flex uk-flex-middle">
       <div class="uk-card">
         <p class="m-p uk-text-muted">Block Height</p>
-        <p class="m-p uk-text-bolder uk-text-emphasis">{{ height }}</p>
+        <p class="m-p uk-text-bolder uk-text-emphasis">
+          {{ withCommas(height) }}
+        </p>
       </div>
       <hr class="uk-divider-vertical m-divider" />
       <search
@@ -41,10 +43,11 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import Search from '@/components/Search';
+import { withCommas } from '@/utils/_';
 
 export default {
   created: function () {
-    this.getHeight().then((height) => {
+    this.getHeight().then(height => {
       console.log('current height: ' + height);
     });
   },
@@ -53,6 +56,7 @@ export default {
   },
   methods: {
     ...mapActions(['getHeight']),
+    withCommas,
     search(value) {
       value = value.trim();
       if (!value) {
@@ -66,18 +70,16 @@ export default {
       } else if (value.startsWith('vite_') && value.length === 55) {
         vm.$router.push(`/accounts/${value}`);
       } else if (value.length === 64) {
-        vm.$api.request('ledger_getAccountBlockByHash', value).then((block) => {
+        vm.$api.request('ledger_getAccountBlockByHash', value).then(block => {
           if (block) {
             vm.$router.push(`/txs/${value}`);
           }
         });
-        vm.$api
-          .request('ledger_getSnapshotBlockByHash', value)
-          .then((block) => {
-            if (block) {
-              vm.$router.push(`/snapshots/${value}`);
-            }
-          });
+        vm.$api.request('ledger_getSnapshotBlockByHash', value).then(block => {
+          if (block) {
+            vm.$router.push(`/snapshots/${value}`);
+          }
+        });
       }
       console.log('search ' + value + ', length:' + value.length);
       console.log('' + vm.$router.currentRoute.path);

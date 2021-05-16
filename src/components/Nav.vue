@@ -59,10 +59,16 @@
         class="icon-social"
         href="https://github.com/staikosi/explorer-vite"
         title="GitHub"
-        ><span uk-icon="github"></span
-      ></a>
-      <!-- TODO twitter url -->
-      <a class="icon-social" title="Twitter"><span uk-icon="twitter"></span></a>
+      >
+        <span uk-icon="github" />
+      </a>
+      <a
+        class="icon-social"
+        href="https://twitter.com/viteview"
+        title="Twitter"
+      >
+        <span uk-icon="twitter" />
+      </a>
     </div>
   </div>
 </template>

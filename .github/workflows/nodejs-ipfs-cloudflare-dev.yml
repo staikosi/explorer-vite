@@ -1,4 +1,4 @@
-name: Nodejs-IPFS-Cloudflare
+name: Nodejs-IPFS-Cloudflare-DEV
 
 on:
   push:
@@ -17,6 +17,8 @@ jobs:
         
     steps:
     - uses: actions/checkout@v2
+      with:
+        ref: dev
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:

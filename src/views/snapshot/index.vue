@@ -1,10 +1,7 @@
 <template>
-  <div class="uk-background-muted m-view">
+  <div class="uk-background-muted">
     <div class="uk-padding">
       <p class="uk-text-lead">Snapshot Blocks</p>
-
-      <!-- <search placeholder="Snapshot Block Height or Hash" @search="search" /> -->
-
       <table class="uk-table uk-table-divider">
         <thead>
           <tr>

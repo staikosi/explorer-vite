@@ -90,9 +90,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.v-layout {
-  min-height: 100%;
-}
-</style>

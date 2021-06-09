@@ -23,11 +23,11 @@ export function insertList(arr, newItem, prop, maxLen = Number.MAX_VALUE) {
 
 
 export function atos(amount, decimals, showDecimals = 8) {
-  if (amount == 0 || decimals === 0) {
+  if (!amount || amount == 0 || !decimals || decimals === 0) {
     return `${amount}`;
   }
   if (amount.length > decimals) {
-    return withCommas(amount.slice(0, -decimals)) + "." + amount.slice(amount.length - decimals, amount.length).slice(0, showDecimals).replace(/0*$/, '');
+    return (withCommas(amount.slice(0, -decimals)) + "." + amount.slice(amount.length - decimals, amount.length).slice(0, showDecimals).replace(/0*$/, '')).replace(/\.*$/, '');
   } else {
     const b = "0".repeat(decimals - amount.length) + amount.slice(0, showDecimals - (decimals - amount.length)).replace(/0*$/, '');
     if (b.length != 0) {

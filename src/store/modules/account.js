@@ -53,10 +53,11 @@ export default {
           state.utxCount = res.blockCount;
         });
     },
-    getUtxs({ state }, pageNum) {
+    getUtxs({ state }, address, pageNum) {
       return Vue.$api
         .request(
           'ledger_getUnreceivedBlocksByAddress',
+          address,
           pageNum,
           state.txPageSize
         )
@@ -74,6 +75,15 @@ export default {
     },
     updateTxs(state, txs) {
       state.txs = txs.map(tx => {
+        if (tx.blockType == 7) {
+          tx.tokenInfo = {
+            decimals: 0,
+            index: 0,
+            tokenId: "",
+            tokenName: "",
+            tokenSymbol: "",
+          }
+        }
         tx.amount = atos(tx.amount, tx.tokenInfo.decimals);
         return Object.seal(tx);
       });

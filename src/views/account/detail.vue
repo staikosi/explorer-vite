@@ -78,18 +78,17 @@
           <table class="uk-table uk-table-divider">
             <thead>
               <tr>
-                <th>Height</th>
                 <th>Hash</th>
                 <th>Type</th>
                 <th>Token</th>
                 <th>From</th>
+                <th>Height</th>
                 <th>To</th>
                 <th>Amount</th>
               </tr>
             </thead>
             <tbody class="uk-background-default">
               <tr v-for="item in txs" :key="item.height">
-                <td>{{ item.height }}</td>
                 <td>
                   <v-link prefix="/txs/" :value="item.hash" />
                 </td>
@@ -98,6 +97,7 @@
                 <td>
                   <v-link prefix="/accounts/" :value="item.fromAddress" />
                 </td>
+                <td>{{ item.height }}</td>
                 <td>
                   <v-link prefix="/accounts/" :value="item.toAddress" />
                 </td>
@@ -118,12 +118,8 @@ import VLink from '@/components/Link';
 import Pagination from '@/components/Pagination';
 import { blockTypeText } from '@/utils/_';
 
-const {
-  mapState,
-  mapActions,
-  mapGetters,
-  mapMutations
-} = createNamespacedHelpers('account');
+const { mapState, mapActions, mapGetters, mapMutations } =
+  createNamespacedHelpers('account');
 
 export default {
   beforeRouteEnter(to, from, next) {
@@ -181,7 +177,7 @@ export default {
         .request(
           'ledger_getAccountBlocksByAddress',
           this.account.address,
-          page,
+          page - 1,
           this.txPageSize
         )
         .then(
@@ -195,7 +191,7 @@ export default {
         );
     },
     getUtxs2(page) {
-      return this.getUtxs(page - 1);
+      return this.getUtxs(this.account.address, page - 1);
     },
     getAccountDetail(address) {
       address = address.trim();

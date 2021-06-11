@@ -72,7 +72,7 @@
               </tr>
             </tbody>
           </table>
-          <pagination :page-num="txPageNum" @select="getTxs" />
+          <pagination :page-num="txPageNum" @select="getCurrentTxs" />
         </div>
         <div v-if="tab === 'utx'">
           <table class="uk-table uk-table-divider">
@@ -105,7 +105,7 @@
               </tr>
             </tbody>
           </table>
-          <pagination :page-num="utxPageNum" @select="getUtxs2" />
+          <pagination :page-num="utxPageNum" @select="getCurrentUtxs" />
         </div>
       </div>
     </div>
@@ -132,7 +132,9 @@ export default {
   },
   beforeRouteUpdate(to, from, next) {
     const address = to.params.address;
-    this.getAccountDetail(address).then(() => next());
+    this.getAccountDetail(address);
+    this.refreshByTab(this.tab);
+    next();
   },
   data() {
     return {
@@ -153,30 +155,36 @@ export default {
   },
   watch: {
     tab(value) {
-      switch (value) {
-        case 'balance': {
-          return;
-        }
-        case 'tx': {
-          this.getTxs(1);
-          return;
-        }
-        case 'utx': {
-          this.getUtxs2(1);
-          return;
-        }
-      }
+      this.refreshByTab(value);
     }
   },
   methods: {
     ...mapActions(['getAccountInfo', 'getUtxs', 'getUtxCount']),
     ...mapMutations(['addTx', 'updateTxs']),
     blockTypeText,
-    getTxs(page) {
+    getCurrentTxs(page) {
+      this.getTxs(this.account.address, page);
+    },
+    refreshByTab(tabVal) {
+      switch (tabVal) {
+        case 'balance': {
+          return;
+        }
+        case 'tx': {
+          this.getCurrentTxs(1);
+          return;
+        }
+        case 'utx': {
+          this.getCurrentUtxs(1);
+          return;
+        }
+      }
+    },
+    getTxs(address, page) {
       this.$api
         .request(
           'ledger_getAccountBlocksByAddress',
-          this.account.address,
+          address,
           page - 1,
           this.txPageSize
         )
@@ -190,8 +198,11 @@ export default {
           }
         );
     },
-    getUtxs2(page) {
-      return this.getUtxs(this.account.address, page - 1);
+    getCurrentUtxs(page) {
+      this.getUtxs2(this.account.address, page);
+    },
+    getUtxs2(address, page) {
+      return this.getUtxs(address, page - 1);
     },
     getAccountDetail(address) {
       address = address.trim();

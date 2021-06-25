@@ -28,7 +28,7 @@
             <td>Coinbase</td>
             <td>
               <v-link
-                prefix="/accounts/"
+                prefix="/account/"
                 :value="sbpstat.blockProducingAddress"
                 :full="true"
               />
@@ -38,7 +38,7 @@
             <td>Owner</td>
             <td>
               <v-link
-                prefix="/accounts/"
+                prefix="/account/"
                 :value="sbpstat.stakeAddress"
                 :full="true"
               />
@@ -48,7 +48,7 @@
             <td>Withdrawal Account</td>
             <td>
               <v-link
-                prefix="/accounts/"
+                prefix="/account/"
                 :value="sbpstat.rewardWithdrawAddress"
                 :full="true"
               />
@@ -97,12 +97,8 @@ import { createNamespacedHelpers } from 'vuex';
 import Pagination from '@/components/Pagination';
 import VLink from '@/components/Link';
 
-const {
-  mapState,
-  mapActions,
-  mapGetters,
-  mapMutations
-} = createNamespacedHelpers('sbp');
+const { mapState, mapActions, mapGetters, mapMutations } =
+  createNamespacedHelpers('sbp');
 
 export default {
   beforeRouteEnter(to, from, next) {

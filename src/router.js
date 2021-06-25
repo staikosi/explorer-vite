@@ -5,6 +5,7 @@ import SnapshotPage from './views/snapshot';
 import SnapshotDetail from './views/snapshot/detail';
 
 import AccountDetail from './views/account/detail';
+import Accounts from './views/account';
 
 import Token from './views/token';
 import TokenDetail from './views/token/detail';
@@ -20,11 +21,11 @@ const routes = [
     component: Sbp
   },
   {
-    path: '/sbps/:name',
+    path: '/sbp/:name',
     component: SbpDetail
   },
   {
-    path: '/tokens/:tid',
+    path: '/token/:tid',
     component: TokenDetail
   },
   {
@@ -32,15 +33,15 @@ const routes = [
     component: Token
   },
   {
-    path: '/accounts/:address',
+    path: '/account/:address',
     component: AccountDetail
   },
   {
     path: '/accounts',
-    component: AccountDetail
+    component: Accounts
   },
   {
-    path: '/txs/:hash',
+    path: '/tx/:hash',
     component: TxDetail
   },
   {
@@ -48,7 +49,7 @@ const routes = [
     component: Snapshot
   },
   {
-    path: '/snapshots/:heightorhash',
+    path: '/snapshot/:heightorhash',
     component: SnapshotDetail
   },
   {

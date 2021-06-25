@@ -20,18 +20,14 @@
           <tr v-if="isReceive(block.blockType)">
             <td>SendBlockHash</td>
             <td>
-              <v-link
-                prefix="/txs/"
-                :value="block.sendBlockHash"
-                :full="true"
-              />
+              <v-link prefix="/tx/" :value="block.sendBlockHash" :full="true" />
             </td>
           </tr>
           <tr v-if="!isReceive(block.blockType)">
             <td>ReceiveBlockHash</td>
             <td>
               <v-link
-                prefix="/txs/"
+                prefix="/tx/"
                 :value="block.receiveBlockHash"
                 :full="true"
               />
@@ -49,7 +45,7 @@
             <td>FirstSnapshotHash</td>
             <td>
               <v-link
-                prefix="/snapshots/"
+                prefix="/snapshot/"
                 :value="block.firstSnapshotHash"
                 :full="true"
               />
@@ -59,7 +55,7 @@
             <td>FromAddress</td>
             <td>
               <v-link
-                prefix="/accounts/"
+                prefix="/account/"
                 :value="block.fromAddress"
                 :full="true"
               />
@@ -69,7 +65,7 @@
             <td>ToAddress</td>
             <td>
               <v-link
-                prefix="/accounts/"
+                prefix="/account/"
                 :value="block.toAddress"
                 :full="true"
               />

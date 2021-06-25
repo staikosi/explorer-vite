@@ -19,5 +19,27 @@ export const settings = {
 		net: 'Buidl',
 		selected: false,
 		url: 'https://buidl.vite.net/gvite',
-	}]
+	}],
+	accounts: [
+		{
+			desc: 'Quota Contract',
+			address: 'vite_0000000000000000000000000000000000000003f6af7459b9'
+		},
+		{
+			desc: 'Consensus Contract',
+			address: 'vite_0000000000000000000000000000000000000004d28108e76b'
+		},
+		{
+			desc: 'Token Issuance Contract',
+			address: 'vite_000000000000000000000000000000000000000595292d996d'
+		},
+		{
+			desc: 'Dex Fund Contract',
+			address: 'vite_0000000000000000000000000000000000000006e82b8ba657'
+		},
+		{
+			desc: 'Dex Trade Contract',
+			address: 'vite_00000000000000000000000000000000000000079710f19dc7'
+		},
+	]
 }

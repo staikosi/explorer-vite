@@ -2,6 +2,20 @@
   <div class="uk-padding">
     <div v-if="account" class="uk-margin-top">
       <div>
+        <table class="uk-table uk-table-divider">
+          <tbody class="uk-background-default">
+            <tr>
+              <td>Address</td>
+              <td>{{ account.address }}</td>
+            </tr>
+            <tr>
+              <td>Height</td>
+              <td>{{ account.blockCount }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
         <ul class="uk-subnav uk-subnav-pill" uk-margin>
           <li
             :class="{ 'uk-active': tab === 'balance' }"
@@ -32,7 +46,7 @@
                 <td>{{ item.tokenInfo.tokenSymbolView }}</td>
                 <td>{{ item.tokenInfo.tokenName }}</td>
                 <td>
-                  <v-link prefix="/tokens/" :value="item.tokenInfo.tokenId" />
+                  <v-link prefix="/token/" :value="item.tokenInfo.tokenId" />
                 </td>
                 <td>{{ item.balance }}</td>
               </tr>
@@ -57,15 +71,15 @@
               <tr v-for="item in txs" :key="item.height">
                 <td>{{ item.height }}</td>
                 <td>
-                  <v-link prefix="/txs/" :value="item.hash" />
+                  <v-link prefix="/tx/" :value="item.hash" />
                 </td>
                 <td>{{ blockTypeText(item.blockType) }}</td>
                 <td>{{ item.tokenInfo.tokenSymbol }}</td>
                 <td>
-                  <v-link prefix="/accounts/" :value="item.fromAddress" />
+                  <v-link prefix="/account/" :value="item.fromAddress" />
                 </td>
                 <td>
-                  <v-link prefix="/accounts/" :value="item.toAddress" />
+                  <v-link prefix="/account/" :value="item.toAddress" />
                 </td>
                 <td>{{ item.amount }}</td>
                 <td>{{ new Date(item.timestamp * 1000).toLocaleString() }}</td>
@@ -90,16 +104,16 @@
             <tbody class="uk-background-default">
               <tr v-for="item in txs" :key="item.height">
                 <td>
-                  <v-link prefix="/txs/" :value="item.hash" />
+                  <v-link prefix="/tx/" :value="item.hash" />
                 </td>
                 <td>{{ blockTypeText(item.blockType) }}</td>
                 <td>{{ item.tokenInfo.tokenSymbol }}</td>
                 <td>
-                  <v-link prefix="/accounts/" :value="item.fromAddress" />
+                  <v-link prefix="/account/" :value="item.fromAddress" />
                 </td>
                 <td>{{ item.height }}</td>
                 <td>
-                  <v-link prefix="/accounts/" :value="item.toAddress" />
+                  <v-link prefix="/account/" :value="item.toAddress" />
                 </td>
                 <td>{{ item.amount }}</td>
               </tr>

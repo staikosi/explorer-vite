@@ -17,17 +17,14 @@
           <tr v-for="item in snapshots" :key="item.height">
             <td>{{ item.height }}</td>
             <td>
-              <v-link prefix="/snapshots/" :value="item.hash" />
+              <v-link prefix="/snapshot/" :value="item.hash" />
             </td>
             <td>{{ new Date(item.timestamp * 1000).toLocaleString() }}</td>
             <td>
-              <v-link prefix="/accounts/" :value="item.producer" />
+              <v-link prefix="/account/" :value="item.producer" />
             </td>
             <td>
-              <v-link
-                prefix="/sbps/"
-                :value="getSbpName(sbps, item.producer)"
-              />
+              <v-link prefix="/sbp/" :value="getSbpName(sbps, item.producer)" />
             </td>
             <td>{{ Object.keys(item.snapshotData || {}).length }}</td>
           </tr>
@@ -111,7 +108,7 @@ export default {
     search(value) {
       value = value.trim();
       if (value) {
-        this.$router.push(`/snapshots/${value}`);
+        this.$router.push(`/snapshot/${value}`);
       }
     },
     uniSearch(value) {
@@ -122,22 +119,22 @@ export default {
 
       this.searching = true;
       if (value.startsWith('tti_')) {
-        this.$router.push(`/tokens/${value}`);
+        this.$router.push(`/token/${value}`);
       } else if (value.startsWith('vite_')) {
-        this.$router.push(`/accounts/${value}`);
+        this.$router.push(`/account/${value}`);
       } else if (value.length === 64) {
         this.$api
           .request('ledger_getSnapshotBlockByHash', value)
           .then(block => {
             if (block) {
-              this.$router.push(`/snapshots/${value}`);
+              this.$router.push(`/snapshot/${value}`);
             } else {
               this.$router.push(`/tx/${value}`);
             }
             this.searching = false;
           });
       } else {
-        this.$router.push(`/snapshots/${value}`);
+        this.$router.push(`/snapshot/${value}`);
       }
     }
   },

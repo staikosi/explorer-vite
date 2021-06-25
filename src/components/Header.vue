@@ -41,20 +41,20 @@ export default {
       }
       let vm = this;
       if (/^-?\d+$/.test(value)) {
-        vm.$router.push(`/snapshots/${value}`).catch(() => {});
+        vm.$router.push(`/snapshot/${value}`).catch(() => {});
       } else if (value.startsWith('tti_') && value.length === 28) {
-        vm.$router.push(`/tokens/${value}`).catch(() => {});
+        vm.$router.push(`/token/${value}`).catch(() => {});
       } else if (value.startsWith('vite_') && value.length === 55) {
-        vm.$router.push(`/accounts/${value}`).catch(() => {});
+        vm.$router.push(`/account/${value}`).catch(() => {});
       } else if (value.length === 64) {
         vm.$api.request('ledger_getAccountBlockByHash', value).then(block => {
           if (block) {
-            vm.$router.push(`/txs/${value}`).catch(() => {});
+            vm.$router.push(`/tx/${value}`).catch(() => {});
           }
         });
         vm.$api.request('ledger_getSnapshotBlockByHash', value).then(block => {
           if (block) {
-            vm.$router.push(`/snapshots/${value}`).catch(() => {});
+            vm.$router.push(`/snapshot/${value}`).catch(() => {});
           }
         });
       }

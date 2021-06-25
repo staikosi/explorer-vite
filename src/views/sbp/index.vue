@@ -15,11 +15,11 @@
           <tr v-for="(item, index) in sbps" :key="item.sbpName">
             <td>{{ index + 1 }}</td>
             <td>
-              <v-link prefix="/sbps/" :value="item.sbpName" />
+              <v-link prefix="/sbp/" :value="item.sbpName" />
             </td>
             <td>{{ item.votes }}</td>
             <td class="m-hash-tag m-text-truncate">
-              <v-link prefix="/accounts/" :value="item.blockProducingAddress" />
+              <v-link prefix="/account/" :value="item.blockProducingAddress" />
             </td>
           </tr>
         </tbody>

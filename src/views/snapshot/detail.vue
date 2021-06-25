@@ -21,7 +21,7 @@
             <td>SBP</td>
             <td>
               <v-link
-                prefix="/sbps/"
+                prefix="/sbp/"
                 :value="getSbpName(sbps, block.producer)"
               />
             </td>
@@ -52,11 +52,11 @@
         <tbody class="uk-background-default">
           <tr v-for="item in accountblocks" :key="item.hash">
             <td>
-              <v-link prefix="/txs/" :value="item.hash" :full="true" />
+              <v-link prefix="/tx/" :value="item.hash" />
             </td>
             <td>
               <v-link
-                prefix="/accounts/"
+                prefix="/account/"
                 :value="item.accountAddress"
                 :full="true"
               />
@@ -79,10 +79,8 @@ import { getSbpName, blockTypeText } from '@/utils/_';
 import { createNamespacedHelpers } from 'vuex';
 import VLink from '@/components/Link';
 
-const {
-  mapState: sbpMapState,
-  mapActions: sbpMapActions
-} = createNamespacedHelpers('sbp');
+const { mapState: sbpMapState, mapActions: sbpMapActions } =
+  createNamespacedHelpers('sbp');
 
 export default {
   beforeRouteEnter(to, from, next) {

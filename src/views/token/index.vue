@@ -20,14 +20,14 @@
             <td>{{ item.tokenSymbolView }}</td>
             <td>{{ item.tokenName }}</td>
             <td>
-              <v-link prefix="/tokens/" :value="item.tokenId" />
+              <v-link prefix="/token/" :value="item.tokenId" />
             </td>
             <td>{{ item.decimals }}</td>
             <td>{{ item.totalSupply }}</td>
             <td class="m-hash-tag m-text-truncate">{{ item.maxSupply }}</td>
             <td>{{ item.isReIssuable ? 'YES' : 'NO' }}</td>
             <td>
-              <v-link prefix="/accounts/" :value="item.owner" />
+              <v-link prefix="/account/" :value="item.owner" />
             </td>
           </tr>
         </tbody>
@@ -83,7 +83,7 @@ export default {
     getToken(tti) {
       tti = tti.trim();
       if (tti) {
-        this.$router.push(`/tokens/${tti}`);
+        this.$router.push(`/token/${tti}`);
       }
     }
   },

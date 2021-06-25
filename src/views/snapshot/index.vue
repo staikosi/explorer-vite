@@ -52,10 +52,8 @@ const {
   mapGetters: snapshotMapGetters
 } = createNamespacedHelpers('snapshot');
 
-const {
-  mapState: sbpMapState,
-  mapActions: sbpMapActions
-} = createNamespacedHelpers('sbp');
+const { mapState: sbpMapState, mapActions: sbpMapActions } =
+  createNamespacedHelpers('sbp');
 
 const { mapActions: tokenMapActions } = createNamespacedHelpers('token');
 
@@ -76,14 +74,14 @@ export default {
     };
   },
   computed: {
-    ...mapState(['height', 'goViteVersion', 'priceToBTC', 'circulating']),
+    ...mapState(['height']),
     ...snapshotMapState(['snapshots', 'pageSize']),
     ...snapshotMapGetters(['pageNumber']),
     ...sbpMapState(['sbps'])
   },
   methods: {
     ...snapshotMapMutations(['updateSnapshots', 'update']),
-    ...mapActions(['getHeight', 'getGoViteVersion', 'getPriceToBTC']),
+    ...mapActions(['getHeight']),
     ...sbpMapActions(['getSbps']),
     ...tokenMapActions(['getTokenDetails']),
     getBlocks(page) {

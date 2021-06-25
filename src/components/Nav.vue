@@ -31,26 +31,57 @@
       </ul>
     </nav>
 
-    <div class="uk-padding uk-padding-remove-vertical">
-      <label for="node_input" class="uk-form-label uk-light">Vite RPC</label>
-      <input
-        id="node_input"
-        class="uk-input"
-        :class="{ 'uk-form-danger': error }"
-        v-model="cnode"
-        @focus="focus"
-      />
-      <div class="uk-flex uk-flex-between uk-margin-small-top">
-        <button
-          type="button"
-          class="uk-button uk-button-primary uk-button-small"
-          @click="save"
-        >
-          Save
-        </button>
-        <button type="button" class="uk-button uk-button-small" @click="reset">
-          Reset
-        </button>
+    <nav class="uk-padding uk-light" uk-navbar>
+      <ul class="uk-nav">
+        <li></li>
+      </ul>
+    </nav>
+    <!-- This is the modal -->
+    <div id="modal-example" uk-modal>
+      <div class="uk-padding uk-modal-dialog uk-modal-body m-node-settings">
+        <ul class="uk-list uk-list-striped">
+          <li v-for="item in nodes" :key="item.url">
+            <span
+              v-if="item.selected"
+              class="uk-label uk-label-success"
+              style="width: 60px"
+              >{{ item.net }}</span
+            >
+            <span
+              v-else
+              style="display: flex; width: 80px; justify-content: center"
+              >{{ item.net }}</span
+            >
+            <b>{{ item.url }}</b>
+            <div>
+              <button
+                @click="switchNode(item)"
+                style="padding-right: 10px"
+                uk-icon="check"
+              ></button>
+              <button @click="removeNode(item)" uk-icon="trash"></button>
+            </div>
+          </li>
+          <li>
+            <select
+              class="uk-select m-left uk-form-small"
+              v-model="vnode.net"
+              style="width: 100px"
+            >
+              <option>Mainnet</option>
+              <option>Buidl</option>
+              <option>Custom</option>
+            </select>
+            <input
+              class="uk-input m-left uk-form-small"
+              style="width: 300px"
+              v-model="vnode.url"
+              @focus="focus"
+            />
+
+            <button @click="addNode" uk-icon="check"></button>
+          </li>
+        </ul>
       </div>
     </div>
 
@@ -69,45 +100,46 @@
       >
         <span uk-icon="twitter" />
       </a>
+      <a
+        href="#modal-example"
+        class="icon-social"
+        style="top: 10px"
+        uk-toggle
+        >{{ node.net }}</a
+      >
     </div>
   </div>
 </template>
 
 <script>
 import { mapMutations, mapState } from 'vuex';
-import { SET_NODE, RESET_NODE } from '@/store/mutations';
+import { SWITCH_NODE, ADD_NODE, REMOVE_NODE } from '@/store/mutations';
 
 export default {
   data() {
     return {
-      cnode: '',
+      vnode: { net: 'Mainnet', url: '', selected: false },
       error: false
     };
   },
   computed: {
-    ...mapState(['node'])
+    ...mapState(['node']),
+    ...mapState(['nodes'])
   },
-  created() {
-    if (!this.cnode) {
-      this.cnode = this.node;
-    }
-  },
+  created() {},
   methods: {
-    ...mapMutations([SET_NODE, RESET_NODE]),
+    ...mapMutations([REMOVE_NODE, ADD_NODE, SWITCH_NODE]),
     focus() {
       this.error = false;
     },
-    save() {
-      if (!this.cnode) {
-        this.error = true;
-        return;
-      }
-      console.log(this.cnode);
-      this[SET_NODE](this.cnode);
+    switchNode(vn) {
+      this[SWITCH_NODE](vn);
     },
-    reset() {
-      this[RESET_NODE]();
-      this.cnode = this.node;
+    removeNode(vn) {
+      this[REMOVE_NODE](vn);
+    },
+    addNode() {
+      this[ADD_NODE](Object.assign({}, this.vnode));
     }
   }
 };
@@ -150,5 +182,16 @@ export default {
   .uk-icon {
     transform: scale(1.5);
   }
+}
+.m-node-settings {
+  width: 800px;
+}
+.m-node-settings > ul > ::before {
+  content: none;
+}
+.m-node-settings > ul > li {
+  display: flex;
+  justify-content: space-between;
+  content: none;
 }
 </style>

@@ -5,17 +5,15 @@ import { log } from '@/utils/log';
 export const api = (store) => {
   const _ = (node) => {
     if (!node) return;
-
-    const api = new Api(node);
-    log(`api`, api);
+    log(`node`, node.url);
+    const api = new Api(node.url);
     Vue.prototype.$api = api;
     Vue.$api = api;
   };
-
   _(store.state.node);
 
   store.subscribe(({ type, payload }) => {
-    if (type === 'SET_NODE') {
+    if (type === 'SWITCH_NODE') {
       _(payload);
     }
   });

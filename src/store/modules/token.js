@@ -1,6 +1,4 @@
 import Vue from 'vue';
-import { VITE } from '@/utils/consts';
-import { atos } from '@/utils/_';
 
 export default {
   namespaced: true,
@@ -32,14 +30,11 @@ export default {
           });
         });
     },
-    getTokenDetails({ state, rootState }, tti) {
+    getTokenDetails({ state }, tti) {
       return Vue.$api.request('contract_getTokenInfoById', tti).then(res => {
         res.tokenSymbolView =
           res.tokenSymbol + '-' + (Array(3).join('0') + res.index).slice(-3);
         state.token = res;
-        if (tti === VITE) {
-          rootState.circulating = atos(res.totalSupply, res.decimals);
-        }
       });
     }
   },

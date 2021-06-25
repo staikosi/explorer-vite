@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { NODE } from '@/utils/consts';
+import { settings } from '@/utils/consts';
 import { api } from './plugin';
 import * as mutations from './mutations';
 import snapshot from './modules/snapshot';
@@ -14,59 +14,64 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   plugins: [api],
   state: {
-    // current node connected
-    node: get('NODE') || NODE,
+    nodes: JSON.parse(get('NODES')) || settings.nodes,
+    node: (JSON.parse(get('NODES')) || settings.nodes).filter(v => v.selected === true)[0],
     // current snapshot chain height
     height: '',
-    goViteVersion: '',
-    priceToBTC: '',
-    circulating: ''
+
   },
-  getters: {},
   actions: {
     getHeight({ rootState }) {
       return Vue.$api.request('ledger_getSnapshotChainHeight').then(height => {
         rootState.height = height;
         return height;
       });
-    },
-    getGoViteVersion({ rootState }) {
-      return fetch(
-        'https://api.github.com/repos/vitelabs/go-vite/releases/latest'
-      )
-        .then(res => res.json())
-        .then(data => {
-          rootState.goViteVersion = data.tag_name;
-        });
-    },
-    getPriceToBTC({ rootState }) {
-      return fetch('https://api.binance.com/api/v3/ticker/price?symbol=VITEBTC')
-        .then(res => res.json())
-        .then(data => {
-          rootState.priceToBTC = data.price;
-        });
     }
   },
   mutations: {
     [mutations.SET_NODE](state, node) {
-      if (state.node === node) {
+      state.nodes.push(node);
+      set('NODES', JSON.stringify(state.nodes));
+    },
+    [mutations.ADD_NODE](state, node) {
+      let nn = Array.from(state.nodes);
+      if (nn.filter(v => v.url === node.url).length > 0) {
         return;
       }
+      state.nodes.push(node);
+      console.log('nodes', state.nodes);
+      set('NODES', JSON.stringify(state.nodes));
+    },
+    [mutations.REMOVE_NODE](state, node) {
+      state.nodes.forEach((v, i, arr) => {
+        if (!node.selected && v.url === node.url) {
+          arr.splice(i, 1);
+        }
+      });
+      set('NODES', JSON.stringify(state.nodes));
+    },
+    [mutations.SWITCH_NODE](state, node) {
+      if (node.selected) {
+        return;
+      }
+      state.nodes.forEach(v => {
+        if (v.selected) {
+          v.selected = false;
+        }
+        if (v.url === node.url) {
+          v.selected = true;
+        }
+      });
       state.node = node;
-      set('NODE', node);
+      set('NODES', JSON.stringify(state.nodes));
     },
-    [mutations.RESET_NODE](state) {
-      if (state.node === NODE) {
+    [mutations.RESET_NODES](state) {
+      if (state.nodes === settings.nodes) {
         return;
       }
-      state.node = NODE;
-      remove('NODE');
+      state.nodes = settings.nodes;
+      remove('NODES');
     },
-    [mutations.UPDATE](state, payload) {
-      for (let key in payload) {
-        state[key] = payload[key];
-      }
-    }
   },
   modules: {
     snapshot,

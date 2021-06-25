@@ -126,19 +126,21 @@ export default {
     const address = to.params.address;
     next(vm => {
       if (address) {
-        vm.getAccountDetail(address);
+        vm.curAddr = address;
+        vm.getAccountDetail(vm.curAddr);
       }
     });
   },
   beforeRouteUpdate(to, from, next) {
-    const address = to.params.address;
-    this.getAccountDetail(address);
+    this.curAddr = to.params.address;
+    this.getAccountDetail(this.curAddr);
     this.refreshByTab(this.tab);
     next();
   },
   data() {
     return {
-      tab: 'balance'
+      tab: 'balance',
+      curAddr: ''
     };
   },
   computed: {
@@ -163,7 +165,7 @@ export default {
     ...mapMutations(['addTx', 'updateTxs']),
     blockTypeText,
     getCurrentTxs(page) {
-      this.getTxs(this.account.address, page);
+      this.getTxs(this.curAddr, page);
     },
     refreshByTab(tabVal) {
       switch (tabVal) {
@@ -199,10 +201,7 @@ export default {
         );
     },
     getCurrentUtxs(page) {
-      this.getUtxs2(this.account.address, page);
-    },
-    getUtxs2(address, page) {
-      return this.getUtxs(address, page - 1);
+      return this.getUtxs(this.curAddr, page - 1);
     },
     getAccountDetail(address) {
       address = address.trim();

@@ -4,7 +4,7 @@ export default {
   namespaced: true,
   state() {
     return {
-      pageSize: 10,
+      pageSize: 500,
       tokens: [],
       token: {},
       total: 0

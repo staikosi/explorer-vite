@@ -1,7 +1,25 @@
 <template>
   <div class="uk-background-muted">
     <div class="uk-padding">
-      <p class="uk-text-lead">Tokens ({{ total }})</p>
+      <div class="uk-flex uk-flex-between">
+        <p class="uk-text-lead">Tokens ({{ total }})</p>
+        <form
+          class="uk-search uk-search-default"
+          style="width: 300px; margin: 0 0 20px 0"
+        >
+          <a
+            onclick="return false;"
+            class="uk-search-icon-flip"
+            uk-search-icon
+          ></a>
+          <input
+            class="uk-search-input"
+            type="search"
+            v-model="searchText"
+            placeholder="Filter By Token Symbol"
+          />
+        </form>
+      </div>
       <table class="uk-table uk-table-divider">
         <thead>
           <tr>
@@ -54,17 +72,28 @@ export default {
   },
   data() {
     return {
-      loading: false
+      loading: false,
+      searchText: ''
     };
   },
   computed: {
     ...mapState({
-      tokens: state =>
-        state.tokens.map(token => ({
-          ...token,
-          totalSupply: atos(token.totalSupply, token.decimals),
-          maxSupply: atos(token.maxSupply, token.decimals)
-        })),
+      tokens(state) {
+        return state.tokens
+          .filter(token => {
+            console.log(token.tokenSymbol, this.searchText);
+            if (!this.searchText || this.searchText === '') {
+              return true;
+            } else {
+              return token.tokenSymbol.indexOf(this.searchText) != -1;
+            }
+          })
+          .map(token => ({
+            ...token,
+            totalSupply: atos(token.totalSupply, token.decimals),
+            maxSupply: atos(token.maxSupply, token.decimals)
+          }));
+      },
       total: state => state.total
     }),
     ...mapGetters(['pageNum'])

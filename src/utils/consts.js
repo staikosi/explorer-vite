@@ -13,6 +13,11 @@ export const settings = {
 	nodes: [{
 		net: 'Mainnet',
 		selected: true,
-		url: 'http://116.63.158.55:48132',
+		url: 'https://node.vite.net/gvite',
+	},
+	{
+		net: 'Buidl',
+		selected: false,
+		url: 'https://buidl.vite.net/gvite',
 	}]
 }

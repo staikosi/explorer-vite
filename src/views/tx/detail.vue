@@ -88,6 +88,7 @@
 
 <script>
 import { atos, blockTypeText, isReceive } from '@/utils/_';
+import { nullToken } from '@/utils/consts';
 import VLink from '@/components/Link';
 
 export default {
@@ -110,6 +111,9 @@ export default {
     isReceive,
     getBlock(hash) {
       this.$api.request('ledger_getAccountBlockByHash', hash).then(block => {
+        if (!block.tokenInfo) {
+          block.tokenInfo = nullToken;
+        }
         this.block = Object.seal(block);
       });
     }

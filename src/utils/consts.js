@@ -7,7 +7,13 @@ export const PAGE_SIZE = 10;
 
 export const VITE = 'tti_5649544520544f4b454e6e40';
 
-
+export const nullToken = {
+	decimals: 0,
+	index: 0,
+	tokenId: "",
+	tokenName: "",
+	tokenSymbol: "",
+}
 
 export const settings = {
 	nodes: [{

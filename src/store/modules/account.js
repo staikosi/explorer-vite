@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import { atos, insertList } from '@/utils/_';
+import { nullToken } from '@/utils/consts';
+
 
 export default {
   namespaced: true,
@@ -75,14 +77,8 @@ export default {
     },
     updateTxs(state, txs) {
       state.txs = txs.map(tx => {
-        if (tx.blockType == 7) {
-          tx.tokenInfo = {
-            decimals: 0,
-            index: 0,
-            tokenId: "",
-            tokenName: "",
-            tokenSymbol: "",
-          }
+        if (!tx.tokenInfo) {
+          tx.tokenInfo = nullToken;
         }
         tx.amount = atos(tx.amount, tx.tokenInfo.decimals);
         return Object.seal(tx);

@@ -29,10 +29,6 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    [mutations.SET_NODE](state, node) {
-      state.nodes.push(node);
-      set('NODES', JSON.stringify(state.nodes));
-    },
     [mutations.ADD_NODE](state, node) {
       let nn = Array.from(state.nodes);
       if (nn.filter(v => v.url === node.url).length > 0) {

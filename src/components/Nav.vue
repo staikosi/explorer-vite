@@ -112,6 +112,7 @@
 </template>
 
 <script>
+import UIkit from 'uikit';
 import { mapMutations, mapState } from 'vuex';
 import { SWITCH_NODE, ADD_NODE, REMOVE_NODE } from '@/store/mutations';
 
@@ -139,7 +140,17 @@ export default {
       this[REMOVE_NODE](vn);
     },
     addNode() {
-      this[ADD_NODE](Object.assign({}, this.vnode));
+      const url = this.vnode.url;
+      if (url.startsWith('http://') || url.startsWith('https://')) {
+        this[ADD_NODE](Object.assign({}, this.vnode));
+        this.vnode.url = '';
+      } else {
+        UIkit.notification({
+          message: 'Error url ' + url,
+          status: 'warning',
+          timeout: 300
+        });
+      }
     }
   }
 };

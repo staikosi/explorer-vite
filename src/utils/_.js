@@ -39,6 +39,10 @@ export function atos(amount, decimals, showDecimals = 8) {
   }
 }
 
+export function tokenView(tokenSymbol, tokenIndex) {
+  return tokenSymbol + '-' + (Array(3).join('0') + tokenIndex).slice(-3);
+}
+
 export function withCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

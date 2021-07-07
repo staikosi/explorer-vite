@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import { tokenView } from '@/utils/_';
 
 export default {
   namespaced: true,
@@ -22,10 +23,7 @@ export default {
         .then(res => {
           state.total = res.totalCount;
           state.tokens = res.tokenInfoList.map(token => {
-            token.tokenSymbolView =
-              token.tokenSymbol +
-              '-' +
-              (Array(3).join('0') + token.index).slice(-3);
+            token.tokenSymbolView = tokenView(token.tokenSymbol, token.index);
             return token;
           });
         });

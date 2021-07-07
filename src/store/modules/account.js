@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { atos, insertList } from '@/utils/_';
+import { atos, insertList, tokenView } from '@/utils/_';
 import { nullToken } from '@/utils/consts';
 
 
@@ -37,10 +37,7 @@ export default {
                   tokenInfo.decimals
                 );
                 tokenInfo.tokenId = tti;
-                tokenInfo.tokenSymbolView =
-                  tokenInfo.tokenSymbol +
-                  '-' +
-                  (Array(3).join('0') + tokenInfo.index).slice(-3);
+                tokenInfo.tokenSymbolView = tokenView(tokenInfo.tokenSymbol, tokenInfo.index);
               }
             );
           }
@@ -79,6 +76,8 @@ export default {
       state.txs = txs.map(tx => {
         if (!tx.tokenInfo) {
           tx.tokenInfo = nullToken;
+        } else {
+          tx.tokenInfo.tokenSymbolView = tokenView(tx.tokenInfo.tokenSymbol, tx.tokenInfo.index);
         }
         tx.amount = atos(tx.amount, tx.tokenInfo.decimals);
         return Object.seal(tx);

@@ -74,11 +74,13 @@
 
           <tr>
             <td>Token</td>
-            <td>{{ block.tokenInfo.tokenSymbol }}</td>
+            <td>
+              {{ block.tokenInfo.tokenSymbolView }}
+            </td>
           </tr>
           <tr>
             <td>Amount</td>
-            <td>{{ atos(block.amount, block.tokenInfo.decimals) }}</td>
+            <td>{{ block.amount }}</td>
           </tr>
         </tbody>
       </table>
@@ -87,7 +89,7 @@
 </template>
 
 <script>
-import { atos, blockTypeText, isReceive } from '@/utils/_';
+import { atos, blockTypeText, isReceive, tokenView } from '@/utils/_';
 import { nullToken } from '@/utils/consts';
 import VLink from '@/components/Link';
 
@@ -113,7 +115,13 @@ export default {
       this.$api.request('ledger_getAccountBlockByHash', hash).then(block => {
         if (!block.tokenInfo) {
           block.tokenInfo = nullToken;
+        } else {
+          block.tokenInfo.tokenSymbolView = tokenView(
+            block.tokenInfo.tokenSymbol,
+            block.tokenInfo.index
+          );
         }
+        block.amount = atos(block.amount, block.tokenInfo.decimals);
         this.block = Object.seal(block);
       });
     }

@@ -2,9 +2,13 @@ FROM node:14.7.0 as build
 
 WORKDIR /app
 
+COPY package*.json /app
+
+RUN npm ci
+
 COPY . /app
 
-RUN npm ci && npm run build
+RUN npm run build
 
 FROM nginx:1.20.1
 

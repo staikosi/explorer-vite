@@ -11,7 +11,6 @@ import store from './store';
 
 import App from './App.vue';
 
-
 UIkit.use(Icons);
 
 Vue.config.productionTip = false;

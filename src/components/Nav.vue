@@ -85,7 +85,7 @@
       </div>
     </div>
 
-    <div class="uk-padding uk-light m-social">
+    <div class="uk-padding uk-light uk-width-medium m-social">
       <a
         class="icon-social"
         href="https://github.com/staikosi/explorer-vite"

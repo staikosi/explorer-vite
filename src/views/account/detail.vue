@@ -6,7 +6,7 @@
           <tbody class="uk-background-default">
             <tr>
               <td>Address</td>
-              <td>{{ account.address }}</td>
+              <td>{{ account.address }} ({{ account.accountType }})</td>
             </tr>
             <tr>
               <td>Height</td>

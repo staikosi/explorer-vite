@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import { atos, insertList, tokenView } from '@/utils/_';
+import { addrType } from '@/utils/vite';
 import { nullToken } from '@/utils/consts';
 
 
@@ -41,6 +42,7 @@ export default {
               }
             );
           }
+          res.accountType = addrType(res.address);
 
           state.account = Object.seal(res);
         });

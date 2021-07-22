@@ -10,6 +10,7 @@
   "dependencies": {
     "@vite/vitejs": "^2.3.12",
     "@vite/vitejs-http": "^2.3.12",
+    "clipboard": "^2.0.8",
     "core-js": "^3.6.5",
     "uikit": "^3.6.20",
     "vue": "^2.6.11",

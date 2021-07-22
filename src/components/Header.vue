@@ -41,6 +41,7 @@ export default {
       }
       let vm = this;
       if (/^-?\d+$/.test(value)) {
+        // number
         vm.$router.push(`/snapshot/${value}`).catch(() => {});
       } else if (value.startsWith('tti_') && value.length === 28) {
         vm.$router.push(`/token/${value}`).catch(() => {});

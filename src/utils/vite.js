@@ -10,3 +10,16 @@ export function addrType(addr) {
 	const addrType = wallet.isValidAddress(addr);
 	return addrTypes[addrType];
 }
+
+
+export function isHash(value) {
+	return value.length === 64;
+}
+
+export function isAddress(value) {
+	return value.startsWith('vite_') && value.length === 55;
+}
+
+export function isTti(value) {
+	return value.startsWith('tti_') && value.length === 28;
+}

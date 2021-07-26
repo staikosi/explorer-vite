@@ -21,6 +21,7 @@
 import { mapState, mapActions } from 'vuex';
 import Search from '@/components/Search';
 import { withCommas } from '@/utils/_';
+import { isHash, isAddress, isTti } from '@/utils/vite';
 
 export default {
   created: function () {
@@ -41,13 +42,13 @@ export default {
       }
       let vm = this;
       if (/^-?\d+$/.test(value)) {
-        // number
+        // is number ?
         vm.$router.push(`/snapshot/${value}`).catch(() => {});
-      } else if (value.startsWith('tti_') && value.length === 28) {
+      } else if (isTti(value)) {
         vm.$router.push(`/token/${value}`).catch(() => {});
-      } else if (value.startsWith('vite_') && value.length === 55) {
+      } else if (isAddress(value)) {
         vm.$router.push(`/account/${value}`).catch(() => {});
-      } else if (value.length === 64) {
+      } else if (isHash(value)) {
         vm.$api.request('ledger_getAccountBlockByHash', value).then(block => {
           if (block) {
             vm.$router.push(`/tx/${value}`).catch(() => {});

@@ -91,16 +91,16 @@
             </td>
           </tr>
           <tr v-if="block.data">
-            <td>Data(Base64)</td>
+            <td>Data</td>
             <td>
               <!-- <v-link prefix="/log/" :value="block.vmLogHash" :full="true" /> -->
               <!-- <textarea v-model="block.data"> </textarea> -->
-              <div
-                class="uk-panel uk-text-break uk-text-small"
-                style="width: 700px"
-              >
-                {{ block.data }}
-              </div>
+
+              <v-blockdata
+                :value="block.data"
+                :blockType="block.blockType"
+                :to="block.toAddress"
+              ></v-blockdata>
             </td>
           </tr>
         </tbody>
@@ -113,6 +113,7 @@
 import { atos, blockTypeText, isReceive, tokenView } from '@/utils/_';
 import { nullToken } from '@/utils/consts';
 import VLink from '@/components/Link';
+import VBlockdata from '@/components/Blockdata';
 
 export default {
   beforeRouteEnter(to, from, next) {
@@ -133,25 +134,29 @@ export default {
     blockTypeText,
     isReceive,
     getBlock(hash) {
-      this.$api.request('ledger_getAccountBlockByHash', hash).then(block => {
-        if (!block.tokenInfo) {
-          block.tokenInfo = nullToken;
-        } else {
-          block.tokenInfo.tokenSymbolView = tokenView(
-            block.tokenInfo.tokenSymbol,
-            block.tokenInfo.index
-          );
-        }
-        if (block.data) {
-          block.hexData = Buffer.from(block.data, 'base64').toString('hex');
-        }
-        block.amount = atos(block.amount, block.tokenInfo.decimals);
-        this.block = Object.seal(block);
-      });
+      return this.$api
+        .request('ledger_getAccountBlockByHash', hash)
+        .then(block => {
+          if (!block.tokenInfo) {
+            block.tokenInfo = nullToken;
+          } else {
+            block.tokenInfo.tokenSymbolView = tokenView(
+              block.tokenInfo.tokenSymbol,
+              block.tokenInfo.index
+            );
+          }
+          if (block.data) {
+            block.hexData = Buffer.from(block.data, 'base64').toString('hex');
+          }
+          block.amount = atos(block.amount, block.tokenInfo.decimals);
+
+          this.block = Object.seal(block);
+        });
     }
   },
   components: {
-    VLink
+    VLink,
+    VBlockdata
   }
 };
 </script>

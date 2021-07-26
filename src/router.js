@@ -15,6 +15,8 @@ import SbpDetail from './views/sbp/detail';
 
 import TxDetail from './views/tx/detail';
 
+import LogDetail from './views/log/detail';
+
 const routes = [
   {
     path: '/sbps',
@@ -43,6 +45,10 @@ const routes = [
   {
     path: '/tx/:hash',
     component: TxDetail
+  },
+  {
+    path: '/log/:hash',
+    component: LogDetail
   },
   {
     path: '/',

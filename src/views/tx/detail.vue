@@ -82,6 +82,27 @@
             <td>Amount</td>
             <td>{{ block.amount }}</td>
           </tr>
+          <tr v-if="block.vmLogHash">
+            <td>Event Log</td>
+            <td>
+              <!-- <v-link prefix="/log/" :value="block.vmLogHash" :full="true" /> -->
+
+              {{ block.vmLogHash }}
+            </td>
+          </tr>
+          <tr v-if="block.data">
+            <td>Data(Base64)</td>
+            <td>
+              <!-- <v-link prefix="/log/" :value="block.vmLogHash" :full="true" /> -->
+              <!-- <textarea v-model="block.data"> </textarea> -->
+              <div
+                class="uk-panel uk-text-break uk-text-small"
+                style="width: 700px"
+              >
+                {{ block.data }}
+              </div>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -120,6 +141,9 @@ export default {
             block.tokenInfo.tokenSymbol,
             block.tokenInfo.index
           );
+        }
+        if (block.data) {
+          block.hexData = Buffer.from(block.data, 'base64').toString('hex');
         }
         block.amount = atos(block.amount, block.tokenInfo.decimals);
         this.block = Object.seal(block);

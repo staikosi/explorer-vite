@@ -22,12 +22,15 @@ export default {
 
   computed: {
     parameters() {
+      // console.log(vite_abi);
       const contract_abi = vite_abi[this.to];
       if (contract_abi && this.blockType === 2) {
-        const abi_json =
-          contract_abi[
-            Buffer.from(this.value, 'base64').slice(0, 4).toString('hex')
-          ];
+        // console.log(contract_abi);
+        const id = Buffer.from(this.value, 'base64')
+          .slice(0, 4)
+          .toString('hex');
+
+        const abi_json = contract_abi.find(x => x['id'] === id);
 
         const params = Buffer.from(this.value, 'base64')
           .slice(4)

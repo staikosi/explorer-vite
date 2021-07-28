@@ -27,18 +27,26 @@ export function isTti(value) {
   return value.startsWith('tti_') && value.length === 28;
 }
 
-export const vite_abi = fill_method_sig(contract_abi);
+export function isBuiltInContract(value) {
+  return contract_abi[value] ? true : false;
+}
 
+export const vite_abi = loop_abi(JSON.parse(JSON.stringify(contract_abi)));
 
-function fill_method_sig(_abi) {
-  let result = {};
-  for (const key in _abi) {
-    result[key] = {};
-    _abi[key].forEach(ele => {
-      if (ele['type'] === 'function') {
-        result[key][abi.encodeFunctionSignature(ele)] = ele;
-      }
-    })
+function loop_abi(abi_map) {
+  for (const key in abi_map) {
+    fill_id(abi_map[key]);
   }
-  return result;
+  return abi_map;
+}
+
+export function fill_id(address_abi) {
+  address_abi.forEach(item => {
+    if (item['type'] === 'function' && item['id'] === undefined) {
+      item['id'] = abi.encodeFunctionSignature(item);
+    } else if (item['type'] === 'event' && item['id'] === undefined) {
+      item['id'] = abi.encodeLogSignature(item);
+    }
+  });
+  return address_abi;
 }

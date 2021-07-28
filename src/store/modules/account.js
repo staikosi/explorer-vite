@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import { atos, insertList, tokenView } from '@/utils/_';
-import { addrType } from '@/utils/vite';
-import { nullToken } from '@/utils/consts';
+import { addrType, isBuiltInContract } from '@/utils/vite';
+import { nullToken, contract_abi } from '@/utils/consts';
+import { set, get } from '@/utils/storage';
 
 
 export default {
@@ -11,7 +12,7 @@ export default {
       account: null,
       txPageSize: 10,
       txs: [],
-      utxCount: 0
+      utxCount: 0,
     };
   },
   getters: {
@@ -68,6 +69,13 @@ export default {
             return Object.seal(tx);
           });
         });
+    },
+    getAbiJson(_, address) {
+      if (isBuiltInContract(address)) {
+        console.log(contract_abi);
+        return JSON.stringify(contract_abi[address]);
+      }
+      return get('ABI_' + address);
     }
   },
   mutations: {
@@ -84,6 +92,12 @@ export default {
         tx.amount = atos(tx.amount, tx.tokenInfo.decimals);
         return Object.seal(tx);
       });
+    },
+    setAbiJson(state, params) {
+      if (isBuiltInContract(params.address)) {
+        return
+      }
+      set('ABI_' + params.address, params.abiJson);
     }
   }
 };

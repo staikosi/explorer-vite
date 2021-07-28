@@ -47,7 +47,7 @@ const routes = [
     component: TxDetail
   },
   {
-    path: '/log/:hash',
+    path: '/account/:address/log/:hash',
     component: LogDetail
   },
   {

@@ -85,17 +85,17 @@
           <tr v-if="block.vmLogHash">
             <td>Event Log</td>
             <td>
-              <!-- <v-link prefix="/log/" :value="block.vmLogHash" :full="true" /> -->
-
-              {{ block.vmLogHash }}
+              <v-link
+                :prefix="'/account/' + block.address + '/log/'"
+                :value="block.vmLogHash"
+                :full="true"
+              />
+              <!-- {{ block.vmLogHash }} -->
             </td>
           </tr>
           <tr v-if="block.data">
             <td>Data</td>
             <td>
-              <!-- <v-link prefix="/log/" :value="block.vmLogHash" :full="true" /> -->
-              <!-- <textarea v-model="block.data"> </textarea> -->
-
               <v-blockdata
                 :value="block.data"
                 :blockType="block.blockType"

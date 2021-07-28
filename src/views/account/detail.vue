@@ -29,6 +29,14 @@
           <li :class="{ 'uk-active': tab === 'utx' }" @click="tab = 'utx'">
             Pending To Receive
           </li>
+
+          <li
+            v-if="isContract(account.address)"
+            :class="{ 'uk-active': tab === 'abi' }"
+            @click="tab = 'abi'"
+          >
+            Contract
+          </li>
         </ul>
 
         <div v-if="tab === 'balance'">
@@ -121,6 +129,22 @@
           </table>
           <pagination :page-num="utxPageNum" @select="getCurrentUtxs" />
         </div>
+        <div v-if="tab === 'abi'">
+          <div>
+            <textarea
+              class="uk-textarea uk-form-small uk-width-2-3"
+              placeholder="abi json"
+              v-model="curAbiJson"
+            ></textarea>
+
+            <button
+              class="uk-button uk-button-secondary"
+              @click="saveAbiJson()"
+            >
+              Save ABI
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -131,6 +155,7 @@ import { createNamespacedHelpers } from 'vuex';
 import VLink from '@/components/Link';
 import Pagination from '@/components/Pagination';
 import { blockTypeText } from '@/utils/_';
+import { isContract } from '@/utils/vite';
 
 const { mapState, mapActions, mapGetters, mapMutations } =
   createNamespacedHelpers('account');
@@ -154,7 +179,8 @@ export default {
   data() {
     return {
       tab: 'balance',
-      curAddr: ''
+      curAddr: '',
+      curAbiJson: ''
     };
   },
   computed: {
@@ -175,9 +201,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getAccountInfo', 'getUtxs', 'getUtxCount']),
-    ...mapMutations(['addTx', 'updateTxs']),
+    ...mapActions(['getAccountInfo', 'getUtxs', 'getUtxCount', 'getAbiJson']),
+    ...mapMutations(['addTx', 'updateTxs', 'setAbiJson']),
     blockTypeText,
+    isContract,
     getCurrentTxs(page) {
       this.getTxs(this.curAddr, page);
     },
@@ -192,6 +219,12 @@ export default {
         }
         case 'utx': {
           this.getCurrentUtxs(1);
+          return;
+        }
+        case 'abi': {
+          this.getAbiJson(this.curAddr).then(value => {
+            this.curAbiJson = value;
+          });
           return;
         }
       }
@@ -223,6 +256,11 @@ export default {
         this.getAccountInfo(address);
         this.getUtxCount(address);
       }
+    },
+    saveAbiJson() {
+      const json = this.curAbiJson;
+      console.log(json);
+      this.setAbiJson({ address: this.curAddr, abiJson: json });
     }
   },
   components: {

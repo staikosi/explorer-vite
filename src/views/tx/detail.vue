@@ -5,13 +5,33 @@
 
       <table class="uk-table uk-table-divider" v-if="block">
         <tbody class="uk-background-default">
-          <tr>
+          <tr v-if="block.height > 0">
             <td>Height</td>
             <td>{{ block.height }}</td>
           </tr>
           <tr>
             <td>Hash</td>
             <td>{{ block.hash }}</td>
+          </tr>
+          <tr v-if="block.primaryBlockHash">
+            <td>Primary Hash</td>
+            <td>
+              <v-link
+                prefix="/tx/"
+                :value="block.primaryBlockHash"
+                :full="true"
+              />
+            </td>
+          </tr>
+          <tr v-if="block.primaryBlockHeight">
+            <td>Primary Height</td>
+            <td>{{ block.primaryBlockHeight }}</td>
+          </tr>
+          <tr>
+            <td>Address</td>
+            <td>
+              <v-link prefix="/account/" :value="block.address" :full="true" />
+            </td>
           </tr>
           <tr>
             <td>BlockType</td>
@@ -51,7 +71,7 @@
               />
             </td>
           </tr>
-          <tr>
+          <tr v-if="isReceive(block.blockType)">
             <td>FromAddress</td>
             <td>
               <v-link
@@ -61,7 +81,7 @@
               />
             </td>
           </tr>
-          <tr>
+          <tr v-if="!isReceive(block.blockType)">
             <td>ToAddress</td>
             <td>
               <v-link
@@ -69,6 +89,14 @@
                 :value="block.toAddress"
                 :full="true"
               />
+            </td>
+          </tr>
+          <tr v-if="block.triggeredSendBlockList">
+            <td>Triggered Blocks</td>
+            <td>
+              <tr v-for="item in block.triggeredSendBlockList" :key="item.hash">
+                <v-link prefix="/tx/" :value="item.hash" :full="true" />
+              </tr>
             </td>
           </tr>
 
@@ -133,25 +161,35 @@ export default {
     atos,
     blockTypeText,
     isReceive,
-    getBlock(hash) {
-      return this.$api
-        .request('ledger_getAccountBlockByHash', hash)
-        .then(block => {
-          if (!block.tokenInfo) {
-            block.tokenInfo = nullToken;
-          } else {
-            block.tokenInfo.tokenSymbolView = tokenView(
-              block.tokenInfo.tokenSymbol,
-              block.tokenInfo.index
-            );
-          }
-          if (block.data) {
-            block.hexData = Buffer.from(block.data, 'base64').toString('hex');
-          }
-          block.amount = atos(block.amount, block.tokenInfo.decimals);
+    async getBlock(hash) {
+      const block = await this.$api.request(
+        'ledger_getAccountBlockByHash',
+        hash
+      );
+      if (!block.tokenInfo) {
+        block.tokenInfo = nullToken;
+      } else {
+        block.tokenInfo.tokenSymbolView = tokenView(
+          block.tokenInfo.tokenSymbol,
+          block.tokenInfo.index
+        );
+      }
+      if (block.data) {
+        block.hexData = Buffer.from(block.data, 'base64').toString('hex');
+      }
+      block.amount = atos(block.amount, block.tokenInfo.decimals);
 
-          this.block = Object.seal(block);
-        });
+      if (block.height === '0') {
+        const completeBlock = await this.$api.request(
+          'ledger_getCompleteBlockByHash',
+          hash
+        );
+        if (completeBlock) {
+          block.primaryBlockHash = completeBlock.hash;
+          block.primaryBlockHeight = completeBlock.height;
+        }
+      }
+      this.block = Object.seal(block);
     }
   },
   components: {

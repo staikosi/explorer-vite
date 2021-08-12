@@ -8,7 +8,11 @@
           <tr v-for="item in events" :key="item.id">
             <td>{{ item.name }}</td>
             <td>
-              <textarea v-model="item.inputs"> </textarea>
+              <textarea
+                class="uk-textarea uk-form-small uk-width-2-3"
+                placeholder=""
+                v-model="item.inputs"
+              ></textarea>
             </td>
           </tr>
         </tbody>
@@ -22,6 +26,7 @@ import { createNamespacedHelpers } from 'vuex';
 import { atos, blockTypeText, isReceive } from '@/utils/_';
 import { fill_id } from '@/utils/vite';
 import { abi } from '@vite/vitejs';
+import beautify from 'json-beautify';
 
 const { mapActions } = createNamespacedHelpers('account');
 
@@ -73,7 +78,8 @@ export default {
         this.events.push({
           id: log['topics'][0],
           name: abiItem['name'],
-          inputs: JSON.stringify(result)
+          // inputs: JSON.stringify(result, null, 2, 100)
+          inputs: beautify(result, null, 2, 100)
         });
       });
     }

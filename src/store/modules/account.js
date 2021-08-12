@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import { atos, insertList, tokenView } from '@/utils/_';
-import { addrType, isBuiltInContract } from '@/utils/vite';
+import { addrType, isBuiltInContract, fill_id } from '@/utils/vite';
 import { nullToken, contract_abi } from '@/utils/consts';
 import { set, get } from '@/utils/storage';
 
@@ -76,6 +76,16 @@ export default {
         return JSON.stringify(contract_abi[address]);
       }
       return get('ABI_' + address);
+    },
+    getAbi(_, address) {
+      if (isBuiltInContract(address)) {
+        return contract_abi[address];
+      } else {
+        const abiJson = get('ABI_' + address);
+        if (abiJson) {
+          return fill_id(JSON.parse(abiJson));
+        }
+      }
     }
   },
   mutations: {

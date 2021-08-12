@@ -10,8 +10,10 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex';
 import { vite_abi } from '@/utils/vite';
 import { abi } from '@vite/vitejs';
+const { mapActions } = createNamespacedHelpers('account');
 
 export default {
   props: {
@@ -19,17 +21,24 @@ export default {
     to: String,
     blockType: Number
   },
+  data() {
+    return {
+      addr_abi: undefined
+    };
+  },
 
   computed: {
     parameters() {
       // console.log(vite_abi);
-      const contract_abi = vite_abi[this.to];
-      if (contract_abi && this.blockType === 2) {
+
+      if (this.addr_abi && this.blockType === 2) {
+        const contract_abi = this.addr_abi;
         // console.log(contract_abi);
         const id = Buffer.from(this.value, 'base64')
           .slice(0, 4)
           .toString('hex');
-
+        console.log(contract_abi);
+        console.log(vite_abi);
         const abi_json = contract_abi.find(x => x['id'] === id);
 
         const params = Buffer.from(this.value, 'base64')
@@ -40,6 +49,14 @@ export default {
       }
       return undefined;
     }
+  },
+  methods: {
+    ...mapActions(['getAbi'])
+  },
+  created() {
+    this.getAbi(this.to).then(abi => {
+      this.addr_abi = abi;
+    });
   }
 };
 </script>

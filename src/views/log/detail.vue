@@ -10,6 +10,7 @@
             <td>
               <textarea
                 class="uk-textarea uk-form-small uk-width-2-3"
+                rows="6"
                 placeholder=""
                 v-model="item.inputs"
               ></textarea>
@@ -24,7 +25,6 @@
 <script>
 import { createNamespacedHelpers } from 'vuex';
 import { atos, blockTypeText, isReceive } from '@/utils/_';
-import { fill_id } from '@/utils/vite';
 import { abi } from '@vite/vitejs';
 import beautify from 'json-beautify';
 
@@ -52,16 +52,14 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['getAbiJson']),
+    ...mapActions(['getAbi']),
     atos,
     blockTypeText,
     isReceive,
     async getLogs(hash) {
       const logs = await this.$api.request('ledger_getVmLogListByHash', hash);
       this.logs = JSON.stringify(logs);
-      const abiJson = await this.getAbiJson(this.curAddr);
-      // console.log(abiJson);
-      const abiObj = fill_id(JSON.parse(abiJson));
+      const abiObj = await this.getAbi(this.curAddr);
 
       // console.log(abiObj);
       logs.forEach(log => {

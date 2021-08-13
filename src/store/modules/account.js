@@ -1,8 +1,9 @@
 import Vue from 'vue';
 import { atos, insertList, tokenView } from '@/utils/_';
-import { addrType, isBuiltInContract, fill_id } from '@/utils/vite';
+import { addrType, isBuiltInContract, fill_id, getAbiJsonFromGithub } from '@/utils/vite';
 import { nullToken, contract_abi } from '@/utils/consts';
 import { set, get } from '@/utils/storage';
+
 
 
 export default {
@@ -13,6 +14,7 @@ export default {
       txPageSize: 10,
       txs: [],
       utxCount: 0,
+      cachedAbi: {},
     };
   },
   getters: {
@@ -70,20 +72,20 @@ export default {
           });
         });
     },
-    getAbiJson(_, address) {
-      if (isBuiltInContract(address)) {
-        console.log(contract_abi);
-        return JSON.stringify(contract_abi[address]);
-      }
-      return get('ABI_' + address);
-    },
-    getAbi(_, address) {
-      if (isBuiltInContract(address)) {
+    async getAbi({ state }, address) {
+      if (address in contract_abi) {
         return contract_abi[address];
+      } else if (address in state.cachedAbi) {
+        return state.cachedAbi[address];
       } else {
-        const abiJson = get('ABI_' + address);
+        let abiJson = get('ABI_' + address);
+        if (!abiJson) {
+          abiJson = await getAbiJsonFromGithub(address);
+        }
         if (abiJson) {
-          return fill_id(JSON.parse(abiJson));
+          const abi = fill_id(JSON.parse(abiJson));
+          state.cachedAbi[address] = abi;
+          return abi;
         }
       }
     }

@@ -201,7 +201,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getAccountInfo', 'getUtxs', 'getUtxCount', 'getAbiJson']),
+    ...mapActions(['getAccountInfo', 'getUtxs', 'getUtxCount', 'getAbi']),
     ...mapMutations(['addTx', 'updateTxs', 'setAbiJson']),
     blockTypeText,
     isContract,
@@ -222,8 +222,8 @@ export default {
           return;
         }
         case 'abi': {
-          this.getAbiJson(this.curAddr).then(value => {
-            this.curAbiJson = value;
+          this.getAbi(this.curAddr).then(value => {
+            this.curAbiJson = JSON.stringify(value);
           });
           return;
         }

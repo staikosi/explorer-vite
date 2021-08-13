@@ -1,6 +1,6 @@
 import { wallet, abi } from '@vite/vitejs';
 import { contract_abi } from './consts';
-
+import axios from 'axios';
 const addrTypes = {
   0: 'Illegal',
   1: 'User',
@@ -49,4 +49,11 @@ export function fill_id(address_abi) {
     }
   });
   return address_abi;
+}
+
+
+export async function getAbiJsonFromGithub(address) {
+  const url = `https://raw.githubusercontent.com/vitelabs/vite-contracts/master/${address}/abi.json`;
+  const content = await axios.get(url);
+  return JSON.stringify(content.data);
 }

@@ -36,12 +36,21 @@ export default {
         const id = Buffer.from(this.value, 'base64')
           .slice(0, 4)
           .toString('hex');
+        // console.log(id, JSON.stringify(contract_abi));
         const abi_json = contract_abi.find(x => x['id'] === id);
+
+        // console.log(JSON.stringify(abi_json));
+
         const params = Buffer.from(this.value, 'base64')
           .slice(4)
           .toString('hex');
         // console.log(abi_json, params);
-        return [abi_json['name'], ...abi.decodeParameters(abi_json, params)];
+
+        if (id === Buffer.from(this.value, 'base64').toString('hex')) {
+          return [abi_json['name'], '[]'];
+        } else {
+          return [abi_json['name'], ...abi.decodeParameters(abi_json, params)];
+        }
       }
       return undefined;
     }

@@ -11,7 +11,6 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
-import { vite_abi } from '@/utils/vite';
 import { abi } from '@vite/vitejs';
 const { mapActions } = createNamespacedHelpers('account');
 

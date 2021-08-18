@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import { atos, insertList, tokenView } from '@/utils/_';
-import { addrType, isBuiltInContract, fill_id, getAbiJsonFromGithub } from '@/utils/vite';
-import { nullToken, contract_abi } from '@/utils/consts';
+import { addrType, isBuiltInContract, fill_id, getAbiJsonFromGithub, vite_abi } from '@/utils/vite';
+import { nullToken } from '@/utils/consts';
 import { set, get } from '@/utils/storage';
 
 
@@ -73,8 +73,8 @@ export default {
         });
     },
     async getAbi({ state }, address) {
-      if (address in contract_abi) {
-        return contract_abi[address];
+      if (address in vite_abi) {
+        return vite_abi[address];
       } else if (address in state.cachedAbi) {
         return state.cachedAbi[address];
       } else {

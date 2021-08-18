@@ -37,10 +37,7 @@ export default {
         const id = Buffer.from(this.value, 'base64')
           .slice(0, 4)
           .toString('hex');
-        console.log(contract_abi);
-        console.log(vite_abi);
         const abi_json = contract_abi.find(x => x['id'] === id);
-
         const params = Buffer.from(this.value, 'base64')
           .slice(4)
           .toString('hex');

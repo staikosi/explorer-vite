@@ -36,7 +36,7 @@
           <tr>
             <td>Issuer</td>
             <td>
-              <v-link prefix="/account/" :value="token.owner" />
+              <v-link prefix="/account/" :value="token.owner" :full="true" />
             </td>
           </tr>
         </tbody>

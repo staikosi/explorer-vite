@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --modern",
-    "test:unit": "vue-cli-service test:unit",
+    "unittest": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -29,7 +29,7 @@
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-unit-mocha": "^4.5.13",
     "@vue/cli-service": "~4.5.0",
-    "@vue/test-utils": "^1.0.3",
+    "@vue/test-utils": "^1.2.2",
     "babel-eslint": "^10.1.0",
     "chai": "^4.1.2",
     "eslint": "^6.7.2",

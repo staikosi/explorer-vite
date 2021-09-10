@@ -140,13 +140,13 @@ export default {
       this[REMOVE_NODE](vn);
     },
     addNode() {
-      const url = this.vnode.url;
+      const { url } = this.vnode;
       if (url.startsWith('http://') || url.startsWith('https://')) {
-        this[ADD_NODE](Object.assign({}, this.vnode));
+        this[ADD_NODE]({ ...this.vnode });
         this.vnode.url = '';
       } else {
         UIkit.notification({
-          message: 'Error url ' + url,
+          message: `Error url ${url}`,
           status: 'warning',
           timeout: 300
         });

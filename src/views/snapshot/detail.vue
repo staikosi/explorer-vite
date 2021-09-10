@@ -75,23 +75,25 @@
 </template>
 
 <script>
-import { getSbpName, blockTypeText } from '@/utils/_';
 import { createNamespacedHelpers } from 'vuex';
+import { getSbpName, blockTypeText } from '@/utils/_';
 import VLink from '@/components/Link';
 
-const { mapState: sbpMapState, mapActions: sbpMapActions } =
-  createNamespacedHelpers('sbp');
+const {
+  mapState: sbpMapState,
+  mapActions: sbpMapActions
+} = createNamespacedHelpers('sbp');
 
 export default {
   beforeRouteEnter(to, from, next) {
-    const heightorhash = to.params.heightorhash;
+    const { heightorhash } = to.params;
     next(vm => {
       vm.getSbps();
       vm.getBlock(heightorhash);
     });
   },
   beforeRouteUpdate(to, from, next) {
-    const heightorhash = to.params.heightorhash;
+    const { heightorhash } = to.params;
     this.getBlock(heightorhash).then(() => next());
   },
   data() {
@@ -124,7 +126,7 @@ export default {
         })
         .then(blockheight => {
           vm.$api
-            .request('ledger_getChunks', '' + blockheight, '' + blockheight)
+            .request('ledger_getChunks', `${blockheight}`, `${blockheight}`)
             .then(chunks => {
               vm.accountblocks = Object.seal(chunks[0].AccountBlocks);
             });

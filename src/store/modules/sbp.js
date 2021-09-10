@@ -43,7 +43,7 @@ export default {
         .then(res => {
           state.sbpstats = {};
           const m = res[res.length - 1].stat.stats;
-          for (var key in m) {
+          for (const key in m) {
             m[key].voteCnt = atos(m[key].voteCnt, 18);
             state.sbpstats[key] = Object.seal(m[key]);
           }
@@ -63,15 +63,15 @@ export default {
     setSbpName({ state }, sbpName) {
       console.log('set sbpName ', sbpName);
       state.sbpName = sbpName;
-      state.sbpstat = Object.assign({}, state.sbpstat, state.sbpstats[sbpName]);
+      state.sbpstat = { ...state.sbpstat, ...state.sbpstats[sbpName] };
       state.hourSbpstat = state.hourSbpstats[sbpName];
-    },
+    }
   },
   mutations: {
     updateRewards(state, rewards) {
       state.sbpRewards = rewards
         .map(r => {
-          let result = Object.assign({}, r.rewardMap[state.sbpName], {});
+          const result = { ...r.rewardMap[state.sbpName] };
           result.cycle = r.cycle;
           result.blockProducingReward = atos(result.blockProducingReward, 18);
           result.votingReward = atos(result.votingReward, 18);
@@ -80,9 +80,7 @@ export default {
           result.endTime = r.endTime;
           return result;
         })
-        .sort((a, b) => {
-          return b.cycle - a.cycle;
-        });
+        .sort((a, b) => b.cycle - a.cycle);
     }
   }
 };

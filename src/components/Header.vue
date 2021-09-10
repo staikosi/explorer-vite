@@ -24,9 +24,9 @@ import { withCommas } from '@/utils/_';
 import { isHash, isAddress, isTti } from '@/utils/vite';
 
 export default {
-  created: function () {
+  created() {
     this.getHeight().then(height => {
-      console.log('current height: ' + height);
+      console.log(`current height: ${height}`);
     });
   },
   computed: {
@@ -40,7 +40,7 @@ export default {
       if (!value) {
         return;
       }
-      let vm = this;
+      const vm = this;
       if (/^-?\d+$/.test(value)) {
         // is number ?
         vm.$router.push(`/snapshot/${value}`).catch(() => {});
@@ -60,8 +60,8 @@ export default {
           }
         });
       }
-      console.log('search ' + value + ', length:' + value.length);
-      console.log('' + vm.$router.currentRoute.path);
+      console.log(`search ${value}, length:${value.length}`);
+      console.log(`${vm.$router.currentRoute.path}`);
     }
   },
   components: {

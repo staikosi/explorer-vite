@@ -18,7 +18,7 @@
 
 <script>
 import VLink from '@/components/Link';
-import { builtin_contracts } from '@/utils/consts';
+import { builtinContracts } from '@/utils/consts';
 
 export default {
   data() {
@@ -26,7 +26,7 @@ export default {
   },
   computed: {
     accounts() {
-      return builtin_contracts;
+      return builtinContracts;
     }
   },
   methods: {},

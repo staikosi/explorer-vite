@@ -15,10 +15,11 @@ export default new Vuex.Store({
   plugins: [api],
   state: {
     nodes: JSON.parse(get('NODES')) || settings.nodes,
-    node: (JSON.parse(get('NODES')) || settings.nodes).filter(v => v.selected === true)[0],
+    node: (JSON.parse(get('NODES')) || settings.nodes).filter(
+      v => v.selected === true
+    )[0],
     // current snapshot chain height
-    height: '',
-
+    height: ''
   },
   actions: {
     getHeight({ rootState }) {
@@ -30,7 +31,7 @@ export default new Vuex.Store({
   },
   mutations: {
     [mutations.ADD_NODE](state, node) {
-      let nn = Array.from(state.nodes);
+      const nn = Array.from(state.nodes);
       if (nn.filter(v => v.url === node.url).length > 0) {
         return;
       }
@@ -67,7 +68,7 @@ export default new Vuex.Store({
       }
       state.nodes = settings.nodes;
       remove('NODES');
-    },
+    }
   },
   modules: {
     snapshot,

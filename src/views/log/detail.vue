@@ -24,9 +24,9 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
-import { atos, blockTypeText, isReceive } from '@/utils/_';
 import { abi } from '@vite/vitejs';
 import beautify from 'json-beautify';
+import { atos, blockTypeText, isReceive } from '@/utils/_';
 
 const { mapActions } = createNamespacedHelpers('account');
 
@@ -64,18 +64,18 @@ export default {
       // console.log(abiObj);
       logs.forEach(log => {
         // console.log(log, log['topics'], log['topics'][0]);
-        const abiItem = abiObj.find(item => item['id'] === log['topics'][0]);
+        const abiItem = abiObj.find(item => item.id === log.topics[0]);
         // console.log(abiItem);
         const result = abi.decodeLog(
           abiObj,
-          Buffer.from(log['data'], 'base64').toString('hex'),
-          log['topics'],
-          abiItem['name']
+          Buffer.from(log.data, 'base64').toString('hex'),
+          log.topics,
+          abiItem.name
         );
         // console.log(abiItem['name'], result);
         this.events.push({
-          id: log['topics'][0],
-          name: abiItem['name'],
+          id: log.topics[0],
+          name: abiItem.name,
           // inputs: JSON.stringify(result, null, 2, 100)
           inputs: beautify(result, null, 2, 100)
         });

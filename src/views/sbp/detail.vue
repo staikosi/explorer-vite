@@ -16,11 +16,11 @@
             <td>
               {{
                 sbpstat.blockNum +
-                '/' +
-                sbpstat.exceptedBlockNum +
-                '(' +
-                (sbpstat.blockNum / sbpstat.exceptedBlockNum).toFixed(4) +
-                ')'
+                  '/' +
+                  sbpstat.exceptedBlockNum +
+                  '(' +
+                  (sbpstat.blockNum / sbpstat.exceptedBlockNum).toFixed(4) +
+                  ')'
               }}
             </td>
           </tr>
@@ -76,8 +76,8 @@
             <td>
               {{
                 new Date(item.startTime * 1000).toLocaleString() +
-                ' - ' +
-                new Date(item.endTime * 1000).toLocaleString()
+                  ' - ' +
+                  new Date(item.endTime * 1000).toLocaleString()
               }}
             </td>
             <td>{{ item.blockProducingReward }} VITE</td>
@@ -97,8 +97,12 @@ import { createNamespacedHelpers } from 'vuex';
 import Pagination from '@/components/Pagination';
 import VLink from '@/components/Link';
 
-const { mapState, mapActions, mapGetters, mapMutations } =
-  createNamespacedHelpers('sbp');
+const {
+  mapState,
+  mapActions,
+  mapGetters,
+  mapMutations
+} = createNamespacedHelpers('sbp');
 
 export default {
   beforeRouteEnter(to, from, next) {
@@ -128,7 +132,7 @@ export default {
       while (start < end) {
         promises.unshift(
           this.$api
-            .request('contract_getSBPRewardByCycle', '' + start)
+            .request('contract_getSBPRewardByCycle', `${start}`)
             .then(res => {
               rewards.push(res);
             })

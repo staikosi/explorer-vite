@@ -49,8 +49,10 @@ const {
   mapGetters: snapshotMapGetters
 } = createNamespacedHelpers('snapshot');
 
-const { mapState: sbpMapState, mapActions: sbpMapActions } =
-  createNamespacedHelpers('sbp');
+const {
+  mapState: sbpMapState,
+  mapActions: sbpMapActions
+} = createNamespacedHelpers('sbp');
 
 const { mapActions: tokenMapActions } = createNamespacedHelpers('token');
 
@@ -58,9 +60,7 @@ export default {
   beforeRouteEnter(to, from, next) {
     const page = to.params.page ? to.params.page : 1;
     next(vm => {
-      vm.getHeight().then(() => {
-        return vm.getBlocks(page);
-      });
+      vm.getHeight().then(() => vm.getBlocks(page));
       vm.getSbps();
     });
   },
@@ -89,7 +89,7 @@ export default {
       this.loading = true;
 
       const offset = page * this.pageSize;
-      let start = Math.max(this.height - offset, 1);
+      const start = Math.max(this.height - offset, 1);
       const end = start + this.pageSize;
       const promises = [];
 

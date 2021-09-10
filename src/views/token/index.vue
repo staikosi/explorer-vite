@@ -84,9 +84,8 @@ export default {
             console.log(token.tokenSymbol, this.searchText);
             if (!this.searchText || this.searchText === '') {
               return true;
-            } else {
-              return token.tokenSymbol.indexOf(this.searchText) != -1;
             }
+            return token.tokenSymbol.indexOf(this.searchText) != -1;
           })
           .map(token => ({
             ...token,

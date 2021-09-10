@@ -2,7 +2,7 @@ import { IS_DEV } from './consts';
 
 function noop() {}
 
-const tag = `[viewer]`;
+const tag = '[viewer]';
 
 export const log = IS_DEV
   ? (...args) => {

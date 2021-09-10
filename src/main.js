@@ -1,4 +1,3 @@
-
 import './index.less';
 import UIkit from 'uikit';
 import Icons from 'uikit/dist/js/uikit-icons';
@@ -28,5 +27,5 @@ Vue.use(VueRouter);
 new Vue({
   router,
   store,
-  render: (h) => h(App)
+  render: h => h(App)
 }).$mount('#app');

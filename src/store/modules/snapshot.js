@@ -15,14 +15,14 @@ export default {
   },
   mutations: {
     update(state, obj) {
-      for (let key in obj) {
+      for (const key in obj) {
         state[key] = obj[key];
       }
     },
-    // update snapshots 
+    // update snapshots
     updateSnapshots(state, snapshots) {
       state.snapshots = [];
-      for (var i in snapshots) {
+      for (const i in snapshots) {
         state.snapshots = insertList(
           state.snapshots,
           Object.seal(snapshots[i]),

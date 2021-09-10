@@ -145,7 +145,7 @@ import VBlockdata from '@/components/Blockdata';
 
 export default {
   beforeRouteEnter(to, from, next) {
-    const hash = to.params.hash;
+    const { hash } = to.params;
     next(vm => vm.getBlock(hash));
   },
   beforeRouteUpdate(to, from, next) {

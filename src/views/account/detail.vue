@@ -157,12 +157,16 @@ import Pagination from '@/components/Pagination';
 import { blockTypeText } from '@/utils/_';
 import { isContract } from '@/utils/vite';
 
-const { mapState, mapActions, mapGetters, mapMutations } =
-  createNamespacedHelpers('account');
+const {
+  mapState,
+  mapActions,
+  mapGetters,
+  mapMutations
+} = createNamespacedHelpers('account');
 
 export default {
   beforeRouteEnter(to, from, next) {
-    const address = to.params.address;
+    const { address } = to.params;
     next(vm => {
       if (address) {
         vm.curAddr = address;
@@ -225,7 +229,6 @@ export default {
           this.getAbi(this.curAddr).then(value => {
             this.curAbiJson = JSON.stringify(value);
           });
-          return;
         }
       }
     },
@@ -242,7 +245,7 @@ export default {
             this.updateTxs(Object.seal(txs || []));
           },
           err => {
-            console.error(`failed to get txs`, err);
+            console.error('failed to get txs', err);
             this.updateTxs([]);
           }
         );

@@ -30,8 +30,9 @@ export default {
     },
     getTokenDetails({ state }, tti) {
       return Vue.$api.request('contract_getTokenInfoById', tti).then(res => {
-        res.tokenSymbolView =
-          res.tokenSymbol + '-' + (Array(3).join('0') + res.index).slice(-3);
+        res.tokenSymbolView = `${res.tokenSymbol}-${(
+          Array(3).join('0') + res.index
+        ).slice(-3)}`;
         state.token = res;
       });
     }

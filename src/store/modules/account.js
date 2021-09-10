@@ -1,10 +1,14 @@
 import Vue from 'vue';
 import { atos, insertList, tokenView } from '@/utils/_';
-import { addrType, isBuiltInContract, fill_id, getAbiJsonFromGithub, vite_abi } from '@/utils/vite';
+import {
+  addrType,
+  isBuiltInContract,
+  fillIdForAbi,
+  getAbiJsonFromGithub,
+  viteAbi
+} from '@/utils/vite';
 import { nullToken } from '@/utils/consts';
 import { set, get } from '@/utils/storage';
-
-
 
 export default {
   namespaced: true,
@@ -14,7 +18,7 @@ export default {
       txPageSize: 10,
       txs: [],
       utxCount: 0,
-      cachedAbi: {},
+      cachedAbi: {}
     };
   },
   getters: {
@@ -41,7 +45,10 @@ export default {
                   tokenInfo.decimals
                 );
                 tokenInfo.tokenId = tti;
-                tokenInfo.tokenSymbolView = tokenView(tokenInfo.tokenSymbol, tokenInfo.index);
+                tokenInfo.tokenSymbolView = tokenView(
+                  tokenInfo.tokenSymbol,
+                  tokenInfo.index
+                );
               }
             );
           }
@@ -73,20 +80,20 @@ export default {
         });
     },
     async getAbi({ state }, address) {
-      if (address in vite_abi) {
-        return vite_abi[address];
-      } else if (address in state.cachedAbi) {
+      if (address in viteAbi) {
+        return viteAbi[address];
+      }
+      if (address in state.cachedAbi) {
         return state.cachedAbi[address];
-      } else {
-        let abiJson = get('ABI_' + address);
-        if (!abiJson) {
-          abiJson = await getAbiJsonFromGithub(address);
-        }
-        if (abiJson) {
-          const abi = fill_id(JSON.parse(abiJson));
-          state.cachedAbi[address] = abi;
-          return abi;
-        }
+      }
+      let abiJson = get(`ABI_${address}`);
+      if (!abiJson) {
+        abiJson = await getAbiJsonFromGithub(address);
+      }
+      if (abiJson) {
+        const abi = fillIdForAbi(JSON.parse(abiJson));
+        state.cachedAbi[address] = abi;
+        return abi;
       }
     }
   },
@@ -99,7 +106,10 @@ export default {
         if (!tx.tokenInfo) {
           tx.tokenInfo = nullToken;
         } else {
-          tx.tokenInfo.tokenSymbolView = tokenView(tx.tokenInfo.tokenSymbol, tx.tokenInfo.index);
+          tx.tokenInfo.tokenSymbolView = tokenView(
+            tx.tokenInfo.tokenSymbol,
+            tx.tokenInfo.index
+          );
         }
         tx.amount = atos(tx.amount, tx.tokenInfo.decimals);
         return Object.seal(tx);
@@ -107,9 +117,9 @@ export default {
     },
     setAbiJson(state, params) {
       if (isBuiltInContract(params.address)) {
-        return
+        return;
       }
-      set('ABI_' + params.address, params.abiJson);
+      set(`ABI_${params.address}`, params.abiJson);
     }
   }
 };

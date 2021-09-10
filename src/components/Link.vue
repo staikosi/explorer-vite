@@ -22,6 +22,7 @@
 
 <script>
 import { isHash, isAddress, isTti } from '@/utils/vite';
+
 export default {
   props: {
     value: String,

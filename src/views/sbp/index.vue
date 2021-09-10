@@ -8,6 +8,7 @@
             <th>#</th>
             <th>Name</th>
             <th>Votes</th>
+            <th>Rate</th>
             <th>Coinbase</th>
           </tr>
         </thead>
@@ -18,6 +19,19 @@
               <v-link prefix="/sbp/" :value="item.sbpName" />
             </td>
             <td>{{ item.votes }}</td>
+            <td>
+              {{
+                sbpstats[item.sbpName].blockNum +
+                  '/' +
+                  sbpstats[item.sbpName].exceptedBlockNum +
+                  '(' +
+                  (
+                    sbpstats[item.sbpName].blockNum /
+                    sbpstats[item.sbpName].exceptedBlockNum
+                  ).toFixed(4) +
+                  ')'
+              }}
+            </td>
             <td class="m-hash-tag m-text-truncate">
               <v-link prefix="/account/" :value="item.blockProducingAddress" />
             </td>
@@ -37,14 +51,21 @@ const { mapState, mapActions } = createNamespacedHelpers('sbp');
 export default {
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      vm.getSbps();
+      vm.loadData();
     });
   },
   computed: {
-    ...mapState(['sbps'])
+    ...mapState(['sbps', 'sbpstats'])
   },
   methods: {
-    ...mapActions(['getSbps'])
+    ...mapActions(['getSbps', 'getSbpStats', 'getDayIndex']),
+    loadData() {
+      const vm = this;
+      vm.getSbps();
+      return vm.getDayIndex().then(() => {
+        vm.getSbpStats();
+      });
+    }
   },
   components: {
     VLink

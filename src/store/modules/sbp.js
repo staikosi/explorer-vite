@@ -47,6 +47,7 @@ export default {
             m[key].voteCnt = atos(m[key].voteCnt, 18);
             state.sbpstats[key] = Object.seal(m[key]);
           }
+          console.log(JSON.stringify(state.sbpstats));
         });
     },
     getDayIndex({ state }) {

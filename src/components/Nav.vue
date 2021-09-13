@@ -126,7 +126,7 @@ import { version } from '../../package';
 export default {
   data() {
     return {
-      appVersion: version,
+      appVersion: 'v' + version,
       vnode: { net: 'Mainnet', url: '', selected: false },
       error: false
     };

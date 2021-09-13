@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import { settings } from '@/utils/consts';
+import { mergeArr } from '@/utils/basic';
 import { api } from './plugin';
 import * as mutations from './mutations';
 import snapshot from './modules/snapshot';
@@ -14,10 +15,16 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   plugins: [api],
   state: {
-    nodes: JSON.parse(get('NODES')) || settings.nodes,
-    node: (JSON.parse(get('NODES')) || settings.nodes).filter(
-      v => v.selected === true
-    )[0],
+    nodes: mergeArr(settings.nodes, JSON.parse(get('NODES')), function key(
+      item
+    ) {
+      return item.url;
+    }),
+    node: mergeArr(settings.nodes, JSON.parse(get('NODES')), function key(
+      item
+    ) {
+      return item.url;
+    }).filter(v => v.selected === true)[0],
     // current snapshot chain height
     height: ''
   },

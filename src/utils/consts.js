@@ -23,6 +23,11 @@ export const settings = {
       net: 'Buidl',
       selected: false,
       url: 'https://buidl.vite.net/gvite'
+    },
+    {
+      net: 'Debug',
+      selected: false,
+      url: 'http://127.0.0.1:23456'
     }
   ]
 };

@@ -101,6 +101,12 @@
         <span uk-icon="twitter" />
       </a>
       <a
+        class="icon-social"
+        :href="'https://github.com/staikosi/explorer-vite/tree/' + appVersion"
+      >
+        {{ appVersion }}
+      </a>
+      <a
         href="#modal-example"
         class="icon-social"
         style="top: 10px"
@@ -115,10 +121,12 @@
 import UIkit from 'uikit';
 import { mapMutations, mapState } from 'vuex';
 import { SWITCH_NODE, ADD_NODE, REMOVE_NODE } from '@/store/mutations';
+import { version } from '../../package';
 
 export default {
   data() {
     return {
+      appVersion: version,
       vnode: { net: 'Mainnet', url: '', selected: false },
       error: false
     };

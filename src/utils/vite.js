@@ -1,4 +1,5 @@
 import { wallet, abi } from '@vite/vitejs';
+
 import axios from 'axios';
 import { contractAbi } from './consts';
 
@@ -10,9 +11,9 @@ const addrTypes = {
 
 export function fillIdForAbi(item) {
   let id = '';
-  if (item.type === 'function' && item.id === undefined) {
+  if (item.type === 'function' && !item.id) {
     id = abi.encodeFunctionSignature(item);
-  } else if (item.type === 'event' && item.id === undefined) {
+  } else if (item.type === 'event' && !item.id) {
     id = abi.encodeLogSignature(item);
   }
   return Object.assign(item, { id });

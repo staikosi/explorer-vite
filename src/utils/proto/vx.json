@@ -1,0 +1,1024 @@
+{
+  "nested": {
+    "proto": {
+      "nested": {
+        "Account": {
+          "fields": {
+            "Token": {
+              "type": "bytes",
+              "id": 1
+            },
+            "Available": {
+              "type": "bytes",
+              "id": 2
+            },
+            "Locked": {
+              "type": "bytes",
+              "id": 3
+            },
+            "VxLocked": {
+              "type": "bytes",
+              "id": 4
+            },
+            "VxUnlocking": {
+              "type": "bytes",
+              "id": 5
+            },
+            "CancellingStake": {
+              "type": "bytes",
+              "id": 6
+            }
+          }
+        },
+        "VxUnlock": {
+          "fields": {
+            "PeriodId": {
+              "type": "uint64",
+              "id": 1
+            },
+            "Amount": {
+              "type": "bytes",
+              "id": 2
+            }
+          }
+        },
+        "VxUnlocks": {
+          "fields": {
+            "Unlocks": {
+              "rule": "repeated",
+              "type": "VxUnlock",
+              "id": 1
+            }
+          }
+        },
+        "CancelStake": {
+          "fields": {
+            "PeriodId": {
+              "type": "uint64",
+              "id": 1
+            },
+            "Amount": {
+              "type": "bytes",
+              "id": 2
+            }
+          }
+        },
+        "CancelStakes": {
+          "fields": {
+            "Cancels": {
+              "rule": "repeated",
+              "type": "CancelStake",
+              "id": 1
+            }
+          }
+        },
+        "Fund": {
+          "fields": {
+            "Address": {
+              "type": "bytes",
+              "id": 1
+            },
+            "Accounts": {
+              "rule": "repeated",
+              "type": "Account",
+              "id": 2
+            }
+          }
+        },
+        "AccountSettle": {
+          "fields": {
+            "IsTradeToken": {
+              "type": "bool",
+              "id": 1
+            },
+            "IncAvailable": {
+              "type": "bytes",
+              "id": 2
+            },
+            "ReduceLocked": {
+              "type": "bytes",
+              "id": 3
+            },
+            "ReleaseLocked": {
+              "type": "bytes",
+              "id": 4
+            }
+          }
+        },
+        "FundSettle": {
+          "fields": {
+            "Address": {
+              "type": "bytes",
+              "id": 1
+            },
+            "AccountSettles": {
+              "rule": "repeated",
+              "type": "AccountSettle",
+              "id": 2
+            }
+          }
+        },
+        "FeeSettle": {
+          "fields": {
+            "Address": {
+              "type": "bytes",
+              "id": 1
+            },
+            "BaseFee": {
+              "type": "bytes",
+              "id": 2
+            },
+            "OperatorFee": {
+              "type": "bytes",
+              "id": 3
+            }
+          }
+        },
+        "SettleActions": {
+          "fields": {
+            "TradeToken": {
+              "type": "bytes",
+              "id": 1
+            },
+            "QuoteToken": {
+              "type": "bytes",
+              "id": 2
+            },
+            "FundActions": {
+              "rule": "repeated",
+              "type": "FundSettle",
+              "id": 3
+            },
+            "FeeActions": {
+              "rule": "repeated",
+              "type": "FeeSettle",
+              "id": 4
+            }
+          }
+        },
+        "FeeForDividend": {
+          "fields": {
+            "Token": {
+              "type": "bytes",
+              "id": 1
+            },
+            "DividendPoolAmount": {
+              "type": "bytes",
+              "id": 2
+            },
+            "NotRoll": {
+              "type": "bool",
+              "id": 3
+            }
+          }
+        },
+        "FeeForMine": {
+          "fields": {
+            "QuoteTokenType": {
+              "type": "int32",
+              "id": 1
+            },
+            "BaseAmount": {
+              "type": "bytes",
+              "id": 2
+            },
+            "InviteBonusAmount": {
+              "type": "bytes",
+              "id": 3
+            }
+          }
+        },
+        "DexFeesByPeriod": {
+          "fields": {
+            "FeesForDividend": {
+              "rule": "repeated",
+              "type": "FeeForDividend",
+              "id": 1
+            },
+            "FeesForMine": {
+              "rule": "repeated",
+              "type": "FeeForMine",
+              "id": 2
+            },
+            "lastValidPeriod": {
+              "type": "uint64",
+              "id": 3
+            },
+            "FinishDividend": {
+              "type": "bool",
+              "id": 4
+            },
+            "FinishMine": {
+              "type": "bool",
+              "id": 5
+            }
+          }
+        },
+        "FeeAccount": {
+          "fields": {
+            "QuoteTokenType": {
+              "type": "int32",
+              "id": 1
+            },
+            "BaseAmount": {
+              "type": "bytes",
+              "id": 2
+            },
+            "InviteBonusAmount": {
+              "type": "bytes",
+              "id": 3
+            }
+          }
+        },
+        "FeesByPeriod": {
+          "fields": {
+            "Fees": {
+              "rule": "repeated",
+              "type": "FeeAccount",
+              "id": 1
+            },
+            "Period": {
+              "type": "uint64",
+              "id": 2
+            }
+          }
+        },
+        "UserFees": {
+          "fields": {
+            "Fees": {
+              "rule": "repeated",
+              "type": "FeesByPeriod",
+              "id": 1
+            }
+          }
+        },
+        "OperatorMarketFee": {
+          "fields": {
+            "MarketId": {
+              "type": "int32",
+              "id": 1
+            },
+            "TakerOperatorFeeRate": {
+              "type": "int32",
+              "id": 2
+            },
+            "MakerOperatorFeeRate": {
+              "type": "int32",
+              "id": 3
+            },
+            "Amount": {
+              "type": "bytes",
+              "id": 4
+            }
+          }
+        },
+        "OperatorFeeAccount": {
+          "fields": {
+            "Token": {
+              "type": "bytes",
+              "id": 1
+            },
+            "MarketFees": {
+              "rule": "repeated",
+              "type": "OperatorMarketFee",
+              "id": 2
+            }
+          }
+        },
+        "OperatorFeesByPeriod": {
+          "fields": {
+            "OperatorFees": {
+              "rule": "repeated",
+              "type": "OperatorFeeAccount",
+              "id": 1
+            }
+          }
+        },
+        "VxFundByPeriod": {
+          "fields": {
+            "Period": {
+              "type": "uint64",
+              "id": 1
+            },
+            "Amount": {
+              "type": "bytes",
+              "id": 2
+            }
+          }
+        },
+        "VxFunds": {
+          "fields": {
+            "Funds": {
+              "rule": "repeated",
+              "type": "VxFundByPeriod",
+              "id": 1
+            }
+          }
+        },
+        "VIPStaking": {
+          "fields": {
+            "Timestamp": {
+              "type": "int64",
+              "id": 1
+            },
+            "StakedTimes": {
+              "type": "int32",
+              "id": 2
+            },
+            "StakingHashes": {
+              "rule": "repeated",
+              "type": "bytes",
+              "id": 3
+            }
+          }
+        },
+        "DelegateStakeInfo": {
+          "fields": {
+            "StakeType": {
+              "type": "int32",
+              "id": 1
+            },
+            "Address": {
+              "type": "bytes",
+              "id": 2
+            },
+            "Principal": {
+              "type": "bytes",
+              "id": 3
+            },
+            "Amount": {
+              "type": "bytes",
+              "id": 4
+            },
+            "Status": {
+              "type": "int32",
+              "id": 5
+            },
+            "SerialNo": {
+              "type": "uint64",
+              "id": 6
+            },
+            "Id": {
+              "type": "bytes",
+              "id": 7
+            }
+          }
+        },
+        "DelegateStakeAddressIndex": {
+          "fields": {
+            "Id": {
+              "type": "bytes",
+              "id": 1
+            },
+            "StakeType": {
+              "type": "int32",
+              "id": 2
+            }
+          }
+        },
+        "MiningStakingByPeriod": {
+          "fields": {
+            "Period": {
+              "type": "uint64",
+              "id": 1
+            },
+            "Amount": {
+              "type": "bytes",
+              "id": 2
+            }
+          }
+        },
+        "MiningStakings": {
+          "fields": {
+            "Stakings": {
+              "rule": "repeated",
+              "type": "MiningStakingByPeriod",
+              "id": 1
+            }
+          }
+        },
+        "VxSettleAction": {
+          "fields": {
+            "Address": {
+              "type": "bytes",
+              "id": 1
+            },
+            "Amount": {
+              "type": "bytes",
+              "id": 2
+            }
+          }
+        },
+        "VxSettleActions": {
+          "fields": {
+            "Period": {
+              "type": "uint64",
+              "id": 1
+            },
+            "Page": {
+              "type": "int32",
+              "id": 2
+            },
+            "actions": {
+              "rule": "repeated",
+              "type": "VxSettleAction",
+              "id": 3
+            }
+          }
+        },
+        "PeriodJobForBiz": {
+          "fields": {
+            "Period": {
+              "type": "uint64",
+              "id": 1
+            },
+            "BizType": {
+              "type": "int32",
+              "id": 2
+            }
+          }
+        },
+        "FeeDividendForVxHolder": {
+          "fields": {
+            "Address": {
+              "type": "bytes",
+              "id": 1
+            },
+            "VxAmount": {
+              "type": "bytes",
+              "id": 2
+            },
+            "FeeToken": {
+              "type": "bytes",
+              "id": 3
+            },
+            "FeeDividend": {
+              "type": "bytes",
+              "id": 4
+            }
+          }
+        },
+        "MinedVxForFee": {
+          "fields": {
+            "Address": {
+              "type": "bytes",
+              "id": 1
+            },
+            "QuoteTokenType": {
+              "type": "int32",
+              "id": 2
+            },
+            "FeeAmount": {
+              "type": "bytes",
+              "id": 3
+            },
+            "MinedAmount": {
+              "type": "bytes",
+              "id": 4
+            }
+          }
+        },
+        "MinedVxForStaking": {
+          "fields": {
+            "Address": {
+              "type": "bytes",
+              "id": 1
+            },
+            "StakedAmount": {
+              "type": "bytes",
+              "id": 2
+            },
+            "MinedAmount": {
+              "type": "bytes",
+              "id": 3
+            }
+          }
+        },
+        "OperatorFeeDividend": {
+          "fields": {
+            "Address": {
+              "type": "bytes",
+              "id": 1
+            },
+            "MarketId": {
+              "type": "int32",
+              "id": 2
+            },
+            "TakerOperatorFeeRate": {
+              "type": "int32",
+              "id": 3
+            },
+            "MakerOperatorFeeRate": {
+              "type": "int32",
+              "id": 4
+            },
+            "Amount": {
+              "type": "bytes",
+              "id": 5
+            }
+          }
+        },
+        "MinedVxForOperation": {
+          "fields": {
+            "BizType": {
+              "type": "int32",
+              "id": 1
+            },
+            "Address": {
+              "type": "bytes",
+              "id": 2
+            },
+            "Amount": {
+              "type": "bytes",
+              "id": 3
+            }
+          }
+        },
+        "InviteRelation": {
+          "fields": {
+            "Inviter": {
+              "type": "bytes",
+              "id": 1
+            },
+            "Invitee": {
+              "type": "bytes",
+              "id": 2
+            },
+            "InviteCode": {
+              "type": "uint32",
+              "id": 3
+            }
+          }
+        },
+        "SettleMakerMinedVx": {
+          "fields": {
+            "PeriodId": {
+              "type": "uint64",
+              "id": 1
+            },
+            "Page": {
+              "type": "int32",
+              "id": 2
+            },
+            "Finish": {
+              "type": "bool",
+              "id": 3
+            }
+          }
+        },
+        "MarketAgentRelation": {
+          "fields": {
+            "Principal": {
+              "type": "bytes",
+              "id": 1
+            },
+            "Agent": {
+              "type": "bytes",
+              "id": 2
+            },
+            "MarketId": {
+              "type": "int32",
+              "id": 3
+            }
+          }
+        },
+        "BurnVite": {
+          "fields": {
+            "BizType": {
+              "type": "int32",
+              "id": 1
+            },
+            "Amount": {
+              "type": "bytes",
+              "id": 2
+            }
+          }
+        },
+        "TransferAsset": {
+          "fields": {
+            "BizType": {
+              "type": "int32",
+              "id": 1
+            },
+            "From": {
+              "type": "bytes",
+              "id": 2
+            },
+            "To": {
+              "type": "bytes",
+              "id": 3
+            },
+            "Token": {
+              "type": "bytes",
+              "id": 4
+            },
+            "Amount": {
+              "type": "bytes",
+              "id": 5
+            },
+            "Extra": {
+              "type": "bytes",
+              "id": 6
+            }
+          }
+        },
+        "Order": {
+          "fields": {
+            "Id": {
+              "type": "bytes",
+              "id": 1
+            },
+            "Address": {
+              "type": "bytes",
+              "id": 2
+            },
+            "MarketId": {
+              "type": "int32",
+              "id": 3
+            },
+            "Side": {
+              "type": "bool",
+              "id": 4
+            },
+            "Type": {
+              "type": "int32",
+              "id": 5
+            },
+            "Price": {
+              "type": "bytes",
+              "id": 6
+            },
+            "TakerFeeRate": {
+              "type": "int32",
+              "id": 7
+            },
+            "MakerFeeRate": {
+              "type": "int32",
+              "id": 8
+            },
+            "TakerOperatorFeeRate": {
+              "type": "int32",
+              "id": 9
+            },
+            "MakerOperatorFeeRate": {
+              "type": "int32",
+              "id": 10
+            },
+            "Quantity": {
+              "type": "bytes",
+              "id": 11
+            },
+            "Amount": {
+              "type": "bytes",
+              "id": 12
+            },
+            "LockedBuyFee": {
+              "type": "bytes",
+              "id": 13
+            },
+            "Status": {
+              "type": "int32",
+              "id": 14
+            },
+            "CancelReason": {
+              "type": "int32",
+              "id": 15
+            },
+            "ExecutedQuantity": {
+              "type": "bytes",
+              "id": 16
+            },
+            "ExecutedAmount": {
+              "type": "bytes",
+              "id": 17
+            },
+            "ExecutedBaseFee": {
+              "type": "bytes",
+              "id": 18
+            },
+            "ExecutedOperatorFee": {
+              "type": "bytes",
+              "id": 19
+            },
+            "RefundToken": {
+              "type": "bytes",
+              "id": 20
+            },
+            "RefundQuantity": {
+              "type": "bytes",
+              "id": 21
+            },
+            "Timestamp": {
+              "type": "int64",
+              "id": 22
+            },
+            "Agent": {
+              "type": "bytes",
+              "id": 23
+            },
+            "SendHash": {
+              "type": "bytes",
+              "id": 24
+            },
+            "MarketOrderAmtThreshold": {
+              "type": "bytes",
+              "id": 25
+            }
+          }
+        },
+        "SerialNo": {
+          "fields": {
+            "No": {
+              "type": "int32",
+              "id": 1
+            },
+            "Timestamp": {
+              "type": "int64",
+              "id": 2
+            }
+          }
+        },
+        "Transaction": {
+          "fields": {
+            "Id": {
+              "type": "bytes",
+              "id": 1
+            },
+            "TakerSide": {
+              "type": "bool",
+              "id": 2
+            },
+            "TakerId": {
+              "type": "bytes",
+              "id": 3
+            },
+            "MakerId": {
+              "type": "bytes",
+              "id": 4
+            },
+            "Price": {
+              "type": "bytes",
+              "id": 5
+            },
+            "Quantity": {
+              "type": "bytes",
+              "id": 6
+            },
+            "Amount": {
+              "type": "bytes",
+              "id": 7
+            },
+            "TakerFee": {
+              "type": "bytes",
+              "id": 8
+            },
+            "MakerFee": {
+              "type": "bytes",
+              "id": 9
+            },
+            "TakerOperatorFee": {
+              "type": "bytes",
+              "id": 10
+            },
+            "MakerOperatorFee": {
+              "type": "bytes",
+              "id": 11
+            },
+            "Timestamp": {
+              "type": "int64",
+              "id": 12
+            }
+          }
+        },
+        "TokenInfo": {
+          "fields": {
+            "TokenId": {
+              "type": "bytes",
+              "id": 1
+            },
+            "Decimals": {
+              "type": "int32",
+              "id": 2
+            },
+            "Symbol": {
+              "type": "string",
+              "id": 3
+            },
+            "Index": {
+              "type": "int32",
+              "id": 4
+            },
+            "Owner": {
+              "type": "bytes",
+              "id": 5
+            },
+            "QuoteTokenType": {
+              "type": "int32",
+              "id": 6
+            }
+          }
+        },
+        "MarketInfo": {
+          "fields": {
+            "MarketId": {
+              "type": "int32",
+              "id": 1
+            },
+            "MarketSymbol": {
+              "type": "string",
+              "id": 2
+            },
+            "TradeToken": {
+              "type": "bytes",
+              "id": 3
+            },
+            "QuoteToken": {
+              "type": "bytes",
+              "id": 4
+            },
+            "QuoteTokenType": {
+              "type": "int32",
+              "id": 5
+            },
+            "TradeTokenDecimals": {
+              "type": "int32",
+              "id": 6
+            },
+            "QuoteTokenDecimals": {
+              "type": "int32",
+              "id": 7
+            },
+            "TakerOperatorFeeRate": {
+              "type": "int32",
+              "id": 8
+            },
+            "MakerOperatorFeeRate": {
+              "type": "int32",
+              "id": 9
+            },
+            "AllowMining": {
+              "type": "bool",
+              "id": 10
+            },
+            "Valid": {
+              "type": "bool",
+              "id": 11
+            },
+            "Owner": {
+              "type": "bytes",
+              "id": 12
+            },
+            "Creator": {
+              "type": "bytes",
+              "id": 13
+            },
+            "Stopped": {
+              "type": "bool",
+              "id": 14
+            },
+            "Timestamp": {
+              "type": "int64",
+              "id": 15
+            },
+            "StableMarket": {
+              "type": "bool",
+              "id": 16
+            }
+          }
+        },
+        "NewOrderInfo": {
+          "fields": {
+            "Order": {
+              "type": "Order",
+              "id": 1
+            },
+            "TradeToken": {
+              "type": "bytes",
+              "id": 2
+            },
+            "QuoteToken": {
+              "type": "bytes",
+              "id": 3
+            }
+          }
+        },
+        "OrderUpdateInfo": {
+          "fields": {
+            "Id": {
+              "type": "bytes",
+              "id": 1
+            },
+            "TradeToken": {
+              "type": "bytes",
+              "id": 2
+            },
+            "QuoteToken": {
+              "type": "bytes",
+              "id": 3
+            },
+            "Status": {
+              "type": "int32",
+              "id": 4
+            },
+            "CancelReason": {
+              "type": "int32",
+              "id": 5
+            },
+            "ExecutedQuantity": {
+              "type": "bytes",
+              "id": 6
+            },
+            "ExecutedAmount": {
+              "type": "bytes",
+              "id": 7
+            },
+            "ExecutedBaseFee": {
+              "type": "bytes",
+              "id": 8
+            },
+            "ExecutedOperatorFee": {
+              "type": "bytes",
+              "id": 9
+            },
+            "RefundToken": {
+              "type": "bytes",
+              "id": 10
+            },
+            "RefundQuantity": {
+              "type": "bytes",
+              "id": 11
+            }
+          }
+        },
+        "NewMarketAction": {
+          "fields": {
+            "TradeToken": {
+              "type": "bytes",
+              "id": 1
+            },
+            "QuoteTokens": {
+              "rule": "repeated",
+              "type": "bytes",
+              "id": 2
+            }
+          }
+        },
+        "PendingNewMarkets": {
+          "fields": {
+            "PendingActions": {
+              "rule": "repeated",
+              "type": "NewMarketAction",
+              "id": 1
+            }
+          }
+        },
+        "SetQuoteTokenAction": {
+          "fields": {
+            "Token": {
+              "type": "bytes",
+              "id": 1
+            },
+            "QuoteTokenType": {
+              "type": "int32",
+              "id": 2
+            }
+          }
+        },
+        "PendingSetQuoteTokenActions": {
+          "fields": {
+            "pendingActions": {
+              "rule": "repeated",
+              "type": "SetQuoteTokenAction",
+              "id": 1
+            }
+          }
+        },
+        "TransferTokenOwnerAction": {
+          "fields": {
+            "token": {
+              "type": "bytes",
+              "id": 1
+            },
+            "Origin": {
+              "type": "bytes",
+              "id": 2
+            },
+            "New": {
+              "type": "bytes",
+              "id": 3
+            }
+          }
+        },
+        "PendingTransferTokenOwnerActions": {
+          "fields": {
+            "pendingActions": {
+              "rule": "repeated",
+              "type": "TransferTokenOwnerAction",
+              "id": 1
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,3 @@
-// TODO the real node address
-export const NODE = 'http://116.63.158.55:48132';
-
 export const IS_DEV = process.env.NODE_ENV === 'development';
 
 export const PAGE_SIZE = 10;
@@ -85,7 +82,6 @@ export const contractAbi = {
         { name: 'stakeHeight', type: 'uint64' }
       ]
     },
-
     {
       type: 'function',
       name: 'Register',
@@ -104,7 +100,6 @@ export const contractAbi = {
         { name: 'rewardWithdrawAddress', type: 'address' }
       ]
     },
-
     {
       type: 'function',
       name: 'UpdateRegistration',
@@ -131,7 +126,6 @@ export const contractAbi = {
         { name: 'blockProducingAddress', type: 'address' }
       ]
     },
-
     {
       type: 'function',
       name: 'UpdateSBPRewardWithdrawAddress',
@@ -140,7 +134,6 @@ export const contractAbi = {
         { name: 'rewardWithdrawAddress', type: 'address' }
       ]
     },
-
     {
       type: 'function',
       name: 'CancelRegister',
@@ -189,7 +182,6 @@ export const contractAbi = {
         { name: 'receiveAddress', type: 'address' }
       ]
     },
-
     {
       type: 'variable',
       name: 'registrationInfo',
@@ -224,7 +216,6 @@ export const contractAbi = {
       name: 'registeredHisName',
       inputs: [{ name: 'name', type: 'string' }]
     },
-
     {
       type: 'function',
       name: 'Vote',
@@ -244,7 +235,6 @@ export const contractAbi = {
       inputs: [{ name: 'gid', type: 'gid' }]
     },
     { type: 'function', name: 'CancelSBPVoting', inputs: [] },
-
     {
       type: 'variable',
       name: 'voteInfo',
@@ -267,7 +257,6 @@ export const contractAbi = {
       name: 'StakeForQuota',
       inputs: [{ name: 'beneficiary', type: 'address' }]
     },
-
     {
       type: 'function',
       name: 'CancelPledge',
@@ -289,7 +278,6 @@ export const contractAbi = {
       name: 'CancelQuotaStaking',
       inputs: [{ name: 'id', type: 'bytes32' }]
     },
-
     {
       type: 'function',
       name: 'AgentPledge',
@@ -318,7 +306,6 @@ export const contractAbi = {
         { name: 'stakeHeight', type: 'uint64' }
       ]
     },
-
     {
       type: 'function',
       name: 'AgentCancelPledge',
@@ -344,7 +331,6 @@ export const contractAbi = {
       name: 'CancelQuotaStakingWithCallback',
       inputs: [{ name: 'id', type: 'bytes32' }]
     },
-
     {
       type: 'callback',
       name: 'AgentPledge',
@@ -375,7 +361,6 @@ export const contractAbi = {
         { name: 'success', type: 'bool' }
       ]
     },
-
     {
       type: 'callback',
       name: 'AgentCancelPledge',
@@ -406,7 +391,6 @@ export const contractAbi = {
         { name: 'success', type: 'bool' }
       ]
     },
-
     {
       type: 'variable',
       name: 'stakeInfo',
@@ -419,7 +403,6 @@ export const contractAbi = {
         { name: 'bid', type: 'uint8' }
       ]
     },
-
     {
       type: 'variable',
       name: 'stakeInfoV2',
@@ -430,7 +413,6 @@ export const contractAbi = {
         { name: 'id', type: 'bytes32' }
       ]
     },
-
     {
       type: 'variable',
       name: 'stakeBeneficial',
@@ -464,7 +446,6 @@ export const contractAbi = {
         { name: 'isOwnerBurnOnly', type: 'bool' }
       ]
     },
-
     {
       type: 'function',
       name: 'Issue',
@@ -493,7 +474,6 @@ export const contractAbi = {
         { name: 'to', type: 'bytes' }
       ]
     },
-
     {
       type: 'function',
       name: 'TransferOwner',
@@ -510,7 +490,6 @@ export const contractAbi = {
         { name: 'newOwner', type: 'address' }
       ]
     },
-
     {
       type: 'function',
       name: 'ChangeTokenType',
@@ -566,7 +545,6 @@ export const contractAbi = {
         { name: 'ownerAddress', type: 'address' }
       ]
     },
-
     {
       type: 'variable',
       name: 'tokenInfo',
@@ -587,7 +565,6 @@ export const contractAbi = {
       name: 'tokenIndex',
       inputs: [{ name: 'nextIndex', type: 'uint16' }]
     },
-
     {
       type: 'event',
       name: 'mint',

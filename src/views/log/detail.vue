@@ -27,6 +27,7 @@ import { createNamespacedHelpers } from 'vuex';
 import { abi } from '@vite/vitejs';
 import beautify from 'json-beautify';
 import { atos, blockTypeText, isReceive } from '@/utils/_';
+import { isDexContract, decodeDexLog } from '@/utils/vx';
 
 const { mapActions } = createNamespacedHelpers('account');
 
@@ -63,12 +64,21 @@ export default {
 
       // console.log(abiObj);
       logs.forEach(log => {
+        if (isDexContract(this.curAddr)) {
+          const result = decodeDexLog(log);
+          this.events.push({
+            id: log.topics[0],
+            name: result.name,
+            inputs: beautify(result.inputs, null, 2, 100)
+          });
+          return;
+        }
         // console.log(log, log['topics'], log['topics'][0]);
         const abiItem = abiObj.find(item => item.id === log.topics[0]);
         // console.log(abiItem);
         const result = abi.decodeLog(
           abiObj,
-          Buffer.from(log.data, 'base64').toString('hex'),
+          Buffer.from(log.data ? log.data : '', 'base64').toString('hex'),
           log.topics,
           abiItem.name
         );

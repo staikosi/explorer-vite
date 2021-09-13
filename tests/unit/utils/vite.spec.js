@@ -19,10 +19,17 @@ describe('Vite', () => {
           inputs: [{ name: 'tokenId', type: 'tokenId', indexed: true }]
         }
       ];
+      // console.log(JSON.stringify(abiObj));
 
-      const result = abi.decodeLog(abiObj, '', log.topics, 'issueToken');
+      const result = abi.decodeLog(
+        abiObj,
+        '',
+        log.topics.slice(1, log.topics.length),
+        'issueToken'
+      );
 
-      assert.equal(result.tokenId, 'tti_3ffedbd375557e2d453d1c25');
+      // console.log(JSON.stringify(result));
+      assert.equal(result.tokenId, 'tti_5649544520544f4b454e6e40');
     });
   });
 });

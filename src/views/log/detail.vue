@@ -79,7 +79,7 @@ export default {
         const result = abi.decodeLog(
           abiObj,
           Buffer.from(log.data ? log.data : '', 'base64').toString('hex'),
-          log.topics,
+          log.topics.slice(1, log.topics.length),
           abiItem.name
         );
         // console.log(abiItem['name'], result);

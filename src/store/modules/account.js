@@ -91,7 +91,7 @@ export default {
         abiJson = await getAbiJsonFromGithub(address);
       }
       if (abiJson) {
-        const abi = fillIdForAbi(JSON.parse(abiJson));
+        const abi = JSON.parse(abiJson).map(fillIdForAbi);
         state.cachedAbi[address] = abi;
         return abi;
       }

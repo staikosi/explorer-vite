@@ -14,6 +14,16 @@
             <td>{{ block.hash }}</td>
           </tr>
           <tr>
+            <td>Previous Hash</td>
+            <td>
+              <v-link
+                prefix="/snapshot/"
+                :full="true"
+                :value="block.previousHash"
+              />
+            </td>
+          </tr>
+          <tr>
             <td>Mined By</td>
             <td>{{ block.producer }}</td>
           </tr>

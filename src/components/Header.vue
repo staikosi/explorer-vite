@@ -9,7 +9,7 @@
       </div>
       <hr class="uk-divider-vertical m-divider" />
       <search
-        placeholder="Vite Address / Block Hash / Snapshot Block Height / Token Id"
+        placeholder="Address / Hash / Height / Token Id / Address:Height"
         @search="search"
         class="uk-flex-1"
       />
@@ -59,6 +59,15 @@ export default {
             vm.$router.push(`/snapshot/${value}`).catch(() => {});
           }
         });
+      } else if (value.indexOf(':') > 0) {
+        const keys = value.split(':');
+        if (
+          keys.length === 2 &&
+          isAddress(keys[0]) &&
+          /^-?\d+$/.test(keys[1])
+        ) {
+          vm.$router.push(`/tx/${keys[0]}/${keys[1]}`).catch(() => {});
+        }
       }
       console.log(`search ${value}, length:${value.length}`);
       console.log(`${vm.$router.currentRoute.path}`);

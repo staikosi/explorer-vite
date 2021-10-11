@@ -47,6 +47,10 @@ const routes = [
     component: TxDetail
   },
   {
+    path: '/tx/:address/:height',
+    component: TxDetail
+  },
+  {
     path: '/account/:address/log/:hash',
     component: LogDetail
   },

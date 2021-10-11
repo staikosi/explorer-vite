@@ -28,6 +28,12 @@
             <td>{{ block.primaryBlockHeight }}</td>
           </tr>
           <tr>
+            <td>Previous Hash</td>
+            <td>
+              <v-link prefix="/tx/" :value="block.previousHash" :full="true" />
+            </td>
+          </tr>
+          <tr>
             <td>Address</td>
             <td>
               <v-link prefix="/account/" :value="block.address" :full="true" />
@@ -145,12 +151,12 @@ import VBlockdata from '@/components/Blockdata';
 
 export default {
   beforeRouteEnter(to, from, next) {
-    const { hash } = to.params;
-    next(vm => vm.getBlock(hash));
+    const { hash, address, height } = to.params;
+    next(vm => vm.getBlock(hash, address, height));
   },
   beforeRouteUpdate(to, from, next) {
-    const hashto = to.params.hash;
-    this.getBlock(hashto).then(() => next());
+    const { hash, address, height } = to.params;
+    this.getBlock(hash, address, height).then(() => next());
   },
   data() {
     return {
@@ -161,11 +167,19 @@ export default {
     atos,
     blockTypeText,
     isReceive,
-    async getBlock(hash) {
-      const block = await this.$api.request(
-        'ledger_getAccountBlockByHash',
-        hash
-      );
+    async getAccountBlock(hash, address, height) {
+      if (hash) {
+        return this.$api.request('ledger_getAccountBlockByHash', hash);
+      } else {
+        return this.$api.request(
+          'ledger_getAccountBlockByHeight',
+          address,
+          height
+        );
+      }
+    },
+    async getBlock(hash, address, height) {
+      const block = await this.getAccountBlock(hash, address, height);
       if (!block.tokenInfo) {
         block.tokenInfo = nullToken;
       } else {

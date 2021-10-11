@@ -1,0 +1,6 @@
+User-agent: *
+
+Disallow: /#/snapshot/
+Disallow: /#/account/
+Disallow: /#/tx/
+Disallow: /#/sbp/

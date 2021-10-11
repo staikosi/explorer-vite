@@ -75,7 +75,12 @@ export function isBuiltInContract(value) {
 export const viteAbi = loopAbi(JSON.parse(JSON.stringify(contractAbi)));
 
 export function availableNodes(customNodes) {
-  const selected = customNodes.find(v => v.selected === true);
+  let selected = undefined;
+  if (customNodes) {
+    selected = customNodes.find(v => v.selected === true);
+  } else {
+    selected = settings.nodes.find(v => v.selected === true);
+  }
   var nodes = mergeArr(settings.nodes, customNodes, function key(item) {
     return item.url;
   });

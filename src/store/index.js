@@ -1,30 +1,21 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { settings } from '@/utils/consts';
-import { mergeArr } from '@/utils/basic';
+import { availableNodes, selectedNode } from '@/utils/vite';
 import { api } from './plugin';
 import * as mutations from './mutations';
 import snapshot from './modules/snapshot';
 import token from './modules/token';
 import sbp from './modules/sbp';
 import account from './modules/account';
-import { set, get, remove } from '@/utils/storage';
+import { set, get } from '@/utils/storage';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   plugins: [api],
   state: {
-    nodes: mergeArr(settings.nodes, JSON.parse(get('NODES')), function key(
-      item
-    ) {
-      return item.url;
-    }),
-    node: mergeArr(settings.nodes, JSON.parse(get('NODES')), function key(
-      item
-    ) {
-      return item.url;
-    }).filter(v => v.selected === true)[0],
+    nodes: availableNodes(JSON.parse(get('NODES'))),
+    node: selectedNode(JSON.parse(get('NODES'))),
     // current snapshot chain height
     height: ''
   },
@@ -68,13 +59,6 @@ export default new Vuex.Store({
       });
       state.node = node;
       set('NODES', JSON.stringify(state.nodes));
-    },
-    [mutations.RESET_NODES](state) {
-      if (state.nodes === settings.nodes) {
-        return;
-      }
-      state.nodes = settings.nodes;
-      remove('NODES');
     }
   },
   modules: {

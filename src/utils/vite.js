@@ -1,7 +1,8 @@
 import { wallet, abi } from '@vite/vitejs';
 
 import axios from 'axios';
-import { contractAbi } from './consts';
+import { contractAbi, settings } from './consts';
+import { mergeArr } from './basic';
 
 const addrTypes = {
   0: 'Illegal',
@@ -72,3 +73,23 @@ export function isBuiltInContract(value) {
 }
 
 export const viteAbi = loopAbi(JSON.parse(JSON.stringify(contractAbi)));
+
+export function availableNodes(customNodes) {
+  const selected = customNodes.find(v => v.selected === true);
+  var nodes = mergeArr(settings.nodes, customNodes, function key(item) {
+    return item.url;
+  });
+  for (let index = 0; index < nodes.length; index++) {
+    const node = nodes[index];
+    if (node.url && node.url === selected.url) {
+      node.selected = true;
+    } else {
+      node.selected = false;
+    }
+  }
+  return nodes;
+}
+
+export function selectedNode(customNodes) {
+  return availableNodes(customNodes).find(v => v.selected === true);
+}

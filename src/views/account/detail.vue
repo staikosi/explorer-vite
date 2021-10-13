@@ -144,6 +144,34 @@
               Save ABI
             </button>
           </div>
+          <div>
+            <textarea
+              class="uk-textarea uk-form-small uk-width-2-3"
+              placeholder="offchain code"
+              v-model="curOffchainCode"
+            ></textarea>
+
+            <div v-for="(item, i) in offchains" :key="i">
+              <tr>
+                <td>{{ item.name }}</td>
+              </tr>
+
+              <tr v-for="(inpt, j) in item.inputs" :key="j">
+                <span class="uk-text-default">{{ inpt.name }}</span>
+                <input v-model="inpt.val" />
+                <span class="uk-text-default">{{ inpt.type }}</span>
+              </tr>
+
+              <tr>
+                <button
+                  class="uk-button uk-button-secondary"
+                  @click="queryOffchain(item, j)"
+                >
+                  Query
+                </button>
+              </tr>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -184,7 +212,9 @@ export default {
     return {
       tab: 'balance',
       curAddr: '',
-      curAbiJson: ''
+      curAbiJson: '',
+      curOffchainCode: '',
+      offchainResult: {}
     };
   },
   computed: {
@@ -194,6 +224,23 @@ export default {
       if (this.account && this.account.balanceInfoMap) {
         return Object.values(this.account.balanceInfoMap).sort(
           (a, b) => parseFloat(a.balance) - parseFloat(b.balance)
+        );
+      }
+      return [];
+    },
+    offchains() {
+      // console.log(this.curAbiJson);
+      if (
+        this.curAbiJson === undefined ||
+        !this.curAbiJson ||
+        this.curAbiJson === ''
+      ) {
+        return '';
+      }
+      const abiArr = JSON.parse(this.curAbiJson);
+      if (Array.isArray(abiArr)) {
+        return JSON.parse(
+          JSON.stringify(abiArr.filter(a => a.type === 'offchain'))
         );
       }
       return [];
@@ -262,8 +309,25 @@ export default {
     },
     saveAbiJson() {
       const json = this.curAbiJson;
-      console.log(json);
+      console.log(this.curAddr, json);
       this.setAbiJson({ address: this.curAddr, abiJson: json });
+    },
+    queryOffchain(item, j) {
+      item.inputs.forEach(x => {
+        console.log(x.name, x.val);
+      });
+      console.log(item);
+
+      this.$api
+        .callOffChainContract({
+          address: this.curAddr,
+          abi: item,
+          code: Buffer.from(this.curOffchainCode, 'hex').toString('base64'),
+          params: item.inputs.map(x => x.val)
+        })
+        .then(x => {
+          console.log(x);
+        });
     }
   },
   components: {

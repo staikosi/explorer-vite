@@ -12,6 +12,11 @@ export const nullToken = {
   tokenSymbol: ''
 };
 
+export const hosts = {
+  Mainnet: ['mainnet.viteview', 'mainnet.viteview.xyz'],
+  Buidl: ['buidl.viteview', 'buidl.viteview.xyz']
+};
+
 export const settings = {
   nodes: [
     {

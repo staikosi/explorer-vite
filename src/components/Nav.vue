@@ -107,6 +107,7 @@
         {{ appVersion }}
       </a>
       <a
+        v-if="nodeNet === 'Custom'"
         href="#modal-example"
         class="icon-social"
         style="top: 10px"
@@ -133,7 +134,8 @@ export default {
   },
   computed: {
     ...mapState(['node']),
-    ...mapState(['nodes'])
+    ...mapState(['nodes']),
+    ...mapState(['nodeNet'])
   },
   created() {},
   methods: {

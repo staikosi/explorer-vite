@@ -13,6 +13,16 @@
         @search="search"
         class="uk-flex-1"
       />
+      <hr class="uk-divider-vertical m-divider" />
+      <div class="uk-card">
+        <a class="uk-link-text" href="https://mainnet.viteview.xyz">Mainnet</a>
+      </div>
+      <div class="uk-card uk-margin-left">
+        <a class="uk-link-text" href="https://buidl.viteview.xyz">Buidl</a>
+      </div>
+      <div class="uk-card uk-margin-left">
+        <a class="uk-link-text" href="http://viteview.xyz">Custom</a>
+      </div>
     </div>
   </div>
 </template>

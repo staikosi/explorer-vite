@@ -1,7 +1,7 @@
 import { wallet, abi } from '@vite/vitejs';
 
 import axios from 'axios';
-import { contractAbi, settings } from './consts';
+import { contractAbi, settings, hosts } from './consts';
 import { mergeArr } from './basic';
 
 const addrTypes = {
@@ -75,6 +75,13 @@ export function isBuiltInContract(value) {
 export const viteAbi = loopAbi(JSON.parse(JSON.stringify(contractAbi)));
 
 export function availableNodes(customNodes) {
+  const net = whichNet();
+  if (net === 'Mainnet') {
+    return settings.nodes.filter(node => node.net === 'Mainnet');
+  }
+  if (net === 'Buidl') {
+    return settings.nodes.filter(node => node.net === 'Buidl');
+  }
   let selected = undefined;
   if (customNodes) {
     selected = customNodes.find(v => v.selected === true);
@@ -96,5 +103,30 @@ export function availableNodes(customNodes) {
 }
 
 export function selectedNode(customNodes) {
-  return availableNodes(customNodes).find(v => v.selected === true);
+  const avaNodes = availableNodes(customNodes);
+  console.log('avaible', avaNodes, avaNodes.length);
+  if (avaNodes.length > 0) {
+    const result = avaNodes.find(v => v.selected === true);
+    console.log('result', result);
+    if (!result) {
+      avaNodes[0].selected = true;
+      return avaNodes[0];
+    }
+    return result;
+  }
+  return [];
+}
+
+export function whichNet() {
+  let host = window.location.hostname;
+  if (hosts.Mainnet.indexOf(host) >= 0) {
+    console.log('host', host, 'Mainnet');
+    return 'Mainnet';
+  }
+  if (hosts.Buidl.indexOf(host) >= 0) {
+    console.log('host', host, 'Buidl');
+    return 'Buidl';
+  }
+  console.log('host', host, 'Custom');
+  return 'Custom';
 }

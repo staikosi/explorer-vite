@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { availableNodes, selectedNode } from '@/utils/vite';
+import { availableNodes, selectedNode, whichNet } from '@/utils/vite';
 import { api } from './plugin';
 import * as mutations from './mutations';
 import snapshot from './modules/snapshot';
@@ -17,7 +17,8 @@ export default new Vuex.Store({
     nodes: availableNodes(JSON.parse(get('NODES'))),
     node: selectedNode(JSON.parse(get('NODES'))),
     // current snapshot chain height
-    height: ''
+    height: '',
+    nodeNet: whichNet()
   },
   actions: {
     getHeight({ rootState }) {

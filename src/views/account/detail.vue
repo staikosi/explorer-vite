@@ -12,6 +12,13 @@
               <td>Height</td>
               <td>{{ account.blockCount }}</td>
             </tr>
+            <tr v-if="accountQuota">
+              <td>Quota</td>
+              <td>
+                {{ (accountQuota.currentQuota / 210 / 100.0).toFixed(2) }} /
+                {{ (accountQuota.maxQuota / 210 / 100.0).toFixed(2) }}
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -218,7 +225,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['account', 'txs', 'txPageSize']),
+    ...mapState(['account', 'accountQuota', 'txs', 'txPageSize']),
     ...mapGetters(['txPageNum', 'utxPageNum']),
     tokens() {
       if (this.account && this.account.balanceInfoMap) {
@@ -328,6 +335,9 @@ export default {
         .then(x => {
           console.log(x);
         });
+    },
+    refreshQuota() {
+      this.$api.request('');
     }
   },
   components: {

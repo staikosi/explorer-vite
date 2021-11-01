@@ -15,6 +15,7 @@ export default {
   state() {
     return {
       account: null,
+      accountQuota: null,
       txPageSize: 10,
       txs: [],
       utxCount: 0,
@@ -55,6 +56,13 @@ export default {
           res.accountType = addrType(res.address);
 
           state.account = Object.seal(res);
+          Vue.$api
+            .request('contract_getQuotaByAccount', address)
+            .then(quotaRes => {
+              if (state.account.address == address) {
+                state.accountQuota = quotaRes;
+              }
+            });
         });
     },
     getUtxCount({ state }, address) {

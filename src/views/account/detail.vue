@@ -139,9 +139,10 @@
         <div v-if="tab === 'abi'">
           <div>
             <textarea
-              class="uk-textarea uk-form-small uk-width-2-3"
+              class="uk-textarea uk-form-small uk-width-2-3 uk-margin-bottom uk-margin-right"
               placeholder="abi json"
               v-model="curAbiJson"
+              style="height: 300px;"
             ></textarea>
 
             <button
@@ -156,6 +157,7 @@
               class="uk-textarea uk-form-small uk-width-2-3"
               placeholder="offchain code"
               v-model="curOffchainCode"
+              style="height: 100px;"
             ></textarea>
 
             <div v-for="(item, i) in offchains" :key="i">

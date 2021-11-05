@@ -15,6 +15,14 @@
                 v-model="item.inputs"
               ></textarea>
             </td>
+            <td>
+              <textarea
+                class="uk-textarea uk-form-small uk-width-2-3"
+                rows="6"
+                placeholder=""
+                v-model="item.beautify"
+              ></textarea>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -69,7 +77,8 @@ export default {
           this.events.push({
             id: log.topics[0],
             name: result.name,
-            inputs: beautify(result.inputs, null, 2, 100)
+            inputs: beautify(result.inputs, null, 2, 100),
+            beautify: beautify(result.beautify, null, 2, 100)
           });
           return;
         }
@@ -87,7 +96,8 @@ export default {
           id: log.topics[0],
           name: abiItem.name,
           // inputs: JSON.stringify(result, null, 2, 100)
-          inputs: beautify(result, null, 2, 100)
+          inputs: beautify(result, null, 2, 100),
+          beautify: beautify(result, null, 2, 100)
         });
       });
     }

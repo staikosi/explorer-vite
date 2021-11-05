@@ -25,5 +25,13 @@ describe('Vx', () => {
         decoded.inputs.Order.Id.toString('base64')
       );
     });
+    it('should parse amount', () => {
+      const decoded = Buffer.from('Son1TvASHAAA', 'base64');
+      // console.log(BigInt('0x' + decoded.toString('hex')).toString(10));
+      assert.equal(
+        '1375000000000000000000',
+        BigInt('0x' + decoded.toString('hex')).toString(10)
+      );
+    });
   });
 });

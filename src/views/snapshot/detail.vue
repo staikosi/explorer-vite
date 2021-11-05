@@ -40,6 +40,10 @@
             <td>Time</td>
             <td>{{ new Date(block.timestamp * 1000).toLocaleString() }}</td>
           </tr>
+          <tr>
+            <td>Version</td>
+            <td>{{ block.version }}</td>
+          </tr>
         </tbody>
       </table>
 

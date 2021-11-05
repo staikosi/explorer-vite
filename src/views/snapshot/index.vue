@@ -11,6 +11,7 @@
             <th>Mined By</th>
             <th>SBP</th>
             <th>Tx</th>
+            <th>Version</th>
           </tr>
         </thead>
         <tbody class="uk-background-default">
@@ -27,6 +28,7 @@
               <v-link prefix="/sbp/" :value="getSbpName(sbps, item.producer)" />
             </td>
             <td>{{ Object.keys(item.snapshotData || {}).length }}</td>
+            <td>{{ item.version }}</td>
           </tr>
         </tbody>
       </table>

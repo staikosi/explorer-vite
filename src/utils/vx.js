@@ -44,10 +44,42 @@ function mappingProtoParser(protoName, event) {
   return function fn(buffer) {
     const decoded = message.decode(buffer);
     if (event.view) {
-      return event.view(decoded);
+      return {
+        decoded: decoded,
+        beautify: event.view(decoded)
+      };
     } else {
-      return decoded;
+      return { decoded };
     }
+  };
+}
+
+function quoteTokenType(type) {
+  switch (type) {
+    case 1:
+      return 'VITE';
+    case 2:
+      return 'ETH';
+    case 3:
+      return 'BTC';
+    case 4:
+      return 'USDT';
+  }
+}
+function amount(amount) {
+  return BigInt('0x' + Buffer.from(amount, 'base64').toString('hex')).toString(
+    10
+  );
+}
+
+function viewMinedVx(event) {
+  return {
+    Address: wallet.getAddressFromOriginalAddress(
+      Buffer.from(event.Address).toString('hex')
+    ),
+    QuoteTokenType: quoteTokenType(event.QuoteTokenType),
+    FeeAmount: amount(event.FeeAmount),
+    MinedAmount: amount(event.MinedAmount)
   };
 }
 
@@ -106,11 +138,13 @@ export const logParsers = mappingParsers([
   },
   {
     name: 'minedVxForTradeFeeEvent',
-    protoName: 'proto.MinedVxForFee'
+    protoName: 'proto.MinedVxForFee',
+    view: viewMinedVx
   },
   {
     name: 'minedVxForInviteeFeeEvent',
-    protoName: 'proto.MinedVxForFee'
+    protoName: 'proto.MinedVxForFee',
+    view: viewMinedVx
   },
   {
     name: 'minedVxForPledgeEvent',
@@ -161,12 +195,17 @@ export function decodeDexLog(log) {
   if (!parser) {
     return {
       name: parser.name,
-      inputs: 'parser is undefined'
+      inputs: { error: 'parser is undefined' },
+      beautify: {}
     };
   } else {
+    const { decoded, beautify } = parser.parser(
+      Buffer.from(log.data, 'base64')
+    );
     return {
       name: parser.name,
-      inputs: parser.parser(Buffer.from(log.data, 'base64'))
+      inputs: decoded,
+      beautify: beautify
     };
   }
 }

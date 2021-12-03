@@ -59,6 +59,9 @@ export default {
       } else if (isAddress(value)) {
         vm.$router.push(`/account/${value}`).catch(() => {});
       } else if (isHash(value)) {
+        if (value.startsWith('0x')) {
+          value = value.slice(2);
+        }
         vm.$api.request('ledger_getAccountBlockByHash', value).then(block => {
           if (block) {
             vm.$router.push(`/tx/${value}`).catch(() => {});

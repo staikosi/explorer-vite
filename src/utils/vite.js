@@ -57,7 +57,7 @@ export function isContract(addr) {
 }
 
 export function isHash(value) {
-  return value.length === 64;
+  return value.length === 64 || (value.startsWith('0x') && value.length == 66);
 }
 
 export function isAddress(value) {

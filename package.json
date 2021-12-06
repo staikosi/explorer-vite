@@ -9,8 +9,8 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@vite/vitejs": "^2.3.12",
-    "@vite/vitejs-http": "^2.3.12",
+    "@vite/vitejs": "^2.3.14",
+    "@vite/vitejs-http": "^2.3.14",
     "@vue/eslint-config-airbnb": "^5.3.0",
     "axios": "^0.21.1",
     "chai": "^4.3.4",

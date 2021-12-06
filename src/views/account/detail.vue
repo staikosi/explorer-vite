@@ -174,7 +174,7 @@
               <tr>
                 <button
                   class="uk-button uk-button-secondary"
-                  @click="queryOffchain(item, j)"
+                  @click="queryOffchain(item)"
                 >
                   Query
                 </button>
@@ -321,21 +321,23 @@ export default {
       console.log(this.curAddr, json);
       this.setAbiJson({ address: this.curAddr, abiJson: json });
     },
-    queryOffchain(item, j) {
-      item.inputs.forEach(x => {
-        console.log(x.name, x.val);
-      });
-      console.log(item);
+    queryOffchain(item) {
+      const params = item.inputs.map(x => x.val);
+      const offchainCode = Buffer.from(this.curOffchainCode, 'hex').toString(
+        'base64'
+      );
+
+      // console.log(this.curAddr, item, offchainCode, params);
 
       this.$api
         .callOffChainContract({
           address: this.curAddr,
           abi: item,
-          code: Buffer.from(this.curOffchainCode, 'hex').toString('base64'),
-          params: item.inputs.map(x => x.val)
+          code: offchainCode,
+          params: params
         })
-        .then(x => {
-          console.log(x);
+        .then(cResult => {
+          console.log(cResult);
         });
     },
     refreshQuota() {

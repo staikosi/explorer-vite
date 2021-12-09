@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import UIkit from 'uikit';
 import { mapState, mapActions } from 'vuex';
 import Search from '@/components/Search';
 import { withCommas } from '@/utils/_';
@@ -80,8 +81,21 @@ export default {
           /^-?\d+$/.test(keys[1])
         ) {
           vm.$router.push(`/tx/${keys[0]}/${keys[1]}`).catch(() => {});
+        } else {
+          UIkit.notification({
+            message: `Invalid Search Context`,
+            status: 'warning',
+            timeout: 1000
+          });
         }
+      } else {
+        UIkit.notification({
+          message: `Invalid Search Context`,
+          status: 'warning',
+          timeout: 1000
+        });
       }
+
       console.log(`search ${value}, length:${value.length}`);
       console.log(`${vm.$router.currentRoute.path}`);
     }

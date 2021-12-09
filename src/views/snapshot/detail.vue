@@ -7,7 +7,27 @@
         <tbody class="uk-background-default">
           <tr>
             <td>Height</td>
-            <td>{{ block.height }}</td>
+            <td>
+              <ul class="uk-iconnav">
+                <li>
+                  <span class="uk-margin-small-top">{{ block.height }}</span>
+                </li>
+                <li v-if="block.height > 1">
+                  <router-link
+                    style="display: inline-block"
+                    :to="'/snapshot/' + (block.height - 1)"
+                    uk-icon="chevron-left"
+                  />
+                </li>
+                <li>
+                  <router-link
+                    style="display: inline-block"
+                    :to="'/snapshot/' + (block.height + 1)"
+                    uk-icon="chevron-right"
+                  />
+                </li>
+              </ul>
+            </td>
           </tr>
           <tr>
             <td>Hash</td>

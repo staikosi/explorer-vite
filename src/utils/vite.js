@@ -1,4 +1,4 @@
-import { wallet, abi } from '@vite/vitejs';
+import { wallet, abi, utils } from '@vite/vitejs';
 
 import axios from 'axios';
 import { contractAbi, settings, hosts } from './consts';
@@ -57,15 +57,21 @@ export function isContract(addr) {
 }
 
 export function isHash(value) {
-  return value.length === 64 || (value.startsWith('0x') && value.length == 66);
+  if (value.startsWith('0x') && value.length == 66) {
+    return /^[0-9a-fA-F]+$/.test(value.slice(2));
+  }
+  if (value.length === 64) {
+    return /^[0-9a-fA-F]+$/.test(value);
+  }
+  return false;
 }
 
 export function isAddress(value) {
-  return value.startsWith('vite_') && value.length === 55;
+  return wallet.isValidAddress(value) > 0;
 }
 
 export function isTti(value) {
-  return value.startsWith('tti_') && value.length === 28;
+  return utils.isValidTokenId(value);
 }
 
 export function isBuiltInContract(value) {

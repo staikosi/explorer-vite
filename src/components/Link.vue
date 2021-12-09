@@ -27,7 +27,8 @@ export default {
   props: {
     value: String,
     full: Boolean,
-    prefix: String
+    prefix: String,
+    desc: String
   },
   computed: {
     text() {
@@ -35,6 +36,9 @@ export default {
       //   return this.value.slice(0, 8) + '...' + this.value.slice(-8);
       // } else {
       // }
+      if (this.desc) {
+        return this.desc;
+      }
       return this.value;
     },
     cls() {

@@ -1,10 +1,19 @@
 <template>
   <div>
     <div class="uk-panel uk-text-break uk-text-small" style="width: 700px">
-      {{ value }}
+      hex: {{ bytesVal }}
     </div>
+    <hr />
     <div class="uk-panel uk-text-break uk-text-small" style="width: 700px">
-      {{ parameters }}
+      base64: {{ value }}
+    </div>
+    <hr v-if="parameters" />
+    <div
+      v-if="parameters"
+      class="uk-panel uk-text-break uk-text-small"
+      style="width: 700px"
+    >
+      abi.decode: {{ parameters }}
     </div>
   </div>
 </template>
@@ -28,6 +37,10 @@ export default {
   },
 
   computed: {
+    bytesVal() {
+      const result = Buffer.from(this.value, 'base64').toString('hex');
+      return result;
+    },
     parameters() {
       // console.log(viteAbi);
       if (this.addr_abi && this.blockType === 2) {

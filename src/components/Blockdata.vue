@@ -15,12 +15,31 @@
     >
       abi.decode: {{ parameters }}
     </div>
+    <hr v-if="withdrawInfo" />
+    <div
+      v-if="withdrawInfo"
+      class="uk-panel uk-text-break uk-text-small"
+      style="width: 700px"
+    >
+      withdraw.decode: {{ withdrawInfo }}
+    </div>
+    <hr />
+    <div>
+      <button
+        type="button"
+        class="uk-button-default uk-button-small uk-margin-left"
+        @click="decodeWithdrawInfo"
+      >
+        decode as withdraw
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
 import { abi } from '@vite/vitejs';
+import { decodeWithdrawData } from '@/utils/vite';
 
 const { mapActions } = createNamespacedHelpers('account');
 
@@ -32,7 +51,8 @@ export default {
   },
   data() {
     return {
-      addr_abi: undefined
+      addr_abi: undefined,
+      withdrawInfo: undefined
     };
   },
 
@@ -69,7 +89,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getAbi'])
+    ...mapActions(['getAbi']),
+    decodeWithdrawInfo() {
+      this.withdrawInfo = decodeWithdrawData(this.value);
+    }
   },
   created() {
     this.getAbi(this.to).then(abi => {

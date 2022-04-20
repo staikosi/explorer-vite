@@ -136,3 +136,44 @@ export function whichNet() {
   console.log('host', host, 'Custom');
   return 'Custom';
 }
+
+export function decodeWithdrawData(data) {
+  try {
+    const dataBuf = Buffer.from(data, 'base64');
+    if (dataBuf.length <= 3) {
+      return 'parse failed';
+    }
+    if (3011 != parseInt(dataBuf.slice(0, 2).toString('hex'), 16)) {
+      return 'parse failed';
+    }
+
+    const typeInt = parseInt(dataBuf.slice(2, 3).toString('hex'), 16);
+    if (typeInt === 0) {
+      const address = dataBuf.slice(3, dataBuf.length).toString('utf8');
+
+      return address;
+    } else if (typeInt === 1) {
+      const addressSize = parseInt(dataBuf.slice(3, 4).toString('hex'), 16);
+      // parse address
+      const address = dataBuf.slice(4, 4 + addressSize).toString('utf8');
+      const labelSize = parseInt(
+        dataBuf.slice(4 + addressSize, 4 + addressSize + 1).toString('hex'),
+        16
+      );
+
+      // parse label
+      const label = dataBuf
+        .slice(4 + addressSize + 1, 4 + addressSize + 1 + labelSize)
+        .toString('utf8');
+      return {
+        address,
+        memo: label
+      };
+    } else {
+      return 'parse failed';
+    }
+  } catch (e) {
+    console.error(e);
+    return 'parse failed';
+  }
+}

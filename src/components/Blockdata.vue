@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="uk-panel uk-text-break uk-text-small" style="width: 700px">
-      hex: {{ bytesVal }}
+      hex: {{ hexVal }}
     </div>
     <hr />
     <div class="uk-panel uk-text-break uk-text-small" style="width: 700px">
@@ -21,7 +21,7 @@
       class="uk-panel uk-text-break uk-text-small"
       style="width: 700px"
     >
-      withdraw.decode: {{ withdrawInfo }}
+      withdraw-info: {{ withdrawInfo }}
     </div>
     <hr />
     <div>
@@ -45,7 +45,7 @@ const { mapActions } = createNamespacedHelpers('account');
 
 export default {
   props: {
-    value: String,
+    value: String, // default base64 encode
     to: String,
     blockType: Number
   },
@@ -57,7 +57,7 @@ export default {
   },
 
   computed: {
-    bytesVal() {
+    hexVal() {
       const result = Buffer.from(this.value, 'base64').toString('hex');
       return result;
     },
@@ -94,10 +94,22 @@ export default {
       this.withdrawInfo = decodeWithdrawData(this.value);
     }
   },
+  watch: {
+    value: function(newVal, oldVal) {
+      // watch it
+      this.withdrawInfo = undefined;
+    },
+    to: function(newVal, oldVal) {
+      this.getAbi(newVal).then(abi => {
+        this.addr_abi = abi;
+      });
+    }
+  },
   created() {
     this.getAbi(this.to).then(abi => {
       this.addr_abi = abi;
     });
+    this.withdrawInfo = undefined;
   }
 };
 </script>

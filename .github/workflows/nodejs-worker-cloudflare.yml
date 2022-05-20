@@ -2,7 +2,9 @@ name: Nodejs-Worker-Cloudflare
 
 on:
   workflow_dispatch:
-
+  push:
+    branches:
+      - master
 jobs:
   build:
 
@@ -25,3 +27,10 @@ jobs:
       uses: cloudflare/wrangler-action@1.3.0
       with:
         apiToken: ${{ secrets.CF_WORKER_API_TOKEN }}
+    - run: ipd dist/ -p pinata -d cloudflare
+      env: 
+        IPFS_DEPLOY_CLOUDFLARE__API_TOKEN: ${{ secrets.IPFS_DEPLOY_CLOUDFLARE__API_TOKEN }}
+        IPFS_DEPLOY_CLOUDFLARE__ZONE: ${{ secrets.IPFS_DEPLOY_CLOUDFLARE__ZONE }}
+        IPFS_DEPLOY_CLOUDFLARE__RECORD: "_dnslink.ipfs.viteview.xyz"
+        IPFS_DEPLOY_PINATA__API_KEY: ${{ secrets.IPFS_DEPLOY_PINATA__API_KEY }}
+        IPFS_DEPLOY_PINATA__SECRET_API_KEY: ${{ secrets.IPFS_DEPLOY_PINATA__SECRET_API_KEY }}

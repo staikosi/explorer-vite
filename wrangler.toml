@@ -1,4 +1,9 @@
 name = "viteview"
 type = "webpack"
+account_id = "54b409d0150b6ab13c0e0a49ebbfc801"
 workers_dev = true
-site = { bucket = "./dist" }
+zone_id="3ddc78efa50659708f00190ee4927e02"
+
+[site]
+bucket = "./dist"
+entry-point = "./workers-site"

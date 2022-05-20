@@ -1,4 +1,4 @@
 name = "viteview"
-type = "webpack"
 workers_dev = true
 site = { bucket = "./dist" }
+compatibility_date = "2022-05-12"

@@ -1,0 +1,4 @@
+name = "viteview"
+type = "webpack"
+workers_dev = true
+site = { bucket = "./dist" }

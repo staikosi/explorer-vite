@@ -1,6 +1,13 @@
 <template>
-  <div class="uk-padding uk-background-default dashboard" uk-sticky>
+  <div class="uk-padding uk-background-default dashboard">
     <div class="uk-flex uk-flex-middle">
+      <div class="uk-padding-small uk-padding-remove-left">
+        <button
+          uk-icon="icon: menu; ratio: 1.3"
+          uk-toggle="target: #offcanvas-overlay"
+          style="width: 30px"
+        ></button>
+      </div>
       <div class="uk-card">
         <p class="m-p uk-text-muted">Block Height</p>
         <p class="m-p uk-text-bolder uk-text-emphasis">

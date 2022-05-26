@@ -10,7 +10,14 @@
             </tr>
             <tr>
               <td>Height</td>
-              <td>{{ account.blockCount }}</td>
+              <td>
+                {{ account.blockCount }}
+                <button
+                  uk-icon="refresh"
+                  uk-tooltip="refresh"
+                  @click="refresh()"
+                ></button>
+              </td>
             </tr>
             <tr v-if="accountQuota">
               <td>Quota</td>
@@ -289,13 +296,14 @@ export default {
       }
     },
     getTxs(address, page) {
+      let total = this.account.blockCount;
+      let start =
+        this.txPageSize * page >= total
+          ? 1
+          : total - this.txPageSize * page + 1;
+      let end = total - this.txPageSize * (page - 1);
       this.$api
-        .request(
-          'ledger_getAccountBlocksByAddress',
-          address,
-          page - 1,
-          this.txPageSize
-        )
+        .request('ledger_getAccountBlocksByHeightRange', address, start, end)
         .then(
           txs => {
             this.updateTxs(Object.seal(txs || []));
@@ -312,8 +320,8 @@ export default {
     getAccountDetail(address) {
       address = address.trim();
       if (address) {
-        this.getAccountInfo(address);
         this.getUtxCount(address);
+        return this.getAccountInfo(address);
       }
     },
     saveAbiJson() {
@@ -340,8 +348,10 @@ export default {
           console.log(cResult);
         });
     },
-    refreshQuota() {
-      this.$api.request('');
+    refresh() {
+      this.getAccountDetail(this.curAddr).then(cResult => {
+        this.refreshByTab(this.tab);
+      });
     }
   },
   components: {
